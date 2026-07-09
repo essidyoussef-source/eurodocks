@@ -19,11 +19,11 @@ import Terminal from "./pages/Terminal";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 
-function Layout({ children }: { children: React.ReactNode }) {
+function Layout({ children, noPadding = false }: { children: React.ReactNode; noPadding?: boolean }) {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen" style={{ background: 'oklch(0.08 0.025 200)' }}>
       <Navigation />
-      <main className="flex-1">
+      <main className="flex-1" style={{ paddingTop: noPadding ? '0' : '88px' }}>
         {children}
       </main>
       <Footer />
@@ -34,7 +34,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={() => <Layout><Home /></Layout>} />
+      <Route path="/" component={() => <Layout noPadding><Home /></Layout>} />
       <Route path="/services" component={() => <Layout><Services /></Layout>} />
       <Route path="/freight" component={() => <Layout><Freight /></Layout>} />
       <Route path="/terminal" component={() => <Layout><Terminal /></Layout>} />
@@ -49,7 +49,7 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="light">
+      <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
           <Toaster />
           <Router />

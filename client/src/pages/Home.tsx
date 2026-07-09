@@ -1,17 +1,15 @@
 /**
- * Home — Euro Docks Service v2
- * Design: Opérateur Maritime — photo-driven, B2B, immersif
- * Chaque section = une image cinématique plein fond + contenu technique superposé
+ * Home — Euro Docks Service v3 SONAR
+ * DA : "SONAR / Instrument de bord" — Ink abyssal + Signal vert-lime
+ * Structure : SonarScrollExperience (scroll-scrub 4 scènes) + sections post-sticky
  */
 
 import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
-import {
-  ArrowRight, ChevronDown, ChevronRight, MapPin
-} from "lucide-react";
-import { ScrollCinematic } from "@/components/ScrollCinematic";
+import { ArrowRight, ChevronRight, MapPin, Anchor, Ship, Truck, Warehouse, BarChart3, Shield } from "lucide-react";
+import { SonarScrollExperience } from "@/components/SonarScrollExperience";
 
-// ─── Hook scroll reveal ──────────────────────────────────────
+// ─── Hook Reveal ─────────────────────────────────────────────
 function useReveal<T extends HTMLElement>() {
   const ref = useRef<T>(null);
   const [visible, setVisible] = useState(false);
@@ -20,7 +18,7 @@ function useReveal<T extends HTMLElement>() {
     if (!el) return;
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold: 0.12 }
+      { threshold: 0.10 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -28,93 +26,111 @@ function useReveal<T extends HTMLElement>() {
   return { ref, visible };
 }
 
-// ─── Hook count-up ──────────────────────────────────────────
+function Reveal({ children, className = "", delay = 0 }: {
+  children: React.ReactNode; className?: string; delay?: number;
+}) {
+  const { ref, visible } = useReveal<HTMLDivElement>();
+  return (
+    <div ref={ref} className={className} style={{
+      opacity: visible ? 1 : 0,
+      transform: visible ? "none" : "translateY(24px)",
+      transition: `opacity 0.65s cubic-bezier(0.23,1,0.32,1) ${delay}ms, transform 0.65s cubic-bezier(0.23,1,0.32,1) ${delay}ms`,
+    }}>
+      {children}
+    </div>
+  );
+}
+
+// ─── Hook CountUp ────────────────────────────────────────────
 function useCountUp(target: number, duration = 1800, active = false) {
   const [count, setCount] = useState(0);
   useEffect(() => {
     if (!active) return;
     let start = 0;
-    const step = (timestamp: number) => {
-      if (!start) start = timestamp;
-      const progress = Math.min((timestamp - start) / duration, 1);
-      const ease = 1 - Math.pow(1 - progress, 3);
+    const step = (ts: number) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
       setCount(Math.floor(ease * target));
-      if (progress < 1) requestAnimationFrame(step);
+      if (p < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
   }, [active, target, duration]);
   return count;
 }
 
-// ─── Composant Reveal ───────────────────────────────────────
-function Reveal({ children, className = "", delay = 0, direction = "up" }: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-  direction?: "up" | "left" | "right";
-}) {
-  const { ref, visible } = useReveal<HTMLDivElement>();
-  const transforms: Record<string, string> = {
-    up: "translateY(28px)",
-    left: "translateX(-28px)",
-    right: "translateX(28px)",
-  };
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "none" : transforms[direction],
-        transition: `opacity 0.6s cubic-bezier(0.23,1,0.32,1) ${delay}ms, transform 0.6s cubic-bezier(0.23,1,0.32,1) ${delay}ms`,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
-
-// ─── Composant StatPill ─────────────────────────────────────
-function StatPill({ value, suffix, label, active }: {
-  value: number; suffix: string; label: string; active: boolean;
-}) {
-  const count = useCountUp(value, 1600, active);
-  return (
-    <div className="eds-stat-pill">
-      <span className="eds-stat-pill-value">{count.toLocaleString("fr-FR")}{suffix}</span>
-      <span className="eds-stat-pill-label">{label}</span>
-    </div>
-  );
-}
-
-// ─── Composant ServiceCard photo ────────────────────────────
+// ─── Composant ServiceCard SONAR ─────────────────────────────
 function ServiceCard({ img, tag, title, details, href, tall = false }: {
   img: string; tag: string; title: string; details: string[];
   href: string; tall?: boolean;
 }) {
   return (
-    <Link href={href}>
-      <div
-        className="eds-service-card"
-        style={{ height: tall ? "480px" : "360px", borderRadius: "2px" }}
+    <Link href={href} style={{ textDecoration: "none" }}>
+      <div style={{
+        position: "relative", overflow: "hidden",
+        height: tall ? "460px" : "340px",
+        cursor: "pointer",
+        border: "1px solid oklch(1 0 0 / 0.08)",
+        borderTop: "1.5px solid oklch(0.82 0.18 145 / 0.40)",
+        transition: "border-top-color 0.2s ease, box-shadow 0.2s ease",
+      }}
+        onMouseEnter={e => {
+          (e.currentTarget as HTMLElement).style.borderTopColor = "oklch(0.82 0.18 145)";
+          (e.currentTarget as HTMLElement).style.boxShadow = "0 0 32px oklch(0.82 0.18 145 / 0.10)";
+        }}
+        onMouseLeave={e => {
+          (e.currentTarget as HTMLElement).style.borderTopColor = "oklch(0.82 0.18 145 / 0.40)";
+          (e.currentTarget as HTMLElement).style.boxShadow = "none";
+        }}
       >
-        <img src={img} alt={title} className="eds-photo-bg" />
-        <div className="eds-service-card-overlay" />
-        <div className="eds-service-card-content">
-          <div className="eds-tag mb-3" style={{ fontSize: "0.6rem" }}>{tag}</div>
-          <h3 className="eds-h3 mb-2">{title}</h3>
-          <div className="eds-service-card-details">
-            <div className="eds-rule mb-3" style={{ marginTop: "0.75rem" }} />
-            <ul className="flex flex-col gap-1.5">
-              {details.map((d) => (
-                <li key={d} className="flex items-start gap-2 text-xs" style={{ color: "oklch(0.72 0.01 240)" }}>
-                  <ChevronRight size={11} className="mt-0.5 shrink-0" style={{ color: "oklch(0.72 0.14 65)" }} />
+        <img src={img} alt={title} style={{
+          position: "absolute", inset: 0,
+          width: "100%", height: "100%",
+          objectFit: "cover",
+          transition: "transform 0.5s ease",
+        }} />
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(to top, oklch(0.08 0.025 200 / 0.95) 0%, oklch(0.08 0.025 200 / 0.55) 50%, oklch(0.08 0.025 200 / 0.20) 100%)",
+        }} />
+        <div style={{
+          position: "absolute", inset: 0,
+          display: "flex", flexDirection: "column",
+          justifyContent: "flex-end",
+          padding: "1.25rem",
+        }}>
+          <div style={{
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: "0.55rem", letterSpacing: "0.15em",
+            textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
+            marginBottom: "0.5rem",
+          }}>{tag}</div>
+          <h3 style={{
+            fontFamily: "'Archivo', sans-serif",
+            fontWeight: 800, fontSize: "1.1rem",
+            letterSpacing: "-0.01em", textTransform: "uppercase",
+            color: "oklch(0.97 0.005 200)", marginBottom: "0.75rem",
+          }}>{title}</h3>
+          <div style={{ borderTop: "1px solid oklch(1 0 0 / 0.15)", paddingTop: "0.75rem" }}>
+            <ul style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+              {details.map(d => (
+                <li key={d} style={{
+                  display: "flex", alignItems: "flex-start", gap: "0.5rem",
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "0.62rem", color: "oklch(0.60 0.025 200)",
+                }}>
+                  <ChevronRight size={10} style={{ marginTop: "1px", flexShrink: 0, color: "oklch(0.82 0.18 145)" }} />
                   {d}
                 </li>
               ))}
             </ul>
-            <div className="mt-4 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest" style={{ color: "oklch(0.72 0.14 65)" }}>
-              En savoir plus <ArrowRight size={11} />
+            <div style={{
+              marginTop: "0.75rem", display: "flex", alignItems: "center", gap: "0.4rem",
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: "0.60rem", fontWeight: 600, letterSpacing: "0.10em",
+              textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
+            }}>
+              EN SAVOIR PLUS <ArrowRight size={10} />
             </div>
           </div>
         </div>
@@ -123,155 +139,131 @@ function ServiceCard({ img, tag, title, details, href, tall = false }: {
   );
 }
 
-// ─── Images ─────────────────────────────────────────────────
+// ─── Images ──────────────────────────────────────────────────
 const IMGS = {
-  hero:        "/manus-storage/eds2_hero_bulker_fe8bd601.jpg",
-  port:        "/manus-storage/eds2_port_dunkerque_9fea8573.jpg",
-  bridge:      "/manus-storage/eds2_chartering_bridge_e11c603a.jpg",
-  grain:       "/manus-storage/eds2_grain_loading_6553e85f.jpg",
-  survey:      "/manus-storage/eds2_survey_draught_9d86258e.jpg",
-  night:       "/manus-storage/eds2_stevedoring_night_f14f419a.jpg",
-  boulogne:    "/manus-storage/eds2_boulogne_terminal_718d1e0f.jpg",
-  tramping:    "/manus-storage/eds2_tramping_sea_fd8a56f5.jpg",
-  rouen:       "/manus-storage/eds2_rouen_grain_087bf488.jpg",
-  hatch:       "/manus-storage/eds2_hatch_inspection_5a8b030b.jpg",
-  // Fallbacks anciens
-  heroOld:     "/manus-storage/eds_hero_ship_5b197371.jpg",
-  chartering:  "/manus-storage/eds_chartering_1f6cba1a.jpg",
-  stevedoring: "/manus-storage/eds_stevedoring_5289e3b9.jpg",
+  s1_wide:  "/manus-storage/sonar_s1_wide_4e87cc79.jpg",
+  s2_hatch: "/manus-storage/sonar_s2_hatch_684a13c3.jpg",
+  s2_grain: "/manus-storage/sonar_s2_grain_6e5d0efe.jpg",
+  s3_quay:  "/manus-storage/sonar_s3_quay_1898dc53.jpg",
+  s3_crane: "/manus-storage/sonar_s3_crane_89d5c612.jpg",
+  s4_map:   "/manus-storage/sonar_s4_map_bg_0afa04dc.jpg",
+  s4_ports: "/manus-storage/sonar_s4_ports_58ea5b25.jpg",
 };
 
 // ─── PAGE ────────────────────────────────────────────────────
 export default function Home() {
   const statsRef = useRef<HTMLDivElement>(null);
-  const [statsVisible, setStatsVisible] = useState(false);
+  const [statsActive, setStatsActive] = useState(false);
 
   useEffect(() => {
     const el = statsRef.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setStatsVisible(true); obs.disconnect(); } },
+      ([e]) => { if (e.isIntersecting) { setStatsActive(true); obs.disconnect(); } },
       { threshold: 0.2 }
     );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
 
+  const c800 = useCountUp(800, 1600, statsActive);
+  const c200 = useCountUp(200, 1400, statsActive);
+  const c4500 = useCountUp(4500, 2000, statsActive);
+  const c50 = useCountUp(50, 1200, statsActive);
+
   return (
-    <div className="min-h-screen" style={{ background: "oklch(0.08 0.015 240)" }}>
+    <div style={{ background: "var(--sonar-abyss)", minHeight: "100vh" }}>
 
       {/* ══════════════════════════════════════════════════════
-          HERO — Scroll-Driven Cinematic Experience
-          3 actes : zoom cargo → cale grain → carte mondiale
+          SCROLL CINEMATIC — 4 scènes scroll-scrub
       ══════════════════════════════════════════════════════ */}
-      <ScrollCinematic />
+      <SonarScrollExperience />
 
       {/* ══════════════════════════════════════════════════════
-          SECTION 2 — SERVICES : grille de cartes photo
+          POST-STICKY : SECTION SERVICES
       ══════════════════════════════════════════════════════ */}
-      <section className="py-16 lg:py-24" style={{ background: "oklch(0.10 0.015 240)" }}>
-        <div className="max-w-[1440px] mx-auto px-5 lg:px-8">
-          <Reveal className="mb-10">
-            <div className="eds-tag mb-4">Nos expertises</div>
-            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-              <h2 className="eds-h2" style={{ maxWidth: "600px" }}>
-                Une gamme complète<br />
-                <span className="eds-accent">de services maritimes</span>
+      <section style={{ background: "var(--sonar-deep)", padding: "6rem 0" }}>
+        <div className="container">
+          <Reveal className="mb-12">
+            <div style={{
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: "0.62rem", letterSpacing: "0.15em",
+              color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
+              display: "flex", alignItems: "center", gap: "0.75rem",
+              marginBottom: "1rem",
+            }}>
+              <span style={{ display: "inline-block", width: "24px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
+              NOS EXPERTISES
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+              <h2 style={{
+                fontFamily: "'Archivo', sans-serif",
+                fontWeight: 900, fontSize: "clamp(2rem, 4vw, 3.5rem)",
+                letterSpacing: "-0.025em", textTransform: "uppercase",
+                color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
+              }}>
+                UNE GAMME COMPLÈTE<br />
+                <span style={{ color: "oklch(0.82 0.18 145)" }}>DE SERVICES MARITIMES</span>
               </h2>
-              <p className="text-sm max-w-sm" style={{ color: "oklch(0.60 0.015 240)", lineHeight: 1.7 }}>
-                De l'agence maritime au transit multimodal, en passant par l'affrètement tramping et les opérations de terminal — EDS couvre l'intégralité de la chaîne logistique maritime.
-              </p>
             </div>
           </Reveal>
 
-          {/* Grille de cartes photo */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {/* Grille services */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2px" }} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             <Reveal delay={0}>
               <ServiceCard
-                img={IMGS.heroOld}
+                img={IMGS.s1_wide}
                 tag="Shipping Agency"
                 title="Agence Maritime"
-                details={[
-                  "Husbandry & Protective services",
-                  "Dry/liquid bulk, Liner, Breakbulk",
-                  "Heavy lift & Project cargo",
-                  "Dunkirk, Boulogne, Calais, Rouen, Bayonne",
-                ]}
-                href="/services"
-                tall
+                details={["Husbandry & Protective", "Dry/liquid bulk · Liner · Breakbulk", "Heavy lift & Project cargo", "5 ports français"]}
+                href="/services" tall
               />
             </Reveal>
             <Reveal delay={60}>
               <ServiceCard
-                img={IMGS.tramping}
+                img={IMGS.s3_quay}
                 tag="Chartering & Tramping"
                 title="Affrètement Tramping"
-                details={[
-                  "Coaster à Panamax vessels",
-                  "Dry bulk, Breakbulk, Heavy lift",
-                  "Baltic, Continent, Med, Black Sea",
-                  "200 navires affrétés / an",
-                ]}
-                href="/services"
-                tall
+                details={["Coaster à Panamax", "Dry bulk · Breakbulk · Heavy lift", "Baltic · Continent · Med · Black Sea", "200 navires / an"]}
+                href="/services" tall
               />
             </Reveal>
             <Reveal delay={120}>
-              <div className="flex flex-col gap-3">
+              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
                 <ServiceCard
-                  img={IMGS.survey}
+                  img={IMGS.s2_grain}
                   tag="Maritime Survey"
                   title="Expertise Maritime"
-                  details={[
-                    "Draught surveying",
-                    "Ultrasonic leak test (Hose test)",
-                    "On/Off-hire survey",
-                    "Insurance / P&I reports",
-                  ]}
+                  details={["Draught surveying", "Ultrasonic leak test", "On/Off-hire survey", "P&I reports"]}
                   href="/services"
                 />
                 <ServiceCard
-                  img={IMGS.grain}
+                  img={IMGS.s4_ports}
                   tag="Customs Brokerage"
                   title="Courtage en Douane"
-                  details={[
-                    "Registered customs broker depuis 1975",
-                    "Deposit & Garantee",
-                    "Dunkirk, Boulogne, Calais, Rouen",
-                  ]}
+                  details={["Registered broker depuis 1975", "Deposit & Garantee", "Dunkirk · Boulogne · Calais · Rouen"]}
                   href="/services"
                 />
               </div>
             </Reveal>
           </div>
 
-          {/* Ligne 2 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px", marginTop: "2px" }} className="grid-cols-1 md:grid-cols-2">
             <Reveal delay={0}>
               <ServiceCard
-                img={IMGS.night}
+                img={IMGS.s2_hatch}
                 tag="Freight Forwarding"
                 title="Transit Multimodal"
-                details={[
-                  "Rhine, North France, Mosel, Seine",
-                  "Bulk, steel, break products",
-                  "GMP+ certified (grains)",
-                  "Couverture assurance 9,5 M€",
-                ]}
+                details={["Rhine · North France · Mosel · Seine", "Bulk · steel · break products", "GMP+ certified", "Couverture 9,5 M€"]}
                 href="/freight"
               />
             </Reveal>
             <Reveal delay={60}>
               <ServiceCard
-                img={IMGS.boulogne}
+                img={IMGS.s3_crane}
                 tag="Port Terminal"
                 title="Terminal Portuaire"
-                details={[
-                  "800m de quai — Boulogne-sur-Mer",
-                  "Entrepôts 20 000 m² GMP+",
-                  "Stockage extérieur 57 500 m²",
-                  "3,6 Mt/an — Rouen",
-                ]}
+                details={["800m de quai — Boulogne-sur-Mer", "Entrepôts 20 000 m² GMP+", "Stockage extérieur 57 500 m²", "3,6 Mt/an — Rouen"]}
                 href="/terminal"
               />
             </Reveal>
@@ -280,293 +272,143 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════════════════════════
-          SECTION 3 — CHARTERING : image plein fond + contenu technique gauche
+          CHIFFRES CLÉS — fond photo + count-up
       ══════════════════════════════════════════════════════ */}
-      <section className="eds-photo-section" style={{ minHeight: "600px" }}>
-        <img src={IMGS.bridge} alt="Passerelle de navigation" className="eds-photo-bg" />
-        <div className="eds-overlay-right" />
-        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 py-20 lg:py-28">
-          <div className="max-w-xl">
-            <Reveal>
-              <div className="eds-tag mb-5">Chartering & Tramping</div>
-              <h2 className="eds-h2 mb-6">
-                800 escales.<br />
-                <span className="eds-accent">Zéro surprise.</span>
-              </h2>
-              <p className="text-base mb-8" style={{ color: "oklch(0.72 0.01 240)", lineHeight: 1.7 }}>
-                Notre équipe d'affrètement opère sur les marchés Baltique, Continent, Méditerranée et Mer Noire. Du coaster au Panamax, nous négocions et gérons chaque opération avec la précision d'un partenaire de confiance.
-              </p>
-
-              {/* Tableau technique */}
-              <div className="mb-8" style={{ background: "oklch(0 0 0 / 0.55)", backdropFilter: "blur(12px)", padding: "1.25rem", border: "1px solid oklch(1 0 0 / 0.10)" }}>
-                {[
-                  { k: "Marchés couverts", v: "Baltic · Continent · Med · Black Sea" },
-                  { k: "Types de navires", v: "Coaster · Handysize · Supramax · Panamax" },
-                  { k: "Cargaisons", v: "Dry Bulk · Breakbulk · Heavy Lift · Project" },
-                  { k: "Navires affrétés / an", v: "200+" },
-                ].map(({ k, v }) => (
-                  <div key={k} className="eds-data-row">
-                    <span className="eds-data-key">{k}</span>
-                    <span className="eds-data-value" style={{ fontSize: "0.82rem" }}>{v}</span>
-                  </div>
-                ))}
-              </div>
-
-              <a href="/services" className="eds-btn eds-btn-amber">
-                Consulter nos capacités <ArrowRight size={14} />
-              </a>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-          SECTION 4 — TERMINAL : image droite + données gauche
-      ══════════════════════════════════════════════════════ */}
-      <section style={{ background: "oklch(0.10 0.015 240)" }}>
-        <div className="max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Contenu */}
-            <Reveal direction="left">
-              <div className="eds-tag mb-5">Port Terminal</div>
-              <h2 className="eds-h2 mb-6">
-                Des terminaux dédiés.<br />
-                <span className="eds-accent">Une infrastructure</span><br />
-                de premier rang.
-              </h2>
-              <p className="text-base mb-8" style={{ color: "oklch(0.62 0.015 240)", lineHeight: 1.7 }}>
-                À Boulogne-sur-Mer, 800 mètres de quai, 4 postes à quai, des entrepôts certifiés GMP+ et 57 500 m² de stockage extérieur. À Rouen, une présence dans tous les terminaux grain du port.
-              </p>
-
-              {/* Grille de capacités */}
-              <div className="grid grid-cols-2 gap-3 mb-8">
-                {[
-                  { value: "800 m", label: "Linéaire de quai" },
-                  { value: "20 000 m²", label: "Entrepôts GMP+" },
-                  { value: "57 500 m²", label: "Stockage extérieur" },
-                  { value: "4,5 Mt", label: "Capacité annuelle" },
-                ].map(({ value, label }) => (
-                  <div key={label} className="eds-stat-pill">
-                    <span className="eds-stat-pill-value" style={{ fontSize: "1.4rem" }}>{value}</span>
-                    <span className="eds-stat-pill-label">{label}</span>
-                  </div>
-                ))}
-              </div>
-
-              <a href="/terminal" className="eds-btn eds-btn-outline-amber">
-                Voir le terminal <ArrowRight size={14} />
-              </a>
-            </Reveal>
-
-            {/* Image */}
-            <Reveal direction="right">
-              <div className="relative" style={{ height: "520px", borderRadius: "2px", overflow: "hidden" }}>
-                <img src={IMGS.boulogne} alt="Terminal Boulogne-sur-Mer" className="w-full h-full object-cover" />
-                <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 240 / 0.25)" }} />
-                {/* Badge port */}
-                <div className="absolute top-4 left-4 eds-badge-amber eds-badge">
-                  <MapPin size={10} className="mr-1" /> Boulogne-sur-Mer
-                </div>
-                {/* Stat overlay */}
-                <div className="absolute bottom-4 right-4 eds-stat-pill">
-                  <span className="eds-stat-pill-value">4</span>
-                  <span className="eds-stat-pill-label">Postes à quai</span>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-          SECTION 5 — OPÉRATIONS NOCTURNES : plein fond
-      ══════════════════════════════════════════════════════ */}
-      <section className="eds-photo-section" style={{ minHeight: "520px" }}>
-        <img src={IMGS.night} alt="Opérations nocturnes" className="eds-photo-bg" style={{ objectPosition: "center 60%" }} />
-        <div className="absolute inset-0" style={{
-          background: "linear-gradient(to bottom, oklch(0.08 0.015 240 / 0.55) 0%, oklch(0.08 0.015 240 / 0.80) 100%)"
+      <section style={{ position: "relative", overflow: "hidden", minHeight: "400px" }}>
+        <img src={IMGS.s4_map} alt="" style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%",
+          objectFit: "cover",
         }} />
-        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 py-20 lg:py-28 flex flex-col items-center text-center">
-          <Reveal>
-            <div className="eds-tag mb-5" style={{ justifyContent: "center" }}>Stevedoring & Manutention</div>
-            <h2 className="eds-h2 mb-4" style={{ maxWidth: "700px", margin: "0 auto 1.5rem" }}>
-              60 éoliennes manutentionnées.<br />
-              <span className="eds-accent">Des projets hors normes.</span>
-            </h2>
-            <p className="text-base mb-8 max-w-xl mx-auto" style={{ color: "oklch(0.72 0.01 240)", lineHeight: 1.7 }}>
-              De la céréale en vrac aux générateurs industriels, notre équipe dédiée maîtrise chaque type de cargaison avec des solutions sur mesure.
-            </p>
-            <div className="flex flex-wrap gap-2 justify-center">
-              {["Dry Bulk", "Breakbulk", "Heavy Lift", "Project Cargo", "Tanker", "Liquid Bulk"].map((m) => (
-                <span key={m} className="eds-badge">{m}</span>
-              ))}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "oklch(0.08 0.025 200 / 0.88)",
+        }} />
+        {/* Grille bathymétrique */}
+        <div className="sonar-bathymetric" style={{
+          position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.5,
+        }} />
+        <div className="container" style={{ position: "relative", zIndex: 1, padding: "5rem 2rem" }}>
+          <div ref={statsRef} style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: "1px",
+          }} className="grid-cols-2 lg:grid-cols-4">
+            {[
+              { value: c800, suffix: "+", label: "ESCALES / AN", desc: "Opérations portuaires" },
+              { value: c200, suffix: "+", label: "NAVIRES AFFRÉTÉS", desc: "Par an, tous types" },
+              { value: c4500, suffix: " KT", label: "VRAC TRAITÉ", desc: "Capacité annuelle" },
+              { value: c50, suffix: " ANS", label: "D'EXPERTISE", desc: "Fondé en 1975" },
+            ].map(({ value, suffix, label, desc }) => (
+              <div key={label} style={{
+                background: "oklch(0 0 0 / 0.45)",
+                backdropFilter: "blur(12px)",
+                borderTop: "1.5px solid oklch(0.82 0.18 145 / 0.60)",
+                border: "1px solid oklch(1 0 0 / 0.08)",
+                padding: "2rem 1.5rem",
+                textAlign: "center",
+              }}>
+                <div style={{
+                  fontFamily: "'Archivo', sans-serif",
+                  fontWeight: 900,
+                  fontSize: "clamp(2.5rem, 5vw, 4rem)",
+                  color: "oklch(0.78 0.14 68)",
+                  lineHeight: 1,
+                  letterSpacing: "-0.03em",
+                }}>
+                  {value.toLocaleString("fr-FR")}{suffix}
+                </div>
+                <div style={{
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "0.60rem", letterSpacing: "0.15em",
+                  textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
+                  marginTop: "0.5rem",
+                }}>{label}</div>
+                <div style={{
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "0.58rem", color: "oklch(0.45 0.025 200)",
+                  marginTop: "0.25rem",
+                }}>{desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════
+          CLIENTS DE RÉFÉRENCE
+      ══════════════════════════════════════════════════════ */}
+      <section style={{ background: "oklch(0.10 0.03 200)", padding: "5rem 0" }}>
+        <div className="container">
+          <Reveal className="mb-10">
+            <div style={{
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: "0.62rem", letterSpacing: "0.15em",
+              color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
+              display: "flex", alignItems: "center", gap: "0.75rem",
+              marginBottom: "1rem",
+            }}>
+              <span style={{ display: "inline-block", width: "24px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
+              CLIENTS DE RÉFÉRENCE
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-          SECTION 6 — FREIGHT : image + données techniques
-      ══════════════════════════════════════════════════════ */}
-      <section style={{ background: "oklch(0.10 0.015 240)" }}>
-        <div className="max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Image */}
-            <Reveal direction="left">
-              <div className="relative" style={{ height: "480px", borderRadius: "2px", overflow: "hidden" }}>
-                <img src={IMGS.grain} alt="Chargement de grain" className="w-full h-full object-cover" />
-                <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 240 / 0.20)" }} />
-                {/* Badge certification */}
-                <div className="absolute bottom-4 left-4 flex flex-col gap-2">
-                  {["GMP+ Certified", "OVAM Registered", "NIWO Licensed"].map((cert) => (
-                    <span key={cert} className="eds-badge-amber eds-badge" style={{ fontSize: "0.58rem" }}>{cert}</span>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-
-            {/* Contenu */}
-            <Reveal direction="right">
-              <div className="eds-tag mb-5">Freight Forwarding</div>
-              <h2 className="eds-h2 mb-6">
-                Transit multimodal<br />
-                <span className="eds-accent">certifié GMP+</span>
-              </h2>
-              <p className="text-base mb-6" style={{ color: "oklch(0.62 0.015 240)", lineHeight: 1.7 }}>
-                Spécialiste du transport de grains, céréales et produits agro-industriels par voie navigable, route et rail. Couverture d'assurance jusqu'à 9,5 M€.
-              </p>
-
-              {/* Routes couvertes */}
-              <div className="mb-6" style={{ background: "oklch(0.14 0.03 240)", padding: "1.25rem", border: "1px solid oklch(1 0 0 / 0.08)" }}>
-                <div className="eds-tag mb-3" style={{ fontSize: "0.58rem" }}>Voies navigables couvertes</div>
-                {[
-                  { route: "Rhine (Rhin)", detail: "Bâle → Rotterdam" },
-                  { route: "Seine", detail: "Paris → Le Havre" },
-                  { route: "Mosel (Moselle)", detail: "Metz → Coblence" },
-                  { route: "North France", detail: "Dunkerque → Paris" },
-                ].map(({ route, detail }) => (
-                  <div key={route} className="eds-data-row">
-                    <span className="eds-data-key">{route}</span>
-                    <span className="eds-data-value" style={{ fontSize: "0.78rem" }}>{detail}</span>
-                  </div>
-                ))}
-              </div>
-
-              <a href="/freight" className="eds-btn eds-btn-amber">
-                Voir le service <ArrowRight size={14} />
-              </a>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-          SECTION 7 — PORTS : image Rouen plein fond
-      ══════════════════════════════════════════════════════ */}
-      <section className="eds-photo-section" style={{ minHeight: "500px" }}>
-        <img src={IMGS.rouen} alt="Port de Rouen" className="eds-photo-bg" />
-        <div className="eds-overlay-dark" />
-        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 py-20 lg:py-28">
-          <Reveal className="mb-10">
-            <div className="eds-tag mb-4">Zones d'opération</div>
-            <h2 className="eds-h2" style={{ maxWidth: "600px" }}>
-              5 ports.<br />
-              <span className="eds-accent">Une présence totale</span><br />
-              sur le littoral français.
+            <h2 style={{
+              fontFamily: "'Archivo', sans-serif",
+              fontWeight: 900, fontSize: "clamp(1.8rem, 3.5vw, 3rem)",
+              letterSpacing: "-0.025em", textTransform: "uppercase",
+              color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
+            }}>
+              LES LEADERS MONDIAUX<br />
+              <span style={{ color: "oklch(0.82 0.18 145)" }}>DE L'AGRO-INDUSTRIE</span>
             </h2>
           </Reveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(5, 1fr)",
+            gap: "1px",
+          }} className="grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
             {[
-              { port: "Dunkerque", role: "Siège social", detail: "Agence maritime principale · Tramping" },
-              { port: "Boulogne-sur-Mer", role: "Terminal dédié", detail: "800m quai · 77 500 m² stockage" },
-              { port: "Rouen", role: "Terminaux grain", detail: "3,6 Mt/an · Premier port céréalier" },
-              { port: "Bayonne", role: "Agence maritime", detail: "Transit & Shipping" },
-              { port: "Calais", role: "Agence maritime", detail: "Courtage en douane" },
-            ].map(({ port, role, detail }, i) => (
-              <Reveal key={port} delay={i * 60}>
-                <div
-                  style={{
-                    background: "oklch(0 0 0 / 0.60)",
-                    backdropFilter: "blur(12px)",
-                    border: "1px solid oklch(1 0 0 / 0.10)",
-                    borderTop: "2px solid oklch(0.72 0.14 65)",
-                    padding: "1.25rem",
-                  }}
-                >
-                  <div className="flex items-center gap-1.5 mb-2">
-                    <MapPin size={11} style={{ color: "oklch(0.72 0.14 65)" }} />
-                    <span style={{
-                      fontFamily: "'Barlow Condensed', sans-serif",
-                      fontWeight: 700,
-                      fontSize: "1rem",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.04em",
-                      color: "oklch(0.97 0 0)",
-                    }}>{port}</span>
-                  </div>
-                  <div className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "oklch(0.72 0.14 65)" }}>{role}</div>
-                  <div className="text-xs" style={{ color: "oklch(0.62 0.01 240)", lineHeight: 1.5 }}>{detail}</div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-          SECTION 8 — CLIENTS : fond sombre + grille
-      ══════════════════════════════════════════════════════ */}
-      <section style={{ background: "oklch(0.12 0.02 240)" }}>
-        <div className="max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-24">
-          <Reveal className="mb-10">
-            <div className="eds-tag mb-4">Clients de référence</div>
-            <h2 className="eds-h2" style={{ maxWidth: "600px" }}>
-              Les leaders mondiaux<br />
-              <span className="eds-accent">de l'agro-industrie</span><br />
-              et de la sidérurgie.
-            </h2>
-          </Reveal>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
-            {[
-              { name: "Glencore", sector: "Négoce matières premières" },
-              { name: "Bunge", sector: "Agro-industrie mondiale" },
-              { name: "Soufflet", sector: "Céréales & Malt" },
-              { name: "Louis Dreyfus", sector: "Commerce de grains" },
-              { name: "Cargill", sector: "Agro-industrie" },
-              { name: "ArcelorMittal", sector: "Sidérurgie mondiale" },
-              { name: "Lafarge", sector: "Matériaux de construction" },
-              { name: "Roquette", sector: "Chimie végétale" },
-              { name: "Tereos", sector: "Sucre & Amidon" },
-              { name: "Eqiom", sector: "Ciment & Granulats" },
-              { name: "Transgrains", sector: "Négoce céréales" },
-              { name: "Lecureur", sector: "Meunerie" },
-              { name: "Lhoist", sector: "Chaux & Minéraux" },
-              { name: "Liberty Alu", sector: "Aluminium primaire" },
-              { name: "Desialis", sector: "Coopérative céréalière" },
+              { name: "GLENCORE", sector: "Négoce matières premières" },
+              { name: "BUNGE", sector: "Agro-industrie mondiale" },
+              { name: "SOUFFLET", sector: "Céréales & Malt" },
+              { name: "LOUIS DREYFUS", sector: "Commerce de grains" },
+              { name: "CARGILL", sector: "Agro-industrie" },
+              { name: "ARCELORMITTAL", sector: "Sidérurgie mondiale" },
+              { name: "LAFARGE", sector: "Matériaux de construction" },
+              { name: "ROQUETTE", sector: "Chimie végétale" },
+              { name: "TEREOS", sector: "Sucre & Amidon" },
+              { name: "EQIOM", sector: "Ciment & Granulats" },
+              { name: "TRANSGRAINS", sector: "Négoce céréales" },
+              { name: "LECUREUR", sector: "Meunerie" },
+              { name: "LHOIST", sector: "Chaux & Minéraux" },
+              { name: "LIBERTY ALU", sector: "Aluminium primaire" },
+              { name: "DESIALIS", sector: "Coopérative céréalière" },
             ].map(({ name, sector }, i) => (
-              <Reveal key={name} delay={i * 25}>
-                <div
-                  className="p-4 transition-all duration-200 hover:scale-[1.02]"
-                  style={{
-                    background: "oklch(1 0 0 / 0.04)",
-                    border: "1px solid oklch(1 0 0 / 0.07)",
-                    borderRadius: "1px",
+              <Reveal key={name} delay={i * 20}>
+                <div style={{
+                  background: "oklch(1 0 0 / 0.03)",
+                  border: "1px solid oklch(1 0 0 / 0.06)",
+                  padding: "1rem",
+                  transition: "background 0.2s ease, border-color 0.2s ease",
+                }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLElement).style.background = "oklch(0.82 0.18 145 / 0.05)";
+                    (e.currentTarget as HTMLElement).style.borderColor = "oklch(0.82 0.18 145 / 0.20)";
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLElement).style.background = "oklch(1 0 0 / 0.03)";
+                    (e.currentTarget as HTMLElement).style.borderColor = "oklch(1 0 0 / 0.06)";
                   }}
                 >
-                  <div
-                    style={{
-                      fontFamily: "'Barlow Condensed', sans-serif",
-                      fontWeight: 700,
-                      fontSize: "0.95rem",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.04em",
-                      color: "oklch(0.90 0.01 240)",
-                      marginBottom: "0.2rem",
-                    }}
-                  >{name}</div>
-                  <div className="text-xs" style={{ color: "oklch(0.48 0.015 240)" }}>{sector}</div>
+                  <div style={{
+                    fontFamily: "'Archivo', sans-serif",
+                    fontWeight: 800, fontSize: "0.82rem",
+                    textTransform: "uppercase", letterSpacing: "0.02em",
+                    color: "oklch(0.88 0.01 200)", marginBottom: "0.2rem",
+                  }}>{name}</div>
+                  <div style={{
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontSize: "0.58rem", color: "oklch(0.42 0.02 200)",
+                  }}>{sector}</div>
                 </div>
               </Reveal>
             ))}
@@ -575,98 +417,90 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════════════════════════
-          SECTION 9 — SURVEY : image hatch + contenu technique
+          CTA FINAL — fond photo + formulaire rapide
       ══════════════════════════════════════════════════════ */}
-      <section className="eds-photo-section" style={{ minHeight: "480px" }}>
-        <img src={IMGS.hatch} alt="Inspection cale navire" className="eds-photo-bg" style={{ objectPosition: "center 40%" }} />
-        <div className="eds-overlay-left" />
-        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 py-20 lg:py-28">
-          <div className="max-w-lg ml-auto">
-            <Reveal>
-              <div className="eds-tag mb-5">Maritime Survey</div>
-              <h2 className="eds-h2 mb-6">
-                Expertise technique.<br />
-                <span className="eds-accent">Rapports P&I.</span>
-              </h2>
-              <p className="text-base mb-6" style={{ color: "oklch(0.72 0.01 240)", lineHeight: 1.7 }}>
-                Notre équipe d'experts réalise toutes les opérations de survey : tirant d'eau, tests d'étanchéité, expertise on/off-hire et rapports d'assurance P&I.
-              </p>
-              <div className="grid grid-cols-2 gap-2 mb-8">
-                {[
-                  "Draught surveying",
-                  "Ultrasonic leak test",
-                  "On/Off-hire survey",
-                  "Holds cleaning",
-                  "Bunkers & condition",
-                  "Insurance / P&I report",
-                ].map((item) => (
-                  <div key={item} className="flex items-center gap-2 text-xs" style={{ color: "oklch(0.72 0.01 240)" }}>
-                    <div className="w-1 h-1 rounded-full shrink-0" style={{ background: "oklch(0.72 0.14 65)" }} />
-                    {item}
-                  </div>
-                ))}
-              </div>
-              <a href="/services" className="eds-btn eds-btn-amber">
-                Voir les prestations <ArrowRight size={14} />
-              </a>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-          SECTION 10 — CTA FINAL : port aérien plein fond
-      ══════════════════════════════════════════════════════ */}
-      <section className="eds-photo-section" style={{ minHeight: "500px" }}>
-        <img src={IMGS.port} alt="Port de Dunkerque" className="eds-photo-bg" />
-        <div className="absolute inset-0" style={{
-          background: "linear-gradient(135deg, oklch(0.08 0.015 240 / 0.92) 0%, oklch(0.08 0.015 240 / 0.75) 100%)"
+      <section style={{ position: "relative", overflow: "hidden", minHeight: "480px" }}>
+        <img src={IMGS.s3_quay} alt="" style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%",
+          objectFit: "cover",
         }} />
-        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 py-20 lg:py-28">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-0 items-center" style={{ minHeight: "360px" }}>
-            {/* Titre */}
-            <Reveal className="lg:col-span-3 lg:pr-16">
-              <div className="eds-tag mb-5">Prise de contact</div>
-              <h2 className="eds-h2 mb-6">
-                Une opération<br />
-                à planifier ?<br />
-                <span className="eds-accent">Parlons-en.</span>
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(135deg, oklch(0.08 0.025 200 / 0.95) 0%, oklch(0.08 0.025 200 / 0.80) 100%)",
+        }} />
+        <div className="sonar-bathymetric" style={{
+          position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.4,
+        }} />
+        <div className="container" style={{ position: "relative", zIndex: 1, padding: "5rem 2rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }} className="grid-cols-1 lg:grid-cols-2">
+            <Reveal>
+              <div style={{
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: "0.62rem", letterSpacing: "0.15em",
+                color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
+                display: "flex", alignItems: "center", gap: "0.75rem",
+                marginBottom: "1.5rem",
+              }}>
+                <span style={{ display: "inline-block", width: "24px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
+                PRISE DE CONTACT
+              </div>
+              <h2 style={{
+                fontFamily: "'Archivo', sans-serif",
+                fontWeight: 900, fontSize: "clamp(2rem, 4vw, 3.5rem)",
+                letterSpacing: "-0.025em", textTransform: "uppercase",
+                color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
+                marginBottom: "1.5rem",
+              }}>
+                UNE OPÉRATION<br />
+                À PLANIFIER ?<br />
+                <span style={{ color: "oklch(0.82 0.18 145)" }}>PARLONS-EN.</span>
               </h2>
-              <p className="text-base mb-8 max-w-md" style={{ color: "oklch(0.72 0.01 240)", lineHeight: 1.7 }}>
-                Notre équipe répond sous 24 heures pour tout projet d'affrètement, d'agence maritime ou de transit multimodal.
+              <p style={{
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: "0.78rem", color: "oklch(0.60 0.025 200)",
+                lineHeight: 1.7, maxWidth: "420px", marginBottom: "2rem",
+              }}>
+                Notre équipe répond sous 24 heures pour tout projet d'affrètement,
+                d'agence maritime ou de transit multimodal.
               </p>
-              <div className="flex flex-wrap gap-3">
-                <a href="/contact" className="eds-btn eds-btn-amber">
-                  Demander un devis <ArrowRight size={14} />
-                </a>
-                <a href="mailto:commercial@eurodocks.com" className="eds-btn eds-btn-ghost">
+              <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                <Link href="/contact" className="sonar-btn sonar-btn-signal">
+                  DEMANDER UN DEVIS <ArrowRight size={14} />
+                </Link>
+                <a href="mailto:commercial@eurodocks.com" className="sonar-btn sonar-btn-ghost">
                   commercial@eurodocks.com
                 </a>
               </div>
             </Reveal>
 
-            {/* Données verticales */}
-            <Reveal
-              className="lg:col-span-2 flex flex-col gap-6 lg:pl-12 mt-10 lg:mt-0"
-              direction="right"
-              delay={150}
-            >
-              <div style={{ borderLeft: "2px solid oklch(0.72 0.14 65 / 0.30)", paddingLeft: "1.5rem" }}>
+            <Reveal delay={150}>
+              <div style={{
+                borderLeft: "1.5px solid oklch(0.82 0.18 145 / 0.25)",
+                paddingLeft: "2rem",
+              }}>
                 {[
-                  { stat: "24h", label: "Délai de réponse garanti" },
-                  { stat: "50 ans", label: "D'expertise maritime" },
+                  { stat: "24H", label: "Délai de réponse garanti" },
+                  { stat: "50 ANS", label: "D'expertise maritime" },
                   { stat: "9,5 M€", label: "Couverture assurance transit" },
+                  { stat: "5 PORTS", label: "Présence sur le littoral français" },
                 ].map(({ stat, label }) => (
-                  <div key={stat} className="flex items-center gap-4 mb-6 last:mb-0">
+                  <div key={stat} style={{
+                    display: "flex", alignItems: "center", gap: "1.5rem",
+                    marginBottom: "1.5rem",
+                  }}>
                     <div style={{
-                      fontFamily: "'Barlow Condensed', sans-serif",
-                      fontWeight: 800,
-                      fontSize: "2.2rem",
-                      color: "oklch(0.72 0.14 65)",
-                      letterSpacing: "-0.02em",
-                      minWidth: "5rem",
+                      fontFamily: "'Archivo', sans-serif",
+                      fontWeight: 900,
+                      fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
+                      color: "oklch(0.78 0.14 68)",
+                      lineHeight: 1, letterSpacing: "-0.02em",
+                      minWidth: "7rem",
                     }}>{stat}</div>
-                    <div className="text-sm" style={{ color: "oklch(0.68 0.01 240)" }}>{label}</div>
+                    <div style={{
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: "0.65rem", color: "oklch(0.55 0.025 200)",
+                      lineHeight: 1.4,
+                    }}>{label}</div>
                   </div>
                 ))}
               </div>

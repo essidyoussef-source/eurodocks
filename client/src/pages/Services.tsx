@@ -1,10 +1,11 @@
 /**
- * Services — Euro Docks Service v2
- * Design: Opérateur Maritime — photo-driven, B2B technique
- * Chaque service = image plein fond + données techniques superposées
+ * Services — Euro Docks Service v3 SONAR
+ * DA : "SONAR / Instrument de bord" — Ink abyssal + Signal vert-lime
+ * Structure : Hero photo + 4 services alternés + CTA
  */
 
 import { useEffect, useRef, useState } from "react";
+import { Link } from "wouter";
 import { ArrowRight, ChevronRight, MapPin } from "lucide-react";
 
 function useReveal<T extends HTMLElement>() {
@@ -15,7 +16,7 @@ function useReveal<T extends HTMLElement>() {
     if (!el) return;
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold: 0.10 }
+      { threshold: 0.08 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -32,7 +33,7 @@ function Reveal({ children, className = "", delay = 0, dir = "up" }: {
     <div ref={ref} className={className} style={{
       opacity: visible ? 1 : 0,
       transform: visible ? "none" : t,
-      transition: `opacity 0.55s cubic-bezier(0.23,1,0.32,1) ${delay}ms, transform 0.55s cubic-bezier(0.23,1,0.32,1) ${delay}ms`,
+      transition: `opacity 0.65s cubic-bezier(0.23,1,0.32,1) ${delay}ms, transform 0.65s cubic-bezier(0.23,1,0.32,1) ${delay}ms`,
     }}>
       {children}
     </div>
@@ -40,19 +41,17 @@ function Reveal({ children, className = "", delay = 0, dir = "up" }: {
 }
 
 const IMGS = {
-  hero:    "/manus-storage/eds2_hero_bulker_fe8bd601.jpg",
+  hero:    "/manus-storage/sonar_s1_wide_4e87cc79.jpg",
   agency:  "/manus-storage/eds_hero_ship_5b197371.jpg",
-  charter: "/manus-storage/eds2_tramping_sea_fd8a56f5.jpg",
-  survey:  "/manus-storage/eds2_hatch_inspection_5a8b030b.jpg",
-  customs: "/manus-storage/eds2_grain_loading_6553e85f.jpg",
-  bridge:  "/manus-storage/eds2_chartering_bridge_e11c603a.jpg",
+  charter: "/manus-storage/sonar_s1_close_a1f7b2e8.jpg",
+  survey:  "/manus-storage/sonar_s2_hatch_684a13c3.jpg",
+  customs: "/manus-storage/sonar_s2_grain_6e5d0efe.jpg",
 };
 
 const services = [
   {
     id: "agency",
     img: IMGS.agency,
-    imgPos: "center 40%",
     tag: "Shipping Agency",
     title: "Agence Maritime",
     stat: "800+",
@@ -77,7 +76,6 @@ const services = [
   {
     id: "charter",
     img: IMGS.charter,
-    imgPos: "center 50%",
     tag: "Chartering & Tramping",
     title: "Affrètement Tramping",
     stat: "200+",
@@ -102,7 +100,6 @@ const services = [
   {
     id: "customs",
     img: IMGS.customs,
-    imgPos: "center 60%",
     tag: "Customs Ship Brokerage",
     title: "Courtage en Douane",
     stat: "1975",
@@ -127,7 +124,6 @@ const services = [
   {
     id: "survey",
     img: IMGS.survey,
-    imgPos: "center 50%",
     tag: "Maritime Survey",
     title: "Expertise Maritime",
     stat: "P&I",
@@ -155,33 +151,75 @@ const services = [
 
 export default function Services() {
   return (
-    <div className="min-h-screen" style={{ background: "oklch(0.08 0.015 240)" }}>
+    <div style={{ background: "var(--sonar-abyss)", minHeight: "100vh" }}>
 
       {/* ── Hero plein fond ── */}
-      <section className="relative overflow-hidden" style={{ minHeight: "440px", paddingTop: "7rem" }}>
-        <img src={IMGS.hero} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 30%" }} />
-        <div className="absolute inset-0" style={{
-          background: "linear-gradient(to bottom, oklch(0.08 0.015 240 / 0.75) 0%, oklch(0.08 0.015 240 / 0.92) 100%)"
+      <section style={{ position: "relative", overflow: "hidden", minHeight: "520px" }}>
+        <img src={IMGS.hero} alt="" style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%",
+          objectFit: "cover", objectPosition: "center 30%",
         }} />
-        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 pb-16">
-          <div className="eds-tag mb-4">Nos expertises</div>
-          <h1 className="eds-h1 mb-4" style={{ fontSize: "clamp(2.5rem, 7vw, 5.5rem)" }}>
-            Shipping<br />
-            <span className="eds-accent">Services</span>
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(to bottom, oklch(0.08 0.025 200 / 0.65) 0%, oklch(0.08 0.025 200 / 0.95) 100%)",
+        }} />
+        <div className="sonar-bathymetric" style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.4 }} />
+        <div className="container" style={{ position: "relative", zIndex: 1, paddingTop: "5rem", paddingBottom: "5rem" }}>
+          <div style={{
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: "0.62rem", letterSpacing: "0.15em",
+            color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
+            display: "flex", alignItems: "center", gap: "0.75rem",
+            marginBottom: "1.5rem",
+          }}>
+            <span style={{ display: "inline-block", width: "24px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
+            Nos expertises
+          </div>
+          <h1 style={{
+            fontFamily: "'Archivo', sans-serif",
+            fontWeight: 900, fontSize: "clamp(3rem, 8vw, 7rem)",
+            letterSpacing: "-0.03em", textTransform: "uppercase",
+            color: "oklch(0.97 0.005 200)", lineHeight: 0.92,
+            marginBottom: "1.5rem",
+          }}>
+            SHIPPING<br />
+            <span style={{ color: "oklch(0.82 0.18 145)" }}>SERVICES</span>
           </h1>
-          <p className="text-base max-w-xl" style={{ color: "oklch(0.68 0.015 240)", lineHeight: 1.7 }}>
-            Agence maritime, affrètement tramping, courtage en douane et expertise maritime — une gamme complète de services opérés par des experts reconnus dans les ports français.
+          <p style={{
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: "0.80rem", color: "oklch(0.62 0.025 200)",
+            lineHeight: 1.7, maxWidth: "520px", marginBottom: "2.5rem",
+          }}>
+            Agence maritime, affrètement tramping, courtage en douane et expertise maritime —
+            une gamme complète de services opérés par des experts reconnus dans les ports français.
           </p>
-          <div className="flex flex-wrap gap-3 mt-8">
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "1px" }}>
             {[
               { v: "800+", l: "Escales / an" },
               { v: "200+", l: "Navires affrétés" },
               { v: "7 M€", l: "Chiffre d'affaires" },
               { v: "1975", l: "Année de création" },
             ].map(({ v, l }) => (
-              <div key={l} className="eds-stat-pill">
-                <span className="eds-stat-pill-value" style={{ fontSize: "1.5rem" }}>{v}</span>
-                <span className="eds-stat-pill-label">{l}</span>
+              <div key={l} style={{
+                background: "oklch(0 0 0 / 0.50)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid oklch(1 0 0 / 0.10)",
+                borderTop: "1.5px solid oklch(0.82 0.18 145 / 0.60)",
+                padding: "0.75rem 1.25rem",
+                minWidth: "120px",
+              }}>
+                <div style={{
+                  fontFamily: "'Archivo', sans-serif",
+                  fontWeight: 900, fontSize: "1.6rem",
+                  color: "oklch(0.78 0.14 68)",
+                  letterSpacing: "-0.02em", lineHeight: 1,
+                }}>{v}</div>
+                <div style={{
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "0.58rem", letterSpacing: "0.12em",
+                  textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
+                  marginTop: "0.25rem",
+                }}>{l}</div>
               </div>
             ))}
           </div>
@@ -190,40 +228,73 @@ export default function Services() {
 
       {/* ── Services : alternance image/contenu ── */}
       {services.map((svc, i) => (
-        <section key={svc.id} style={{ background: i % 2 === 0 ? "oklch(0.10 0.015 240)" : "oklch(0.08 0.015 240)" }}>
-          <div className="max-w-[1440px] mx-auto px-5 lg:px-8 py-14 lg:py-20">
-            <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start`}>
+        <section key={svc.id} style={{
+          background: i % 2 === 0 ? "var(--sonar-deep)" : "var(--sonar-abyss)",
+          padding: "0",
+          position: "relative",
+          overflow: "hidden",
+        }}>
+          <div className="container" style={{ padding: "5rem 2rem" }}>
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "4rem",
+              alignItems: "center",
+            }} className="grid-cols-1 lg:grid-cols-2">
 
-              {/* Image — alterne gauche/droite */}
+              {/* Image */}
               <Reveal dir={i % 2 === 0 ? "left" : "right"} className={i % 2 === 1 ? "lg:order-2" : ""}>
-                <div className="relative" style={{ height: "520px", borderRadius: "2px", overflow: "hidden" }}>
-                  <img
-                    src={svc.img}
-                    alt={svc.title}
-                    className="w-full h-full object-cover"
-                    style={{
-                      objectPosition: svc.imgPos,
-                      transition: "transform 6s ease-out",
-                    }}
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1.04)"; }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
-                  />
-                  {/* Overlay */}
-                  <div className="absolute inset-0" style={{
-                    background: "linear-gradient(to top, oklch(0.06 0.015 240 / 0.70) 0%, oklch(0.06 0.015 240 / 0.20) 60%, transparent 100%)"
+                <div style={{ position: "relative", height: "520px", overflow: "hidden" }}>
+                  <img src={svc.img} alt={svc.title} style={{
+                    width: "100%", height: "100%", objectFit: "cover",
+                    objectPosition: "center 40%",
                   }} />
-                  {/* Tag */}
-                  <div className="absolute top-4 left-4 eds-badge-amber eds-badge">{svc.tag}</div>
-                  {/* Stat */}
-                  <div className="absolute top-4 right-4 eds-stat-pill">
-                    <span className="eds-stat-pill-value" style={{ fontSize: "1.3rem" }}>{svc.stat}</span>
-                    <span className="eds-stat-pill-label">{svc.statLabel}</span>
+                  {/* Overlay gradient */}
+                  <div style={{
+                    position: "absolute", inset: 0,
+                    background: "linear-gradient(to top, oklch(0.08 0.025 200 / 0.70) 0%, transparent 50%)",
+                  }} />
+                  {/* Badge stat */}
+                  <div style={{
+                    position: "absolute", top: "1.25rem", right: "1.25rem",
+                    background: "oklch(0 0 0 / 0.75)",
+                    backdropFilter: "blur(12px)",
+                    border: "1px solid oklch(1 0 0 / 0.12)",
+                    borderTop: "1.5px solid oklch(0.82 0.18 145)",
+                    padding: "0.75rem 1rem",
+                    textAlign: "center",
+                  }}>
+                    <div style={{
+                      fontFamily: "'Archivo', sans-serif",
+                      fontWeight: 900, fontSize: "1.8rem",
+                      color: "oklch(0.78 0.14 68)",
+                      letterSpacing: "-0.02em", lineHeight: 1,
+                    }}>{svc.stat}</div>
+                    <div style={{
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: "0.55rem", letterSpacing: "0.12em",
+                      textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
+                      marginTop: "0.2rem",
+                    }}>{svc.statLabel}</div>
                   </div>
                   {/* Ports */}
-                  <div className="absolute bottom-4 left-4 flex flex-wrap gap-1.5">
-                    {svc.ports.map((p) => (
-                      <span key={p} className="eds-badge" style={{ fontSize: "0.55rem" }}>
-                        <MapPin size={8} className="mr-1" />{p}
+                  <div style={{
+                    position: "absolute", bottom: "1.25rem", left: "1.25rem",
+                    display: "flex", flexWrap: "wrap", gap: "0.4rem",
+                  }}>
+                    {svc.ports.map(p => (
+                      <span key={p} style={{
+                        display: "flex", alignItems: "center", gap: "0.3rem",
+                        fontFamily: "'IBM Plex Mono', monospace",
+                        fontSize: "0.55rem", letterSpacing: "0.08em",
+                        color: "oklch(0.80 0.01 200)",
+                        background: "oklch(0 0 0 / 0.60)",
+                        backdropFilter: "blur(8px)",
+                        padding: "0.2rem 0.5rem",
+                        border: "1px solid oklch(1 0 0 / 0.10)",
+                      }}>
+                        <MapPin size={8} style={{ color: "oklch(0.82 0.18 145)" }} />
+                        {p}
                       </span>
                     ))}
                   </div>
@@ -231,88 +302,149 @@ export default function Services() {
               </Reveal>
 
               {/* Contenu */}
-              <Reveal delay={80} dir={i % 2 === 0 ? "right" : "left"} className={i % 2 === 1 ? "lg:order-1" : ""}>
-                <div className="eds-tag mb-4">{svc.tag}</div>
-                <h2 className="eds-h2 mb-4">{svc.title}</h2>
-                <p className="text-base mb-6" style={{ color: "oklch(0.62 0.015 240)", lineHeight: 1.7 }}>
-                  {svc.description}
-                </p>
+              <Reveal dir={i % 2 === 0 ? "right" : "left"} delay={80} className={i % 2 === 1 ? "lg:order-1" : ""}>
+                <div>
+                  <div style={{
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontSize: "0.60rem", letterSpacing: "0.15em",
+                    textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
+                    display: "flex", alignItems: "center", gap: "0.75rem",
+                    marginBottom: "1rem",
+                  }}>
+                    <span style={{ width: "20px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
+                    {svc.tag}
+                  </div>
+                  <h2 style={{
+                    fontFamily: "'Archivo', sans-serif",
+                    fontWeight: 900, fontSize: "clamp(2rem, 3.5vw, 3rem)",
+                    letterSpacing: "-0.025em", textTransform: "uppercase",
+                    color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
+                    marginBottom: "1.25rem",
+                  }}>{svc.title}</h2>
+                  <p style={{
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontSize: "0.75rem", color: "oklch(0.58 0.025 200)",
+                    lineHeight: 1.75, marginBottom: "1.75rem",
+                  }}>{svc.description}</p>
 
-                {/* Tableau données techniques */}
-                <div className="mb-6" style={{
-                  background: "oklch(0.14 0.03 240)",
-                  padding: "1rem 1.25rem",
-                  border: "1px solid oklch(1 0 0 / 0.08)",
-                  borderLeft: "2px solid oklch(0.72 0.14 65)",
-                }}>
-                  {svc.data.map(({ k, v }) => (
-                    <div key={k} className="eds-data-row">
-                      <span className="eds-data-key">{k}</span>
-                      <span className="eds-data-value" style={{ fontSize: "0.78rem" }}>{v}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Prestations */}
-                <div className="mb-6">
-                  <div className="eds-tag mb-3" style={{ fontSize: "0.58rem" }}>Prestations incluses</div>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                    {svc.prestations.map((p) => (
-                      <div key={p} className="flex items-start gap-2 text-xs" style={{ color: "oklch(0.68 0.015 240)" }}>
-                        <ChevronRight size={11} className="mt-0.5 shrink-0" style={{ color: "oklch(0.72 0.14 65)" }} />
-                        {p}
+                  {/* Data HUD */}
+                  <div style={{
+                    border: "1px solid oklch(1 0 0 / 0.08)",
+                    borderTop: "1.5px solid oklch(0.82 0.18 145 / 0.40)",
+                    padding: "1rem",
+                    marginBottom: "1.5rem",
+                    background: "oklch(1 0 0 / 0.02)",
+                  }}>
+                    {svc.data.map(({ k, v }) => (
+                      <div key={k} style={{
+                        display: "flex", justifyContent: "space-between",
+                        alignItems: "center", padding: "0.45rem 0",
+                        borderBottom: "1px solid oklch(1 0 0 / 0.05)",
+                      }}>
+                        <span style={{
+                          fontFamily: "'IBM Plex Mono', monospace",
+                          fontSize: "0.60rem", letterSpacing: "0.08em",
+                          textTransform: "uppercase", color: "oklch(0.42 0.025 200)",
+                        }}>{k}</span>
+                        <span style={{
+                          fontFamily: "'IBM Plex Mono', monospace",
+                          fontSize: "0.65rem", fontWeight: 500,
+                          color: "oklch(0.82 0.18 145)",
+                        }}>{v}</span>
                       </div>
                     ))}
                   </div>
-                </div>
 
-                <a href="/contact" className="eds-btn eds-btn-amber">
-                  Demander un devis <ArrowRight size={14} />
-                </a>
+                  {/* Prestations */}
+                  <div style={{ marginBottom: "1.75rem" }}>
+                    <div style={{
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: "0.58rem", letterSpacing: "0.12em",
+                      textTransform: "uppercase", color: "oklch(0.45 0.025 200)",
+                      marginBottom: "0.75rem",
+                    }}>Prestations incluses</div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.4rem" }}>
+                      {svc.prestations.map(p => (
+                        <div key={p} style={{
+                          display: "flex", alignItems: "flex-start", gap: "0.4rem",
+                          fontFamily: "'IBM Plex Mono', monospace",
+                          fontSize: "0.62rem", color: "oklch(0.60 0.025 200)",
+                        }}>
+                          <ChevronRight size={10} style={{ marginTop: "1px", flexShrink: 0, color: "oklch(0.82 0.18 145)" }} />
+                          {p}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <Link href="/contact" style={{
+                    display: "inline-flex", alignItems: "center", gap: "0.5rem",
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.12em",
+                    textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
+                    textDecoration: "none", transition: "gap 0.2s ease",
+                  }}
+                    onMouseEnter={e => (e.currentTarget.style.gap = "0.75rem")}
+                    onMouseLeave={e => (e.currentTarget.style.gap = "0.5rem")}
+                  >
+                    Demander un devis <ArrowRight size={12} />
+                  </Link>
+                </div>
               </Reveal>
             </div>
           </div>
-
-          {/* Séparateur */}
-          {i < services.length - 1 && (
-            <div style={{ height: "1px", background: "oklch(1 0 0 / 0.05)", margin: "0 2rem" }} />
-          )}
         </section>
       ))}
 
-      {/* ── Break éditorial : image passerelle plein fond ── */}
-      <section className="relative overflow-hidden" style={{ minHeight: "360px" }}>
-        <img src={IMGS.bridge} alt="" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 240 / 0.88)" }} />
-        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-            <Reveal className="lg:col-span-2">
-              <div className="eds-tag mb-4">Prise de contact</div>
-              <h2 className="eds-h2 mb-4">
-                Un projet d'affrètement<br />
-                <span className="eds-accent">ou d'agence maritime ?</span>
+      {/* ── CTA Final ── */}
+      <section style={{ position: "relative", overflow: "hidden", minHeight: "320px" }}>
+        <img src={IMGS.hero} alt="" style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%",
+          objectFit: "cover", objectPosition: "center 60%",
+        }} />
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(135deg, oklch(0.08 0.025 200 / 0.96) 0%, oklch(0.08 0.025 200 / 0.85) 100%)",
+        }} />
+        <div className="sonar-bathymetric" style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.4 }} />
+        <div className="container" style={{ position: "relative", zIndex: 1, padding: "5rem 2rem" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "3rem", flexWrap: "wrap" }}>
+            <div>
+              <div style={{
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: "0.60rem", letterSpacing: "0.15em",
+                color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
+                display: "flex", alignItems: "center", gap: "0.75rem",
+                marginBottom: "1rem",
+              }}>
+                <span style={{ width: "20px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
+                Prise de contact
+              </div>
+              <h2 style={{
+                fontFamily: "'Archivo', sans-serif",
+                fontWeight: 900, fontSize: "clamp(1.8rem, 3.5vw, 3rem)",
+                letterSpacing: "-0.025em", textTransform: "uppercase",
+                color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
+              }}>
+                UN PROJET D'AFFRÈTEMENT<br />
+                <span style={{ color: "oklch(0.82 0.18 145)" }}>OU D'AGENCE MARITIME ?</span>
               </h2>
-              <p className="text-base mb-6 max-w-md" style={{ color: "oklch(0.68 0.015 240)", lineHeight: 1.7 }}>
+              <p style={{
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: "0.72rem", color: "oklch(0.55 0.025 200)",
+                lineHeight: 1.7, marginTop: "1rem", maxWidth: "420px",
+              }}>
                 Contactez notre équipe commerciale pour un devis personnalisé sous 24 heures.
               </p>
-              <a href="/contact" className="eds-btn eds-btn-amber">
-                Nous contacter <ArrowRight size={14} />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+              <Link href="/contact" className="sonar-btn sonar-btn-signal">
+                NOUS CONTACTER <ArrowRight size={13} />
+              </Link>
+              <a href="mailto:commercial@eurodocks.com" className="sonar-btn sonar-btn-ghost">
+                commercial@eurodocks.com
               </a>
-            </Reveal>
-            <Reveal delay={120} dir="right">
-              <div className="flex flex-col gap-4">
-                {[
-                  { stat: "24h", label: "Délai de réponse" },
-                  { stat: "50 ans", label: "D'expertise maritime" },
-                  { stat: "5 ports", label: "De présence directe" },
-                ].map(({ stat, label }) => (
-                  <div key={stat} className="eds-stat-pill flex-row items-center gap-4" style={{ display: "flex" }}>
-                    <span className="eds-stat-pill-value" style={{ fontSize: "1.5rem", minWidth: "4rem" }}>{stat}</span>
-                    <span className="eds-stat-pill-label">{label}</span>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
+            </div>
           </div>
         </div>
       </section>

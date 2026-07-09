@@ -1,159 +1,255 @@
 /**
- * Footer — Euro Docks Service
- * Design: Deep Navy Editorial
- * Fond: #060E1A (plus sombre que le hero)
+ * Footer SONAR — Euro Docks Service v3
+ * DA : Ink abyssal + Signal vert-lime + IBM Plex Mono
  */
 
 import { Link } from "wouter";
-import { MapPin, Phone, Mail, Anchor, ArrowUpRight } from "lucide-react";
+import { ArrowRight, MapPin, Phone, Mail, ExternalLink } from "lucide-react";
 
-const ports = [
-  { name: "Dunkerque", role: "Port principal — Agence & Tramping" },
-  { name: "Boulogne-sur-Mer", role: "Terminal dédié — 800m de quai" },
-  { name: "Rouen", role: "Terminal grain — 3,6 Mt/an" },
-  { name: "Bayonne", role: "Agence maritime & Transit" },
-  { name: "Calais", role: "Agence maritime" },
+const PORTS = [
+  { city: "DUNKERQUE", role: "Port principal — Agence & Tramping" },
+  { city: "BOULOGNE-SUR-MER", role: "Terminal portuaire — GMP+" },
+  { city: "ROUEN", role: "Terminal céréalier — 3,6 Mt/an" },
+  { city: "BAYONNE", role: "Agence maritime" },
+  { city: "CALAIS", role: "Agence maritime & Douane" },
 ];
 
-const services = [
-  { label: "Shipping Agency", href: "/services" },
-  { label: "Chartering & Tramping", href: "/services" },
-  { label: "Customs Ship Brokerage", href: "/services" },
-  { label: "Maritime Survey", href: "/services" },
+const SERVICES = [
+  { label: "Agence Maritime", href: "/services" },
+  { label: "Affrètement Tramping", href: "/services" },
+  { label: "Expertise Maritime", href: "/services" },
+  { label: "Courtage en Douane", href: "/services" },
   { label: "Freight Forwarding", href: "/freight" },
   { label: "Port Terminal", href: "/terminal" },
 ];
 
-const clients = [
-  "Glencore", "Bunge", "Soufflet", "Dreyfus", "Cargill",
-  "ArcelorMittal", "Lafarge", "Roquette", "Tereos", "Eqiom",
-];
-
 export default function Footer() {
   return (
-    <footer style={{ background: "oklch(0.07 0.025 240)", color: "oklch(0.62 0.025 240)" }}>
-      {/* Bande supérieure */}
-      <div style={{ borderBottom: "1px solid oklch(1 0 0 / 0.06)" }}>
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-16 grid grid-cols-1 lg:grid-cols-4 gap-12">
+    <footer style={{
+      background: "oklch(0.06 0.02 200)",
+      borderTop: "1px solid oklch(1 0 0 / 0.06)",
+    }}>
+      {/* Bande supérieure CTA */}
+      <div style={{ borderBottom: "1px solid oklch(1 0 0 / 0.06)", padding: "2.5rem 0" }}>
+        <div className="container" style={{
+          display: "flex", alignItems: "center",
+          justifyContent: "space-between", gap: "2rem", flexWrap: "wrap",
+        }}>
+          <div>
+            <div style={{
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: "0.60rem", letterSpacing: "0.15em",
+              textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
+              marginBottom: "0.5rem",
+            }}>PRISE DE CONTACT</div>
+            <div style={{
+              fontFamily: "'Archivo', sans-serif",
+              fontWeight: 800, fontSize: "clamp(1.2rem, 2.5vw, 1.8rem)",
+              letterSpacing: "-0.02em", textTransform: "uppercase",
+              color: "oklch(0.97 0.005 200)",
+            }}>UNE OPÉRATION À PLANIFIER ?</div>
+          </div>
+          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+            <Link href="/contact" className="sonar-btn sonar-btn-signal">
+              DEMANDER UN DEVIS <ArrowRight size={13} />
+            </Link>
+            <a href="mailto:commercial@eurodocks.com" className="sonar-btn sonar-btn-ghost">
+              NOUS ÉCRIRE
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Corps du footer */}
+      <div className="container" style={{ padding: "3.5rem 2rem 2.5rem" }}>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1.5fr 1fr 1fr 1.2fr",
+          gap: "3rem",
+        }} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
 
           {/* Colonne 1 — Identité */}
-          <div className="lg:col-span-1">
-            <div className="flex items-center gap-3 mb-6">
-              {/* Monogramme SVG EDS — Footer */}
-              <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40" style={{ flexShrink: 0 }}>
-                <rect width="44" height="44" fill="oklch(0.14 0.04 240)" rx="2" />
-                <line x1="6" y1="22" x2="38" y2="22" stroke="oklch(0.65 0.12 65)" strokeWidth="0.75" />
-                <text x="22" y="18" textAnchor="middle" dominantBaseline="middle"
-                  fontFamily="Georgia, serif" fontWeight="700" fontSize="10"
-                  fill="oklch(0.975 0.005 80)" letterSpacing="2">EDS</text>
-                <text x="22" y="30" textAnchor="middle" dominantBaseline="middle"
-                  fontFamily="Arial, sans-serif" fontWeight="400" fontSize="5.5"
-                  fill="oklch(0.65 0.12 65)" letterSpacing="3">MARITIME</text>
+          <div>
+            <Link href="/" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.5rem" }}>
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <rect width="32" height="32" fill="oklch(0.82 0.18 145 / 0.08)" />
+                <rect x="0.5" y="0.5" width="31" height="31" stroke="oklch(0.82 0.18 145 / 0.35)" strokeWidth="1" />
+                <path d="M0 6 L0 0 L6 0" stroke="oklch(0.82 0.18 145)" strokeWidth="1.5" fill="none" />
+                <path d="M32 26 L32 32 L26 32" stroke="oklch(0.82 0.18 145)" strokeWidth="1.5" fill="none" />
+                <text x="16" y="20" textAnchor="middle"
+                  fill="oklch(0.97 0.005 200)"
+                  fontFamily="'Archivo', sans-serif"
+                  fontWeight="900" fontSize="11" letterSpacing="-0.5">EDS</text>
               </svg>
               <div>
-                <div style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: "1rem", color: "oklch(0.975 0.005 80)" }}>
-                  Euro Docks Service
-                </div>
-                <div style={{ fontSize: "0.65rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "oklch(0.65 0.12 65)" }}>
-                  Maritime Excellence
-                </div>
+                <div style={{
+                  fontFamily: "'Archivo', sans-serif",
+                  fontWeight: 800, fontSize: "0.78rem",
+                  letterSpacing: "0.06em", textTransform: "uppercase",
+                  color: "oklch(0.97 0.005 200)", lineHeight: 1,
+                }}>EURO DOCKS SERVICE</div>
+                <div style={{
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "0.48rem", letterSpacing: "0.18em",
+                  color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
+                  marginTop: "0.12rem",
+                }}>MARITIME EXCELLENCE</div>
               </div>
-            </div>
-            <p className="text-sm leading-relaxed mb-6" style={{ color: "oklch(0.55 0.02 240)" }}>
-              Spécialiste du tramping, de l'agence maritime et des terminaux portuaires sur les principaux ports français depuis 1975.
+            </Link>
+            <p style={{
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: "0.68rem", color: "oklch(0.42 0.025 200)",
+              lineHeight: 1.7, marginBottom: "1.5rem",
+            }}>
+              Spécialiste du tramping, de l'affrètement dry bulk et des terminaux portuaires depuis 1975.
+              Présent sur 5 ports du littoral français.
             </p>
-            <div className="flex flex-col gap-2">
-              <a href="mailto:commercial@eurodocks.com"
-                className="flex items-center gap-2 text-sm hover:text-amber-400 transition-colors duration-200"
-                style={{ color: "oklch(0.55 0.02 240)" }}>
-                <Mail size={13} />
-                commercial@eurodocks.com
-              </a>
-              <a href="tel:+33328630000"
-                className="flex items-center gap-2 text-sm hover:text-amber-400 transition-colors duration-200"
-                style={{ color: "oklch(0.55 0.02 240)" }}>
-                <Phone size={13} />
-                +33 (0)3 28 63 00 00
-              </a>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+              {[
+                { href: "tel:+33328630000", icon: <Phone size={11} />, label: "+33 (0)3 28 63 00 00" },
+                { href: "mailto:commercial@eurodocks.com", icon: <Mail size={11} />, label: "commercial@eurodocks.com" },
+                { href: "https://eurodocks.fr", icon: <ExternalLink size={11} />, label: "eurodocks.fr" },
+              ].map(({ href, icon, label }) => (
+                <a key={label} href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  style={{
+                    display: "flex", alignItems: "center", gap: "0.5rem",
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontSize: "0.65rem", color: "oklch(0.50 0.025 200)",
+                    textDecoration: "none", transition: "color 0.2s ease",
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.color = "oklch(0.82 0.18 145)")}
+                  onMouseLeave={e => (e.currentTarget.style.color = "oklch(0.50 0.025 200)")}
+                >
+                  {icon} {label}
+                </a>
+              ))}
             </div>
           </div>
 
           {/* Colonne 2 — Services */}
           <div>
-            <div className="eds-label mb-5" style={{ color: "oklch(0.65 0.12 65)" }}>Services</div>
-            <ul className="flex flex-col gap-2.5">
-              {services.map((s) => (
-                <li key={s.label}>
-                  <Link href={s.href}
-                    className="text-sm flex items-center gap-1.5 group hover:text-white transition-colors duration-200"
-                    style={{ color: "oklch(0.55 0.02 240)" }}>
-                    <span className="group-hover:translate-x-1 transition-transform duration-200 inline-block">
-                      {s.label}
-                    </span>
-                    <ArrowUpRight size={11} className="opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            <div style={{
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: "0.58rem", letterSpacing: "0.15em",
+              textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
+              marginBottom: "1.25rem", paddingBottom: "0.75rem",
+              borderBottom: "1px solid oklch(1 0 0 / 0.08)",
+            }}>EXPERTISES</div>
+            <ul style={{ display: "flex", flexDirection: "column", gap: "0.6rem", listStyle: "none", padding: 0, margin: 0 }}>
+              {SERVICES.map(({ label, href }) => (
+                <li key={label}>
+                  <Link href={href} style={{
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontSize: "0.65rem", color: "oklch(0.45 0.025 200)",
+                    textDecoration: "none", transition: "color 0.2s ease",
+                    display: "flex", alignItems: "center", gap: "0.4rem",
+                  }}
+                    onMouseEnter={e => (e.currentTarget.style.color = "oklch(0.82 0.18 145)")}
+                    onMouseLeave={e => (e.currentTarget.style.color = "oklch(0.45 0.025 200)")}
+                  >
+                    <span style={{ width: "12px", height: "1px", background: "oklch(0.82 0.18 145 / 0.40)", flexShrink: 0 }} />
+                    {label}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Colonne 3 — Ports */}
+          {/* Colonne 3 — Navigation */}
           <div>
-            <div className="eds-label mb-5" style={{ color: "oklch(0.65 0.12 65)" }}>Zones d'opération</div>
-            <ul className="flex flex-col gap-3">
-              {ports.map((p) => (
-                <li key={p.name} className="flex items-start gap-2">
-                  <MapPin size={13} className="mt-0.5 shrink-0" style={{ color: "oklch(0.65 0.12 65)" }} />
-                  <div>
-                    <div className="text-sm font-medium" style={{ color: "oklch(0.85 0.01 240)" }}>{p.name}</div>
-                    <div className="text-xs" style={{ color: "oklch(0.48 0.018 240)" }}>{p.role}</div>
-                  </div>
+            <div style={{
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: "0.58rem", letterSpacing: "0.15em",
+              textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
+              marginBottom: "1.25rem", paddingBottom: "0.75rem",
+              borderBottom: "1px solid oklch(1 0 0 / 0.08)",
+            }}>NAVIGATION</div>
+            <ul style={{ display: "flex", flexDirection: "column", gap: "0.6rem", listStyle: "none", padding: 0, margin: 0 }}>
+              {[
+                { label: "Accueil", href: "/" },
+                { label: "À propos", href: "/about" },
+                { label: "Shipping Services", href: "/services" },
+                { label: "Freight Forwarding", href: "/freight" },
+                { label: "Port Terminal", href: "/terminal" },
+                { label: "Contact", href: "/contact" },
+              ].map(({ label, href }) => (
+                <li key={label}>
+                  <Link href={href} style={{
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontSize: "0.65rem", color: "oklch(0.45 0.025 200)",
+                    textDecoration: "none", transition: "color 0.2s ease",
+                    display: "flex", alignItems: "center", gap: "0.4rem",
+                  }}
+                    onMouseEnter={e => (e.currentTarget.style.color = "oklch(0.82 0.18 145)")}
+                    onMouseLeave={e => (e.currentTarget.style.color = "oklch(0.45 0.025 200)")}
+                  >
+                    <span style={{ width: "12px", height: "1px", background: "oklch(0.82 0.18 145 / 0.40)", flexShrink: 0 }} />
+                    {label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Colonne 4 — Clients de référence */}
+          {/* Colonne 4 — Ports */}
           <div>
-            <div className="eds-label mb-5" style={{ color: "oklch(0.65 0.12 65)" }}>Clients de référence</div>
-            <div className="flex flex-wrap gap-2">
-              {clients.map((c) => (
-                <span key={c}
-                  className="text-xs px-2.5 py-1 rounded-sm"
-                  style={{
-                    background: "oklch(1 0 0 / 0.05)",
-                    color: "oklch(0.62 0.025 240)",
-                    border: "1px solid oklch(1 0 0 / 0.08)",
-                  }}>
-                  {c}
-                </span>
+            <div style={{
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: "0.58rem", letterSpacing: "0.15em",
+              textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
+              marginBottom: "1.25rem", paddingBottom: "0.75rem",
+              borderBottom: "1px solid oklch(1 0 0 / 0.08)",
+            }}>ZONES D'OPÉRATION</div>
+            <ul style={{ display: "flex", flexDirection: "column", gap: "0.75rem", listStyle: "none", padding: 0, margin: 0 }}>
+              {PORTS.map(({ city, role }) => (
+                <li key={city} style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>
+                  <MapPin size={10} style={{ color: "oklch(0.82 0.18 145)", marginTop: "2px", flexShrink: 0 }} />
+                  <div>
+                    <div style={{
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: "0.62rem", fontWeight: 600,
+                      color: "oklch(0.72 0.025 200)", letterSpacing: "0.06em",
+                    }}>{city}</div>
+                    <div style={{
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: "0.58rem", color: "oklch(0.38 0.02 200)",
+                      marginTop: "0.1rem",
+                    }}>{role}</div>
+                  </div>
+                </li>
               ))}
-            </div>
-            <div className="mt-6 pt-6" style={{ borderTop: "1px solid oklch(1 0 0 / 0.06)" }}>
-              <div className="flex items-center gap-2 mb-2">
-                <Anchor size={13} style={{ color: "oklch(0.65 0.12 65)" }} />
-                <span className="text-xs font-semibold" style={{ color: "oklch(0.85 0.01 240)" }}>Certifications</span>
-              </div>
-              <div className="text-xs leading-relaxed" style={{ color: "oklch(0.48 0.018 240)" }}>
-                GMP+ (Feed Safety) · Customs Broker Registered · OVAM · OWD · NIWO · IBG
-              </div>
-            </div>
+            </ul>
           </div>
         </div>
       </div>
 
-      {/* Barre de copyright */}
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p className="text-xs" style={{ color: "oklch(0.42 0.015 240)" }}>
-          © {new Date().getFullYear()} Euro Docks Service. Tous droits réservés.
-        </p>
-        <div className="flex items-center gap-6">
-          <Link href="/mentions-legales" className="text-xs hover:text-white transition-colors duration-200" style={{ color: "oklch(0.42 0.015 240)" }}>
-            Mentions légales
-          </Link>
-          <Link href="/confidentialite" className="text-xs hover:text-white transition-colors duration-200" style={{ color: "oklch(0.42 0.015 240)" }}>
-            Confidentialité
-          </Link>
+      {/* Barre légale */}
+      <div style={{ borderTop: "1px solid oklch(1 0 0 / 0.06)", padding: "1.25rem 0" }}>
+        <div className="container" style={{
+          display: "flex", alignItems: "center",
+          justifyContent: "space-between", gap: "1rem", flexWrap: "wrap",
+        }}>
+          <div style={{
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: "0.58rem", color: "oklch(0.32 0.02 200)", letterSpacing: "0.06em",
+          }}>
+            © {new Date().getFullYear()} EURO DOCKS SERVICE SAS — TOUS DROITS RÉSERVÉS
+          </div>
+          <div style={{ display: "flex", gap: "1.5rem" }}>
+            {["MENTIONS LÉGALES", "POLITIQUE DE CONFIDENTIALITÉ"].map(label => (
+              <span key={label} style={{
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: "0.55rem", color: "oklch(0.32 0.02 200)",
+                letterSpacing: "0.08em", cursor: "pointer",
+                transition: "color 0.2s ease",
+              }}
+                onMouseEnter={e => (e.currentTarget.style.color = "oklch(0.82 0.18 145)")}
+                onMouseLeave={e => (e.currentTarget.style.color = "oklch(0.32 0.02 200)")}
+              >{label}</span>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

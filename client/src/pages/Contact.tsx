@@ -1,6 +1,6 @@
 /**
- * Contact — Euro Docks Service v2
- * Design: Opérateur Maritime — photo-driven, B2B maritime
+ * Contact — Euro Docks Service v3 SONAR
+ * DA : "SONAR / Instrument de bord" — Ink abyssal + Signal vert-lime
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -14,7 +14,7 @@ function useReveal<T extends HTMLElement>() {
     if (!el) return;
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold: 0.10 }
+      { threshold: 0.08 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -31,7 +31,7 @@ function Reveal({ children, className = "", delay = 0, dir = "up" }: {
     <div ref={ref} className={className} style={{
       opacity: visible ? 1 : 0,
       transform: visible ? "none" : t,
-      transition: `opacity 0.55s cubic-bezier(0.23,1,0.32,1) ${delay}ms, transform 0.55s cubic-bezier(0.23,1,0.32,1) ${delay}ms`,
+      transition: `opacity 0.65s cubic-bezier(0.23,1,0.32,1) ${delay}ms, transform 0.65s cubic-bezier(0.23,1,0.32,1) ${delay}ms`,
     }}>
       {children}
     </div>
@@ -39,9 +39,8 @@ function Reveal({ children, className = "", delay = 0, dir = "up" }: {
 }
 
 const IMGS = {
-  hero:  "/manus-storage/eds2_port_dunkerque_9fea8573.jpg",
-  night: "/manus-storage/eds2_stevedoring_night_f14f419a.jpg",
-  hatch: "/manus-storage/eds2_hatch_inspection_5a8b030b.jpg",
+  hero:  "/manus-storage/sonar_s3_quay_1898dc53.jpg",
+  night: "/manus-storage/sonar_s3_crane_89d5c612.jpg",
 };
 
 const offices = [
@@ -50,7 +49,7 @@ const offices = [
     role: "Siège social",
     address: "Port de Dunkerque, France",
     phone: "+33 (0)3 28 63 00 00",
-    email: "commercial@eurodocks.fr",
+    email: "commercial@eurodocks.com",
     services: ["Shipping Agency", "Chartering & Tramping", "Customs Brokerage"],
   },
   {
@@ -58,7 +57,7 @@ const offices = [
     role: "Terminal dédié",
     address: "Port de Boulogne-sur-Mer, France",
     phone: "+33 (0)3 21 99 00 00",
-    email: "boulogne@eurodocks.fr",
+    email: "boulogne@eurodocks.com",
     services: ["Port Terminal", "Stevedoring", "Maritime Survey"],
   },
   {
@@ -66,14 +65,35 @@ const offices = [
     role: "Terminaux grain",
     address: "Port de Rouen, France",
     phone: "+33 (0)2 35 52 00 00",
-    email: "rouen@eurodocks.fr",
+    email: "rouen@eurodocks.com",
     services: ["Grain Terminal", "Freight Forwarding", "Shipping Agency"],
   },
 ];
 
+const inputStyle: React.CSSProperties = {
+  width: "100%",
+  background: "oklch(0.12 0.03 200)",
+  border: "1px solid oklch(1 0 0 / 0.10)",
+  borderBottom: "1px solid oklch(0.82 0.18 145 / 0.25)",
+  padding: "0.875rem 1rem",
+  color: "oklch(0.90 0.005 200)",
+  fontFamily: "'IBM Plex Mono', monospace",
+  fontSize: "0.75rem",
+  outline: "none",
+  transition: "border-color 0.2s ease",
+};
+
+const labelStyle: React.CSSProperties = {
+  fontFamily: "'IBM Plex Mono', monospace",
+  fontSize: "0.58rem", letterSpacing: "0.12em",
+  textTransform: "uppercase" as const,
+  color: "oklch(0.82 0.18 145)",
+  display: "block", marginBottom: "0.4rem",
+};
+
 export default function Contact() {
   const [formData, setFormData] = useState({
-    name: "", company: "", email: "", phone: "", subject: "", message: "",
+    name: "", company: "", email: "", phone: "", service: "", message: "",
   });
   const [submitted, setSubmitted] = useState(false);
 
@@ -82,177 +102,270 @@ export default function Contact() {
     setSubmitted(true);
   };
 
-  const inputCss: React.CSSProperties = {
-    width: "100%",
-    background: "oklch(0.14 0.03 240)",
-    border: "1px solid oklch(1 0 0 / 0.12)",
-    padding: "0.875rem 1rem",
-    color: "oklch(0.90 0.01 240)",
-    fontFamily: "'Barlow', sans-serif",
-    fontSize: "0.88rem",
-    outline: "none",
-  };
-
   return (
-    <div className="min-h-screen" style={{ background: "oklch(0.08 0.015 240)" }}>
+    <div style={{ background: "var(--sonar-abyss)", minHeight: "100vh" }}>
 
-      {/* ── Hero : port Dunkerque plein fond ── */}
-      <section className="relative overflow-hidden" style={{ minHeight: "440px", paddingTop: "7rem" }}>
-        <img src={IMGS.hero} alt="Port de Dunkerque" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />
-        <div className="absolute inset-0" style={{
-          background: "linear-gradient(to bottom, oklch(0.08 0.015 240 / 0.60) 0%, oklch(0.08 0.015 240 / 0.92) 100%)"
+      {/* ── Hero ── */}
+      <section style={{ position: "relative", overflow: "hidden", minHeight: "480px" }}>
+        <img src={IMGS.hero} alt="" style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%",
+          objectFit: "cover", objectPosition: "center 40%",
         }} />
-        <div className="absolute inset-0" style={{
-          background: "linear-gradient(to right, oklch(0.08 0.015 240 / 0.85) 0%, transparent 65%)"
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(to bottom, oklch(0.08 0.025 200 / 0.60) 0%, oklch(0.08 0.025 200 / 0.95) 100%)",
         }} />
-        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 pb-14 flex flex-col justify-end" style={{ minHeight: "440px" }}>
-          <div className="max-w-2xl">
-            <div className="eds-tag mb-4">Contact</div>
-            <h1 className="eds-h1 mb-4" style={{ fontSize: "clamp(2.5rem, 7vw, 5.5rem)" }}>
-              Parlons<br />
-              <span className="eds-accent">de votre</span><br />
-              projet.
-            </h1>
-            <p className="text-base max-w-xl" style={{ color: "oklch(0.68 0.015 240)", lineHeight: 1.7 }}>
-              Affrètement, agence maritime, transit multimodal ou terminal portuaire — notre équipe répond sous 24 heures.
-            </p>
+        <div className="sonar-bathymetric" style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.4 }} />
+        <div className="container" style={{ position: "relative", zIndex: 1, paddingTop: "5rem", paddingBottom: "5rem" }}>
+          <div style={{
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: "0.62rem", letterSpacing: "0.15em",
+            color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
+            display: "flex", alignItems: "center", gap: "0.75rem",
+            marginBottom: "1.5rem",
+          }}>
+            <span style={{ width: "24px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
+            Contact
           </div>
+          <h1 style={{
+            fontFamily: "'Archivo', sans-serif",
+            fontWeight: 900, fontSize: "clamp(3rem, 8vw, 7rem)",
+            letterSpacing: "-0.03em", textTransform: "uppercase",
+            color: "oklch(0.97 0.005 200)", lineHeight: 0.92,
+            marginBottom: "1.5rem",
+          }}>
+            PARLONS<br />
+            <span style={{ color: "oklch(0.82 0.18 145)" }}>DE VOTRE PROJET.</span>
+          </h1>
+          <p style={{
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: "0.80rem", color: "oklch(0.60 0.025 200)",
+            lineHeight: 1.7, maxWidth: "480px",
+          }}>
+            Affrètement, agence maritime, transit multimodal ou terminal portuaire —
+            notre équipe répond sous 24 heures.
+          </p>
         </div>
       </section>
 
-      {/* ── Formulaire + infos ── */}
-      <section style={{ background: "oklch(0.10 0.015 240)" }}>
-        <div className="max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
+      {/* ── Formulaire + Infos ── */}
+      <section style={{ background: "var(--sonar-deep)", padding: "5rem 0" }}>
+        <div className="container">
+          <div style={{
+            display: "grid", gridTemplateColumns: "1.4fr 1fr",
+            gap: "4rem", alignItems: "start",
+          }} className="grid-cols-1 lg:grid-cols-2">
 
-            {/* Formulaire — 3 colonnes */}
-            <Reveal dir="left" className="lg:col-span-3">
-              <div className="eds-tag mb-4">Envoyer un message</div>
-              <h2 className="eds-h2 mb-8">
-                Demande<br />
-                <span className="eds-accent">de devis.</span>
-              </h2>
-
-              {submitted ? (
-                <div className="p-8 text-center" style={{
-                  background: "oklch(0.14 0.03 240)",
-                  border: "1px solid oklch(0.72 0.14 65 / 0.30)",
-                  borderTop: "2px solid oklch(0.72 0.14 65)",
+            {/* Formulaire */}
+            <Reveal dir="left">
+              <div>
+                <div style={{
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "0.60rem", letterSpacing: "0.15em",
+                  color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
+                  display: "flex", alignItems: "center", gap: "0.75rem",
+                  marginBottom: "1rem",
                 }}>
-                  <div className="eds-tag mb-4 justify-center">Message envoyé</div>
-                  <h3 className="eds-h3 mb-3">Votre demande a été transmise.</h3>
-                  <p className="text-sm" style={{ color: "oklch(0.62 0.015 240)" }}>
-                    Notre équipe commerciale vous répondra sous 24 heures ouvrées.
-                  </p>
+                  <span style={{ width: "20px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
+                  Envoyer un message
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "oklch(0.72 0.14 65)" }}>Nom *</label>
-                      <input type="text" required value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        style={inputCss} placeholder="Jean Dupont" />
+                <h2 style={{
+                  fontFamily: "'Archivo', sans-serif",
+                  fontWeight: 900, fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
+                  letterSpacing: "-0.025em", textTransform: "uppercase",
+                  color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
+                  marginBottom: "2rem",
+                }}>
+                  DEMANDE<br />
+                  <span style={{ color: "oklch(0.82 0.18 145)" }}>DE DEVIS.</span>
+                </h2>
+
+                {submitted ? (
+                  <div style={{
+                    border: "1px solid oklch(0.82 0.18 145 / 0.30)",
+                    borderTop: "1.5px solid oklch(0.82 0.18 145)",
+                    padding: "2rem",
+                    background: "oklch(0.82 0.18 145 / 0.05)",
+                  }}>
+                    <div style={{
+                      fontFamily: "'Archivo', sans-serif",
+                      fontWeight: 800, fontSize: "1.2rem",
+                      textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
+                      marginBottom: "0.5rem",
+                    }}>MESSAGE ENVOYÉ</div>
+                    <p style={{
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: "0.72rem", color: "oklch(0.58 0.025 200)",
+                      lineHeight: 1.7,
+                    }}>
+                      Notre équipe commerciale vous répondra sous 24 heures ouvrées.
+                    </p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                      <div>
+                        <label style={labelStyle}>NOM *</label>
+                        <input
+                          type="text" placeholder="Jean Dupont" required
+                          value={formData.name}
+                          onChange={e => setFormData(f => ({ ...f, name: e.target.value }))}
+                          style={inputStyle}
+                          onFocus={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145)")}
+                          onBlur={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145 / 0.25)")}
+                        />
+                      </div>
+                      <div>
+                        <label style={labelStyle}>SOCIÉTÉ *</label>
+                        <input
+                          type="text" placeholder="Armateur SA" required
+                          value={formData.company}
+                          onChange={e => setFormData(f => ({ ...f, company: e.target.value }))}
+                          style={inputStyle}
+                          onFocus={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145)")}
+                          onBlur={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145 / 0.25)")}
+                        />
+                      </div>
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                      <div>
+                        <label style={labelStyle}>EMAIL *</label>
+                        <input
+                          type="email" placeholder="contact@armateur.com" required
+                          value={formData.email}
+                          onChange={e => setFormData(f => ({ ...f, email: e.target.value }))}
+                          style={inputStyle}
+                          onFocus={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145)")}
+                          onBlur={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145 / 0.25)")}
+                        />
+                      </div>
+                      <div>
+                        <label style={labelStyle}>TÉLÉPHONE</label>
+                        <input
+                          type="tel" placeholder="+33 6 00 00 00 00"
+                          value={formData.phone}
+                          onChange={e => setFormData(f => ({ ...f, phone: e.target.value }))}
+                          style={inputStyle}
+                          onFocus={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145)")}
+                          onBlur={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145 / 0.25)")}
+                        />
+                      </div>
                     </div>
                     <div>
-                      <label className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "oklch(0.72 0.14 65)" }}>Société *</label>
-                      <input type="text" required value={formData.company}
-                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                        style={inputCss} placeholder="Armateur SA" />
+                      <label style={labelStyle}>SERVICE *</label>
+                      <select
+                        required
+                        value={formData.service}
+                        onChange={e => setFormData(f => ({ ...f, service: e.target.value }))}
+                        style={{ ...inputStyle, cursor: "pointer" }}
+                        onFocus={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145)")}
+                        onBlur={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145 / 0.25)")}
+                      >
+                        <option value="" disabled>Sélectionner un service</option>
+                        <option value="agency">Agence Maritime</option>
+                        <option value="charter">Affrètement Tramping</option>
+                        <option value="customs">Courtage en Douane</option>
+                        <option value="survey">Expertise Maritime</option>
+                        <option value="freight">Freight Forwarding</option>
+                        <option value="terminal">Port Terminal</option>
+                      </select>
                     </div>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "oklch(0.72 0.14 65)" }}>Email *</label>
-                      <input type="email" required value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        style={inputCss} placeholder="contact@armateur.com" />
+                      <label style={labelStyle}>MESSAGE *</label>
+                      <textarea
+                        rows={5} required
+                        placeholder="Décrivez votre projet : type de cargaison, port de chargement/déchargement, tonnage, période..."
+                        value={formData.message}
+                        onChange={e => setFormData(f => ({ ...f, message: e.target.value }))}
+                        style={{ ...inputStyle, resize: "vertical" }}
+                        onFocus={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145)")}
+                        onBlur={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145 / 0.25)")}
+                      />
                     </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "oklch(0.72 0.14 65)" }}>Téléphone</label>
-                      <input type="tel" value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        style={inputCss} placeholder="+33 6 00 00 00 00" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "oklch(0.72 0.14 65)" }}>Service *</label>
-                    <select required value={formData.subject}
-                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      style={{ ...inputCss, cursor: "pointer" }}>
-                      <option value="" disabled style={{ background: "oklch(0.14 0.03 240)" }}>Sélectionner un service</option>
-                      <option value="shipping" style={{ background: "oklch(0.14 0.03 240)" }}>Shipping Agency</option>
-                      <option value="chartering" style={{ background: "oklch(0.14 0.03 240)" }}>Chartering & Tramping</option>
-                      <option value="customs" style={{ background: "oklch(0.14 0.03 240)" }}>Customs Brokerage</option>
-                      <option value="survey" style={{ background: "oklch(0.14 0.03 240)" }}>Maritime Survey</option>
-                      <option value="freight" style={{ background: "oklch(0.14 0.03 240)" }}>Freight Forwarding</option>
-                      <option value="terminal" style={{ background: "oklch(0.14 0.03 240)" }}>Port Terminal</option>
-                      <option value="other" style={{ background: "oklch(0.14 0.03 240)" }}>Autre demande</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "oklch(0.72 0.14 65)" }}>Message *</label>
-                    <textarea required rows={5} value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      style={{ ...inputCss, resize: "none" }}
-                      placeholder="Décrivez votre projet : type de cargaison, port de chargement/déchargement, tonnage, période..." />
-                  </div>
-                  <button type="submit" className="eds-btn eds-btn-amber self-start">
-                    Envoyer la demande <ArrowRight size={14} />
-                  </button>
-                </form>
-              )}
+                    <button type="submit" className="sonar-btn sonar-btn-signal" style={{ alignSelf: "flex-start" }}>
+                      ENVOYER LA DEMANDE <ArrowRight size={13} />
+                    </button>
+                  </form>
+                )}
+              </div>
             </Reveal>
 
-            {/* Infos — 2 colonnes */}
-            <Reveal delay={80} dir="right" className="lg:col-span-2">
-              <div className="eds-tag mb-4">Réponse rapide</div>
-              <h2 className="eds-h2 mb-6">
-                Disponibles<br />
-                <span className="eds-accent">24h/24.</span>
-              </h2>
-
-              <div className="flex items-center gap-4 p-4 mb-6" style={{
-                background: "oklch(0.14 0.03 240)",
-                border: "1px solid oklch(0.72 0.14 65 / 0.25)",
-                borderLeft: "2px solid oklch(0.72 0.14 65)",
-              }}>
-                <Clock size={20} style={{ color: "oklch(0.72 0.14 65)", flexShrink: 0 }} />
-                <div>
-                  <div className="text-sm font-bold" style={{ color: "oklch(0.90 0.01 240)" }}>Réponse sous 24 heures</div>
-                  <div className="text-xs" style={{ color: "oklch(0.55 0.015 240)" }}>Jours ouvrés — urgences traitées immédiatement</div>
+            {/* Infos de contact */}
+            <Reveal dir="right" delay={100}>
+              <div>
+                <div style={{
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "0.60rem", letterSpacing: "0.15em",
+                  color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
+                  display: "flex", alignItems: "center", gap: "0.75rem",
+                  marginBottom: "1rem",
+                }}>
+                  <span style={{ width: "20px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
+                  Réponse rapide
                 </div>
-              </div>
-
-              <div className="flex flex-col gap-3 mb-6">
-                <a href="tel:+33328630000" className="flex items-center gap-3 p-4 transition-colors" style={{
-                  background: "oklch(0.14 0.03 240)",
-                  border: "1px solid oklch(1 0 0 / 0.08)",
+                <h2 style={{
+                  fontFamily: "'Archivo', sans-serif",
+                  fontWeight: 900, fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
+                  letterSpacing: "-0.02em", textTransform: "uppercase",
+                  color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
+                  marginBottom: "0.75rem",
+                }}>DISPONIBLES<br />24H/24.</h2>
+                <p style={{
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: "0.70rem", color: "oklch(0.55 0.025 200)",
+                  lineHeight: 1.7, marginBottom: "1.75rem",
                 }}>
-                  <Phone size={16} style={{ color: "oklch(0.72 0.14 65)", flexShrink: 0 }} />
-                  <div>
-                    <div className="text-xs font-bold uppercase tracking-wider" style={{ color: "oklch(0.72 0.14 65)" }}>Téléphone</div>
-                    <div className="text-sm" style={{ color: "oklch(0.88 0.01 240)" }}>+33 (0)3 28 63 00 00</div>
-                  </div>
-                </a>
-                <a href="mailto:commercial@eurodocks.fr" className="flex items-center gap-3 p-4 transition-colors" style={{
-                  background: "oklch(0.14 0.03 240)",
-                  border: "1px solid oklch(1 0 0 / 0.08)",
-                }}>
-                  <Mail size={16} style={{ color: "oklch(0.72 0.14 65)", flexShrink: 0 }} />
-                  <div>
-                    <div className="text-xs font-bold uppercase tracking-wider" style={{ color: "oklch(0.72 0.14 65)" }}>Email commercial</div>
-                    <div className="text-sm" style={{ color: "oklch(0.88 0.01 240)" }}>commercial@eurodocks.fr</div>
-                  </div>
-                </a>
-              </div>
+                  Notre équipe opérationnelle est disponible 24h/24 pour les urgences portuaires.
+                  Les demandes commerciales sont traitées sous 24 heures ouvrées.
+                </p>
 
-              {/* Image nuit */}
-              <div className="relative" style={{ height: "220px", borderRadius: "2px", overflow: "hidden" }}>
-                <img src={IMGS.night} alt="Opérations nocturnes" className="w-full h-full object-cover" style={{ objectPosition: "center 60%" }} />
-                <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 240 / 0.40)" }} />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="text-xs italic" style={{ color: "oklch(0.88 0.01 240)" }}>
+                {/* Infos clés */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "2rem" }}>
+                  {[
+                    { icon: <Clock size={14} />, label: "Réponse sous 24 heures", sub: "Jours ouvrés — urgences traitées immédiatement" },
+                    { icon: <Phone size={14} />, label: "+33 (0)3 28 63 00 00", sub: "TÉLÉPHONE" },
+                    { icon: <Mail size={14} />, label: "commercial@eurodocks.com", sub: "EMAIL COMMERCIAL" },
+                  ].map(({ icon, label, sub }) => (
+                    <div key={label} style={{
+                      display: "flex", alignItems: "flex-start", gap: "0.75rem",
+                      padding: "0.875rem 1rem",
+                      background: "oklch(1 0 0 / 0.03)",
+                      border: "1px solid oklch(1 0 0 / 0.08)",
+                      borderLeft: "2px solid oklch(0.82 0.18 145 / 0.40)",
+                    }}>
+                      <span style={{ color: "oklch(0.82 0.18 145)", marginTop: "1px", flexShrink: 0 }}>{icon}</span>
+                      <div>
+                        <div style={{
+                          fontFamily: "'IBM Plex Mono', monospace",
+                          fontSize: "0.62rem", letterSpacing: "0.08em",
+                          textTransform: "uppercase", color: "oklch(0.45 0.025 200)",
+                          marginBottom: "0.2rem",
+                        }}>{sub}</div>
+                        <div style={{
+                          fontFamily: "'IBM Plex Mono', monospace",
+                          fontSize: "0.72rem", fontWeight: 500,
+                          color: "oklch(0.85 0.01 200)",
+                        }}>{label}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Photo nuit */}
+                <div style={{ position: "relative", height: "220px", overflow: "hidden" }}>
+                  <img src={IMGS.night} alt="Opérations nocturnes" style={{
+                    width: "100%", height: "100%", objectFit: "cover",
+                  }} />
+                  <div style={{
+                    position: "absolute", inset: 0,
+                    background: "linear-gradient(to top, oklch(0.08 0.025 200 / 0.80) 0%, transparent 60%)",
+                  }} />
+                  <div style={{
+                    position: "absolute", bottom: "1rem", left: "1rem",
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontSize: "0.60rem", color: "oklch(0.65 0.025 200)",
+                    fontStyle: "italic",
+                  }}>
                     Opérations 24h/24 — Dunkerque, Boulogne, Rouen, Bayonne, Calais
                   </div>
                 </div>
@@ -262,45 +375,91 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* ── 3 agences : image hatch plein fond ── */}
-      <section className="relative overflow-hidden" style={{ minHeight: "500px" }}>
-        <img src={IMGS.hatch} alt="Inspection cale" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />
-        <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 240 / 0.88)" }} />
-        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-20">
+      {/* ── Agences ── */}
+      <section style={{ position: "relative", overflow: "hidden", padding: "5rem 0" }}>
+        <img src={IMGS.hero} alt="" style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%",
+          objectFit: "cover", objectPosition: "center 70%",
+        }} />
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "oklch(0.08 0.025 200 / 0.92)",
+        }} />
+        <div className="sonar-bathymetric" style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.3 }} />
+        <div className="container" style={{ position: "relative", zIndex: 1 }}>
           <Reveal className="mb-10">
-            <div className="eds-tag mb-4">Nos agences</div>
-            <h2 className="eds-h2">
-              Présents dans<br />
-              <span className="eds-accent">5 ports français.</span>
+            <div style={{
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: "0.60rem", letterSpacing: "0.15em",
+              color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
+              display: "flex", alignItems: "center", gap: "0.75rem",
+              marginBottom: "1rem",
+            }}>
+              <span style={{ width: "20px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
+              Nos agences
+            </div>
+            <h2 style={{
+              fontFamily: "'Archivo', sans-serif",
+              fontWeight: 900, fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
+              letterSpacing: "-0.025em", textTransform: "uppercase",
+              color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
+            }}>
+              PRÉSENTS DANS<br />
+              <span style={{ color: "oklch(0.82 0.18 145)" }}>5 PORTS FRANÇAIS.</span>
             </h2>
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1px" }} className="grid-cols-1 md:grid-cols-3">
             {offices.map((office, i) => (
               <Reveal key={office.city} delay={i * 80}>
-                <div className="p-6" style={{
+                <div style={{
                   background: "oklch(0 0 0 / 0.55)",
-                  backdropFilter: "blur(12px)",
-                  border: "1px solid oklch(1 0 0 / 0.10)",
-                  borderTop: "2px solid oklch(0.72 0.14 65)",
+                  backdropFilter: "blur(16px)",
+                  border: "1px solid oklch(1 0 0 / 0.08)",
+                  borderTop: "1.5px solid oklch(0.82 0.18 145 / 0.40)",
+                  padding: "2rem",
+                  height: "100%",
                 }}>
-                  <div className="eds-badge-amber eds-badge mb-4 self-start inline-flex">{office.role}</div>
-                  <h3 className="eds-h3 mb-1">{office.city}</h3>
-                  <div className="flex items-center gap-1.5 mb-4" style={{ color: "oklch(0.55 0.015 240)" }}>
-                    <MapPin size={10} />
-                    <span className="text-xs">{office.address}</span>
+                  <div style={{
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontSize: "0.58rem", letterSpacing: "0.12em",
+                    textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
+                    marginBottom: "0.5rem",
+                  }}>{office.role}</div>
+                  <h3 style={{
+                    fontFamily: "'Archivo', sans-serif",
+                    fontWeight: 800, fontSize: "1.4rem",
+                    textTransform: "uppercase", letterSpacing: "-0.01em",
+                    color: "oklch(0.97 0.005 200)", marginBottom: "1.25rem",
+                  }}>{office.city}</h3>
+
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "1.25rem" }}>
+                    {[
+                      { icon: <MapPin size={11} />, text: office.address },
+                      { icon: <Phone size={11} />, text: office.phone },
+                      { icon: <Mail size={11} />, text: office.email },
+                    ].map(({ icon, text }) => (
+                      <div key={text} style={{
+                        display: "flex", alignItems: "center", gap: "0.5rem",
+                        fontFamily: "'IBM Plex Mono', monospace",
+                        fontSize: "0.62rem", color: "oklch(0.52 0.025 200)",
+                      }}>
+                        <span style={{ color: "oklch(0.82 0.18 145)", flexShrink: 0 }}>{icon}</span>
+                        {text}
+                      </div>
+                    ))}
                   </div>
-                  <div className="flex flex-col gap-2 mb-4">
-                    <a href={`tel:${office.phone.replace(/\s/g, "")}`} className="flex items-center gap-2 text-xs hover:text-amber-400 transition-colors" style={{ color: "oklch(0.62 0.015 240)" }}>
-                      <Phone size={10} /> {office.phone}
-                    </a>
-                    <a href={`mailto:${office.email}`} className="flex items-center gap-2 text-xs hover:text-amber-400 transition-colors" style={{ color: "oklch(0.62 0.015 240)" }}>
-                      <Mail size={10} /> {office.email}
-                    </a>
-                  </div>
-                  <div style={{ borderTop: "1px solid oklch(1 0 0 / 0.08)", paddingTop: "0.75rem" }}>
-                    {office.services.map((s) => (
-                      <div key={s} className="text-xs mb-1" style={{ color: "oklch(0.55 0.015 240)" }}>
-                        — {s}
+
+                  <div style={{ borderTop: "1px solid oklch(1 0 0 / 0.08)", paddingTop: "1rem" }}>
+                    {office.services.map(s => (
+                      <div key={s} style={{
+                        fontFamily: "'IBM Plex Mono', monospace",
+                        fontSize: "0.60rem", color: "oklch(0.45 0.025 200)",
+                        padding: "0.2rem 0",
+                        display: "flex", alignItems: "center", gap: "0.4rem",
+                      }}>
+                        <span style={{ width: "10px", height: "1px", background: "oklch(0.82 0.18 145 / 0.40)", flexShrink: 0 }} />
+                        {s}
                       </div>
                     ))}
                   </div>

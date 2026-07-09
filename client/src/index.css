@@ -1,8 +1,9 @@
 /**
- * Euro Docks Service — Design System v2
- * Direction: "Opérateur Maritime" — Photo-driven, B2B, immersif
- * Palette: Noir opérationnel + Or ambre + Blanc technique
- * Typo: Barlow Condensed (titres) + Barlow (corps)
+ * Euro Docks Service — Design System SONAR v3
+ * Direction artistique : "SONAR / Instrument de bord"
+ * Palette : Ink abyssal (bleu-vert profond) + Signal vert-lime (radar/plotter)
+ * Typo : Archivo (monumentale) + IBM Plex Mono (data instrument)
+ * Motif : lignes bathymétriques, radar, plotter nautique
  */
 
 @import "tailwindcss";
@@ -49,500 +50,472 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/* ─── EDS TOKENS ─────────────────────────────────────────── */
+/* ─── SONAR TOKENS ─────────────────────────────────────────── */
 :root {
-  /* Couleurs EDS */
-  --eds-black:    oklch(0.10 0.01 240);
-  --eds-navy:     oklch(0.16 0.04 240);
-  --eds-steel:    oklch(0.28 0.03 240);
-  --eds-mid:      oklch(0.42 0.02 240);
-  --eds-muted:    oklch(0.58 0.015 240);
-  --eds-light:    oklch(0.78 0.01 240);
-  --eds-cream:    oklch(0.96 0.005 80);
-  --eds-white:    oklch(0.99 0 0);
-  --eds-amber:    oklch(0.72 0.14 65);
-  --eds-amber-dk: oklch(0.58 0.13 65);
-  --eds-amber-lt: oklch(0.88 0.10 75);
+  /* Palette SONAR */
+  --sonar-abyss:    oklch(0.08 0.025 200);   /* Ink abyssal — fond principal */
+  --sonar-deep:     oklch(0.12 0.035 200);   /* Profond — cards, sections */
+  --sonar-ocean:    oklch(0.18 0.045 200);   /* Océan — éléments secondaires */
+  --sonar-teal:     oklch(0.28 0.055 195);   /* Teal — bordures, séparateurs */
+  --sonar-mid:      oklch(0.42 0.04 200);    /* Mid — texte muted */
+  --sonar-light:    oklch(0.65 0.03 200);    /* Clair — texte secondaire */
+  --sonar-ghost:    oklch(0.82 0.015 200);   /* Ghost — texte tertiaire */
+  --sonar-white:    oklch(0.97 0.005 200);   /* Blanc technique */
+
+  /* Signal radar */
+  --sonar-signal:   oklch(0.82 0.18 145);    /* Vert-lime signal — accent principal */
+  --sonar-signal-dk:oklch(0.65 0.16 145);    /* Signal sombre */
+  --sonar-signal-lt:oklch(0.92 0.12 145);    /* Signal clair */
+  --sonar-signal-glow: oklch(0.82 0.18 145 / 0.25); /* Glow signal */
+
+  /* Ambre instrument */
+  --sonar-amber:    oklch(0.78 0.14 68);     /* Ambre — données chiffrées */
+  --sonar-amber-dk: oklch(0.62 0.13 68);
 
   /* Système shadcn */
-  --radius: 0.15rem;
-  --background: oklch(0.10 0.01 240);
-  --foreground: oklch(0.96 0.005 80);
-  --card: oklch(0.16 0.04 240);
-  --card-foreground: oklch(0.96 0.005 80);
-  --popover: oklch(0.16 0.04 240);
-  --popover-foreground: oklch(0.96 0.005 80);
-  --primary: oklch(0.72 0.14 65);
-  --primary-foreground: oklch(0.10 0.01 240);
-  --secondary: oklch(0.28 0.03 240);
-  --secondary-foreground: oklch(0.96 0.005 80);
-  --muted: oklch(0.22 0.02 240);
-  --muted-foreground: oklch(0.58 0.015 240);
-  --accent: oklch(0.72 0.14 65);
-  --accent-foreground: oklch(0.10 0.01 240);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 0.10);
-  --input: oklch(1 0 0 / 0.12);
-  --ring: oklch(0.72 0.14 65);
-  --chart-1: oklch(0.72 0.14 65);
-  --chart-2: oklch(0.58 0.13 65);
-  --chart-3: oklch(0.88 0.10 75);
-  --chart-4: oklch(0.42 0.02 240);
-  --chart-5: oklch(0.28 0.03 240);
-  --sidebar: oklch(0.16 0.04 240);
-  --sidebar-foreground: oklch(0.96 0.005 80);
-  --sidebar-primary: oklch(0.72 0.14 65);
-  --sidebar-primary-foreground: oklch(0.10 0.01 240);
-  --sidebar-accent: oklch(0.22 0.02 240);
-  --sidebar-accent-foreground: oklch(0.96 0.005 80);
-  --sidebar-border: oklch(1 0 0 / 0.10);
-  --sidebar-ring: oklch(0.72 0.14 65);
+  --radius: 0.1rem;
+  --background: oklch(0.08 0.025 200);
+  --foreground: oklch(0.97 0.005 200);
+  --card: oklch(0.12 0.035 200);
+  --card-foreground: oklch(0.97 0.005 200);
+  --popover: oklch(0.12 0.035 200);
+  --popover-foreground: oklch(0.97 0.005 200);
+  --primary: oklch(0.82 0.18 145);
+  --primary-foreground: oklch(0.08 0.025 200);
+  --secondary: oklch(0.18 0.045 200);
+  --secondary-foreground: oklch(0.97 0.005 200);
+  --muted: oklch(0.16 0.04 200);
+  --muted-foreground: oklch(0.55 0.03 200);
+  --accent: oklch(0.82 0.18 145);
+  --accent-foreground: oklch(0.08 0.025 200);
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.97 0 0);
+  --border: oklch(1 0 0 / 0.08);
+  --input: oklch(1 0 0 / 0.10);
+  --ring: oklch(0.82 0.18 145 / 0.50);
+  --chart-1: oklch(0.82 0.18 145);
+  --chart-2: oklch(0.78 0.14 68);
+  --chart-3: oklch(0.65 0.16 145);
+  --chart-4: oklch(0.42 0.04 200);
+  --chart-5: oklch(0.28 0.055 195);
+  --sidebar: oklch(0.12 0.035 200);
+  --sidebar-foreground: oklch(0.97 0.005 200);
+  --sidebar-accent: oklch(0.18 0.045 200);
+  --sidebar-accent-foreground: oklch(0.97 0.005 200);
+  --sidebar-border: oklch(1 0 0 / 0.08);
+  --sidebar-ring: oklch(0.82 0.18 145 / 0.50);
+  --sidebar-primary: oklch(0.82 0.18 145);
+  --sidebar-primary-foreground: oklch(0.08 0.025 200);
 }
 
-/* ─── BASE ───────────────────────────────────────────────── */
 @layer base {
-  * { @apply border-border outline-ring/50; }
-  html { scroll-behavior: smooth; }
+  * {
+    @apply border-border outline-ring/50;
+  }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Barlow', sans-serif;
-    -webkit-font-smoothing: antialiased;
+    font-family: 'Archivo', sans-serif;
+    background: var(--sonar-abyss);
+    color: var(--sonar-white);
+    overflow-x: hidden;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  a[href],
-  select:not(:disabled) {
+  a[href] {
     @apply cursor-pointer;
+  }
+  html {
+    scroll-behavior: smooth;
   }
 }
 
-/* ─── COMPOSANTS EDS ─────────────────────────────────────── */
 @layer components {
-
-  /* Container */
   .container {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
-  @media (min-width: 768px) {
-    .container { padding-left: 2rem; padding-right: 2rem; }
+  .flex {
+    min-height: 0;
+    min-width: 0;
   }
-  @media (min-width: 1280px) {
-    .container { padding-left: 3rem; padding-right: 3rem; max-width: 1440px; }
+  @media (min-width: 640px) {
+    .container { padding-left: 1.5rem; padding-right: 1.5rem; }
   }
-
-  .flex { min-height: 0; min-width: 0; }
-
-  /* ── Étiquette de section ── */
-  .eds-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: 'Barlow', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--eds-amber);
-  }
-  .eds-tag::before {
-    content: '';
-    display: block;
-    width: 1.5rem;
-    height: 1px;
-    background: var(--eds-amber);
-    flex-shrink: 0;
+  @media (min-width: 1024px) {
+    .container { padding-left: 2rem; padding-right: 2rem; max-width: 1440px; }
   }
 
-  /* ── Titres ── */
-  .eds-h1 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: clamp(3rem, 8vw, 7rem);
+  /* ── SONAR TYPOGRAPHY ── */
+  .sonar-display {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3.5rem, 10vw, 9rem);
     line-height: 0.92;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--sonar-white);
+  }
+
+  .sonar-h1 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.8rem, 7vw, 6.5rem);
+    line-height: 0.94;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+    color: var(--sonar-white);
+  }
+
+  .sonar-h2 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4.5vw, 4rem);
+    line-height: 0.96;
     letter-spacing: -0.02em;
     text-transform: uppercase;
-    color: var(--eds-white);
-  }
-  .eds-h2 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: clamp(2rem, 5vw, 4rem);
-    line-height: 0.95;
-    letter-spacing: -0.01em;
-    text-transform: uppercase;
-    color: var(--eds-white);
-  }
-  .eds-h2-dark {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: clamp(2rem, 5vw, 4rem);
-    line-height: 0.95;
-    letter-spacing: -0.01em;
-    text-transform: uppercase;
-    color: var(--eds-black);
-  }
-  .eds-h3 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
-    line-height: 1.05;
-    letter-spacing: 0.01em;
-    text-transform: uppercase;
-    color: var(--eds-white);
-  }
-  .eds-accent {
-    color: var(--eds-amber);
-    font-style: italic;
+    color: var(--sonar-white);
   }
 
-  /* ── Boutons ── */
-  .eds-btn {
+  .sonar-h3 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.2rem, 2.5vw, 2rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--sonar-white);
+  }
+
+  .sonar-mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--sonar-signal);
+  }
+
+  .sonar-mono-lg {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--sonar-signal);
+  }
+
+  .sonar-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sonar-signal);
+  }
+
+  .sonar-signal {
+    color: var(--sonar-signal);
+  }
+
+  .sonar-amber {
+    color: var(--sonar-amber);
+  }
+
+  /* ── SONAR BUTTONS ── */
+  .sonar-btn {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.85rem 2rem;
-    font-family: 'Barlow', sans-serif;
+    padding: 0.75rem 1.75rem;
+    font-family: 'IBM Plex Mono', monospace;
     font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
+    font-weight: 600;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    transition: all 180ms cubic-bezier(0.23, 1, 0.32, 1);
+    border: none;
+    cursor: pointer;
+    transition: all 0.18s cubic-bezier(0.23, 1, 0.32, 1);
+    text-decoration: none;
   }
-  .eds-btn:active { transform: scale(0.97); }
+  .sonar-btn:active { transform: scale(0.97); }
 
-  .eds-btn-amber {
-    background: var(--eds-amber);
-    color: var(--eds-black);
-    border: 1.5px solid var(--eds-amber);
+  .sonar-btn-signal {
+    background: var(--sonar-signal);
+    color: var(--sonar-abyss);
   }
-  .eds-btn-amber:hover {
-    background: var(--eds-amber-lt);
-    border-color: var(--eds-amber-lt);
+  .sonar-btn-signal:hover {
+    background: var(--sonar-signal-lt);
+    box-shadow: 0 0 24px var(--sonar-signal-glow);
   }
 
-  .eds-btn-ghost {
+  .sonar-btn-outline {
     background: transparent;
-    color: var(--eds-white);
-    border: 1.5px solid oklch(1 0 0 / 0.35);
+    color: var(--sonar-signal);
+    border: 1px solid var(--sonar-signal);
   }
-  .eds-btn-ghost:hover {
-    background: oklch(1 0 0 / 0.08);
-    border-color: oklch(1 0 0 / 0.6);
-  }
-
-  .eds-btn-outline-amber {
-    background: transparent;
-    color: var(--eds-amber);
-    border: 1.5px solid var(--eds-amber);
-  }
-  .eds-btn-outline-amber:hover {
-    background: var(--eds-amber);
-    color: var(--eds-black);
+  .sonar-btn-outline:hover {
+    background: var(--sonar-signal-glow);
+    box-shadow: 0 0 16px var(--sonar-signal-glow);
   }
 
-  /* ── Section photo-plein-fond ── */
-  .eds-photo-section {
+  .sonar-btn-ghost {
+    background: oklch(1 0 0 / 0.06);
+    color: var(--sonar-ghost);
+    border: 1px solid oklch(1 0 0 / 0.10);
+  }
+  .sonar-btn-ghost:hover {
+    background: oklch(1 0 0 / 0.10);
+    color: var(--sonar-white);
+  }
+
+  /* ── SONAR NAV ── */
+  .sonar-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 64px;
+    transition: background 0.3s ease, backdrop-filter 0.3s ease;
+  }
+  .sonar-nav-scrolled {
+    background: oklch(0.08 0.025 200 / 0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid oklch(1 0 0 / 0.06);
+  }
+
+  /* ── SONAR HUD ELEMENTS ── */
+  .sonar-hud-frame {
+    border: 1px solid var(--sonar-signal);
+    position: relative;
+  }
+  .sonar-hud-frame::before,
+  .sonar-hud-frame::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-color: var(--sonar-signal);
+    border-style: solid;
+  }
+  .sonar-hud-frame::before {
+    top: -1px; left: -1px;
+    border-width: 2px 0 0 2px;
+  }
+  .sonar-hud-frame::after {
+    bottom: -1px; right: -1px;
+    border-width: 0 2px 2px 0;
+  }
+
+  .sonar-data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid oklch(1 0 0 / 0.06);
+  }
+  .sonar-data-row:last-child { border-bottom: none; }
+
+  .sonar-data-key {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--sonar-mid);
+  }
+
+  .sonar-data-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--sonar-signal);
+  }
+
+  /* ── SONAR STAT ── */
+  .sonar-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .sonar-stat-value {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--sonar-amber);
+  }
+  .sonar-stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sonar-mid);
+  }
+
+  /* ── SONAR BADGE ── */
+  .sonar-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.6rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid var(--sonar-signal);
+    color: var(--sonar-signal);
+    background: var(--sonar-signal-glow);
+  }
+
+  /* ── SONAR CARD ── */
+  .sonar-card {
+    background: oklch(0.12 0.035 200 / 0.80);
+    backdrop-filter: blur(16px);
+    border: 1px solid oklch(1 0 0 / 0.08);
+    border-top: 1.5px solid var(--sonar-signal);
+    padding: 1.5rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .sonar-card:hover {
+    border-top-color: var(--sonar-signal-lt);
+    box-shadow: 0 0 24px oklch(0.82 0.18 145 / 0.08);
+  }
+
+  /* ── SONAR PHOTO SECTION ── */
+  .sonar-photo-section {
     position: relative;
     overflow: hidden;
   }
-  .eds-photo-section > .eds-photo-bg {
+  .sonar-photo-bg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
-    transition: transform 6s ease-out;
   }
-  .eds-photo-section:hover > .eds-photo-bg {
-    transform: scale(1.03);
-  }
-  .eds-overlay-dark {
+  .sonar-overlay-dark {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to bottom,
-      oklch(0.08 0.02 240 / 0.45) 0%,
-      oklch(0.08 0.02 240 / 0.72) 60%,
-      oklch(0.08 0.02 240 / 0.90) 100%
+    background: linear-gradient(to bottom,
+      oklch(0.08 0.025 200 / 0.30) 0%,
+      oklch(0.08 0.025 200 / 0.75) 70%,
+      oklch(0.08 0.025 200) 100%
     );
   }
-  .eds-overlay-left {
+  .sonar-overlay-left {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to right,
-      oklch(0.08 0.02 240 / 0.92) 0%,
-      oklch(0.08 0.02 240 / 0.70) 45%,
-      oklch(0.08 0.02 240 / 0.15) 100%
-    );
-  }
-  .eds-overlay-right {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to left,
-      oklch(0.08 0.02 240 / 0.92) 0%,
-      oklch(0.08 0.02 240 / 0.70) 45%,
-      oklch(0.08 0.02 240 / 0.15) 100%
-    );
-  }
-  .eds-overlay-bottom {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      oklch(0.08 0.02 240 / 0.95) 0%,
-      oklch(0.08 0.02 240 / 0.50) 50%,
+    background: linear-gradient(to right,
+      oklch(0.08 0.025 200 / 0.90) 0%,
+      oklch(0.08 0.025 200 / 0.55) 50%,
       transparent 100%
     );
   }
 
-  /* ── Carte de service sur photo ── */
-  .eds-service-card {
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-  }
-  .eds-service-card > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 500ms cubic-bezier(0.23, 1, 0.32, 1);
-  }
-  .eds-service-card:hover > img { transform: scale(1.06); }
-  .eds-service-card-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      oklch(0.06 0.02 240 / 0.95) 0%,
-      oklch(0.06 0.02 240 / 0.60) 50%,
-      oklch(0.06 0.02 240 / 0.20) 100%
-    );
-    transition: background 400ms ease;
-  }
-  .eds-service-card:hover .eds-service-card-overlay {
-    background: linear-gradient(
-      to top,
-      oklch(0.06 0.02 240 / 0.98) 0%,
-      oklch(0.06 0.02 240 / 0.80) 60%,
-      oklch(0.06 0.02 240 / 0.40) 100%
-    );
-  }
-  .eds-service-card-content {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 1.75rem;
-    transform: translateY(0);
-    transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
-  }
-  .eds-service-card-details {
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-height 400ms cubic-bezier(0.23, 1, 0.32, 1),
-                opacity 300ms ease;
-  }
-  .eds-service-card:hover .eds-service-card-details {
-    max-height: 200px;
-    opacity: 1;
+  /* ── SONAR BATHYMETRIC PATTERN ── */
+  .sonar-bathymetric {
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 39px,
+        oklch(0.82 0.18 145 / 0.04) 39px,
+        oklch(0.82 0.18 145 / 0.04) 40px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 79px,
+        oklch(0.82 0.18 145 / 0.03) 79px,
+        oklch(0.82 0.18 145 / 0.03) 80px
+      );
   }
 
-  /* ── Stat inline sur photo ── */
-  .eds-stat-pill {
-    display: inline-flex;
-    flex-direction: column;
-    padding: 1rem 1.5rem;
-    background: oklch(0 0 0 / 0.55);
-    backdrop-filter: blur(12px);
-    border: 1px solid oklch(1 0 0 / 0.12);
-    border-top: 2px solid var(--eds-amber);
-  }
-  .eds-stat-pill-value {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: 2rem;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    color: var(--eds-amber);
-  }
-  .eds-stat-pill-label {
-    font-size: 0.62rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: oklch(0.75 0.01 240);
-    margin-top: 0.25rem;
-  }
-
-  /* ── Ligne de séparation technique ── */
-  .eds-rule {
-    width: 100%;
-    height: 1px;
-    background: oklch(1 0 0 / 0.10);
-  }
-  .eds-rule-amber {
-    width: 2.5rem;
-    height: 2px;
-    background: var(--eds-amber);
-    margin-bottom: 1.25rem;
-  }
-
-  /* ── Badge technique ── */
-  .eds-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.3rem 0.75rem;
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    border: 1px solid oklch(1 0 0 / 0.20);
-    color: oklch(0.80 0.01 240);
-    background: oklch(1 0 0 / 0.06);
-  }
-  .eds-badge-amber {
-    border-color: var(--eds-amber);
-    color: var(--eds-amber);
-    background: oklch(0.72 0.14 65 / 0.08);
-  }
-
-  /* ── Tableau technique ── */
-  .eds-data-row {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid oklch(1 0 0 / 0.08);
-    gap: 1rem;
-  }
-  .eds-data-row:last-child { border-bottom: none; }
-  .eds-data-key {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: oklch(0.65 0.015 240);
-    letter-spacing: 0.04em;
-  }
-  .eds-data-value {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--eds-white);
-    text-align: right;
-    letter-spacing: 0.02em;
-  }
-
-  /* ── Animations ── */
+  /* ── SONAR REVEAL ANIMATIONS ── */
   @media (prefers-reduced-motion: no-preference) {
-    .eds-reveal {
+    .sonar-reveal {
       opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.55s cubic-bezier(0.23, 1, 0.32, 1),
-                  transform 0.55s cubic-bezier(0.23, 1, 0.32, 1);
+      transform: translateY(28px);
+      transition: opacity 0.65s cubic-bezier(0.23, 1, 0.32, 1),
+                  transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
     }
-    .eds-reveal.eds-visible {
+    .sonar-reveal.sonar-visible {
       opacity: 1;
       transform: translateY(0);
     }
-    .eds-reveal-left {
+    .sonar-reveal-left {
       opacity: 0;
       transform: translateX(-32px);
-      transition: opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1),
-                  transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      transition: opacity 0.65s cubic-bezier(0.23, 1, 0.32, 1),
+                  transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
     }
-    .eds-reveal-left.eds-visible {
+    .sonar-reveal-left.sonar-visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .sonar-reveal-right {
+      opacity: 0;
+      transform: translateX(32px);
+      transition: opacity 0.65s cubic-bezier(0.23, 1, 0.32, 1),
+                  transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .sonar-reveal-right.sonar-visible {
       opacity: 1;
       transform: translateX(0);
     }
   }
-}
 
-/* ─── SCROLL CINEMATIC — Styles globaux ─────────────────────── */
+  /* ── SONAR KEYFRAMES ── */
+  @keyframes sonar-ping {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.8); opacity: 0.2; }
+    100% { transform: scale(1); opacity: 0.8; }
+  }
 
-/* Cursor custom sur la section cinematic */
-.eds-cinematic-cursor {
-  cursor: none;
-}
+  @keyframes sonar-scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
 
-/* Noise grain overlay pour texture cinématique */
-.eds-noise::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 100;
-  mix-blend-mode: overlay;
-  opacity: 0.35;
-}
+  @keyframes sonar-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
 
-/* Keyframes pour les animations cinematic */
-@keyframes eds-scan-h {
-  0% { transform: translateY(-100vh); }
-  100% { transform: translateY(100vh); }
-}
+  @keyframes sonar-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
 
-@keyframes eds-pulse-dot {
-  0%, 100% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.6); opacity: 0.3; }
-}
+  @keyframes sonar-trace {
+    0% { stroke-dashoffset: 2000; opacity: 0; }
+    10% { opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 1; }
+  }
 
-@keyframes eds-float-up {
-  0% { transform: translateY(8px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
-}
+  @keyframes sonar-arc-particle {
+    0% { offset-distance: 0%; opacity: 0; }
+    5% { opacity: 1; }
+    95% { opacity: 1; }
+    100% { offset-distance: 100%; opacity: 0; }
+  }
 
-@keyframes eds-trace-route {
-  0% { stroke-dashoffset: 1000; }
-  100% { stroke-dashoffset: 0; }
-}
+  @keyframes sonar-count-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-/* Smooth scroll global */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Désactiver le scroll-behavior pour les sections sticky */
-.eds-cinematic-scroll {
-  scroll-behavior: auto;
-}
-
-/* Stat pill dans le cinematic */
-.eds-stat-pill {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  padding: 0.75rem 1rem;
-  background: oklch(0 0 0 / 0.50);
-  backdrop-filter: blur(12px);
-  border: 1px solid oklch(1 0 0 / 0.12);
-  border-top: 1.5px solid oklch(0.72 0.14 65 / 0.60);
-}
-
-.eds-stat-pill-value {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 800;
-  font-size: 1.6rem;
-  color: oklch(0.97 0.005 80);
-  line-height: 1;
-  letter-spacing: -0.01em;
-}
-
-.eds-stat-pill-label {
-  font-size: 0.6rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: oklch(0.55 0.015 240);
+  @keyframes sonar-grain-fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(80px) rotate(360deg); opacity: 0; }
+  }
 }
