@@ -13,7 +13,9 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { ArrowRight, Anchor, ChevronRight } from "lucide-react";
 import { useScrollScrub, mapRange, easeOutCubic, easeInOutCubic, SCENE_COUNT, SCENE_HEIGHT_VH } from "@/hooks/useScrollScrub";
 
-// ─── IMAGES ──────────────────────────────────────────────────
+// ─── MEDIA ───────────────────────────────────────────────────
+const VIDEO_S1 = "/manus-storage/eds_hero_topdown_66d185b6.mp4";
+
 const IMGS = {
   s1_wide:  "/manus-storage/sonar_s1_wide_4e87cc79.jpg",
   s1_close: "/manus-storage/sonar_s1_close_8d69acfc.jpg",
@@ -439,10 +441,13 @@ export function SonarScrollExperience() {
             transition: "opacity 0.4s ease",
           }}
         >
-          {/* Image wide — cargo à l'horizon */}
-          <img
-            src={IMGS.s1_wide}
-            alt="Cargo Panamax pleine mer"
+          {/* Vidéo cinématique top-down — cargo pleine mer */}
+          <video
+            src={VIDEO_S1}
+            autoPlay
+            loop
+            muted
+            playsInline
             style={{
               position: "absolute", inset: 0,
               width: "100%", height: "100%",
@@ -451,6 +456,19 @@ export function SonarScrollExperience() {
               opacity: s1WideOpacity,
               transition: "transform 0.05s linear",
               willChange: "transform",
+            }}
+          />
+          {/* Fallback image si la vidéo ne charge pas */}
+          <img
+            src={IMGS.s1_wide}
+            alt="Cargo Panamax pleine mer"
+            aria-hidden="true"
+            style={{
+              position: "absolute", inset: 0,
+              width: "100%", height: "100%",
+              objectFit: "cover",
+              opacity: 0,
+              pointerEvents: "none",
             }}
           />
           {/* Image close — flanc du navire */}
