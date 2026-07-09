@@ -1,262 +1,358 @@
 /**
- * About — Euro Docks Service
- * Design: Deep Navy Editorial
- * Histoire, valeurs, équipe
+ * À propos — Euro Docks Service v2
+ * Design: Opérateur Maritime — photo-driven, B2B maritime, immersif
  */
 
-import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { ArrowRight, Award, Globe, Shield, Clock } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, MapPin } from "lucide-react";
 
-function RevealSection({ children, className, style }: {
-  children: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
+function useReveal<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold: 0.10 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return { ref, visible };
+}
+
+function Reveal({ children, className = "", delay = 0, dir = "up" }: {
+  children: React.ReactNode; className?: string; delay?: number; dir?: "up" | "left" | "right";
 }) {
-  const { ref, isVisible } = useScrollReveal<HTMLDivElement>();
+  const { ref, visible } = useReveal<HTMLDivElement>();
+  const t = dir === "left" ? "translateX(-28px)" : dir === "right" ? "translateX(28px)" : "translateY(24px)";
   return (
     <div ref={ref} className={className} style={{
-      ...style,
-      opacity: isVisible ? 1 : 0,
-      transform: isVisible ? "translateY(0)" : "translateY(30px)",
-      transition: "opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1), transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
+      opacity: visible ? 1 : 0,
+      transform: visible ? "none" : t,
+      transition: `opacity 0.55s cubic-bezier(0.23,1,0.32,1) ${delay}ms, transform 0.55s cubic-bezier(0.23,1,0.32,1) ${delay}ms`,
     }}>
       {children}
     </div>
   );
 }
 
-const timeline = [
-  { year: "1975", event: "Fondation d'Euro Docks Service à Dunkerque. Enregistrement comme courtier en douane maritime." },
-  { year: "1985", event: "Développement des activités de chartering tramping sur les marchés Baltique et Continent." },
-  { year: "1995", event: "Ouverture de l'agence de Boulogne-sur-Mer. Développement du terminal dédié avec 800m de quai." },
-  { year: "2000", event: "Lancement des activités de Freight Forwarding multimodal — voies navigables, route, rail." },
-  { year: "2008", event: "Certification GMP+ pour le transport de grains. Expansion à Rouen — premier port céréalier d'Europe Occidentale." },
-  { year: "2015", event: "Manutention de 60 éoliennes offshore — démonstration de capacité en project cargo hors normes." },
-  { year: "2024", event: "7 M€ de chiffre d'affaires, 800 escales/an, 200 navires affrétés. Présence dans 5 ports français." },
-];
+const IMGS = {
+  hero:     "/manus-storage/eds2_hero_bulker_fe8bd601.jpg",
+  port:     "/manus-storage/eds2_port_dunkerque_9fea8573.jpg",
+  bridge:   "/manus-storage/eds2_chartering_bridge_e11c603a.jpg",
+  night:    "/manus-storage/eds2_stevedoring_night_f14f419a.jpg",
+  hatch:    "/manus-storage/eds2_hatch_inspection_5a8b030b.jpg",
+  grain:    "/manus-storage/eds2_grain_loading_6553e85f.jpg",
+};
 
-const values = [
-  {
-    icon: Award,
-    title: "Expertise opérationnelle",
-    desc: "Chaque membre de notre équipe est un spécialiste de son domaine. Pas de généralistes : des experts du tramping, de la douane, du survey et de la logistique multimodale.",
-  },
-  {
-    icon: Globe,
-    title: "Réseau international",
-    desc: "Nos partenariats avec les armateurs, les chargeurs et les agents portuaires couvrent les marchés Baltique, Continent, Méditerranée et Mer Noire.",
-  },
-  {
-    icon: Shield,
-    title: "Fiabilité totale",
-    desc: "Couverture d'assurance jusqu'à 9,5 M€. Enregistrés comme courtiers en douane depuis 1975. Une légitimité qui ne s'improvise pas.",
-  },
-  {
-    icon: Clock,
-    title: "Réactivité permanente",
-    desc: "Le tramping ne s'arrête pas la nuit. Notre équipe est disponible à chaque phase de l'opération, avec une réponse garantie sous 24 heures.",
-  },
+const timeline = [
+  { year: "1975", title: "Fondation", desc: "Création d'Euro Docks Service à Dunkerque. Enregistrement comme courtier en douane maritime sur les ports du Nord." },
+  { year: "1985", title: "Expansion", desc: "Ouverture des agences de Boulogne-sur-Mer et Calais. Développement de l'activité d'agence maritime sur la Manche." },
+  { year: "1995", title: "Terminal dédié", desc: "Construction du terminal dédié à Boulogne-sur-Mer : 800m de quai, 20 000 m² d'entrepôts GMP+, 57 500 m² de stockage extérieur." },
+  { year: "2005", title: "Tramping international", desc: "Développement de l'affrètement tramping sur les marchés Baltic, Continent, Méditerranée et Mer Noire." },
+  { year: "2015", title: "Certification GMP+", desc: "Obtention de la certification GMP+ Feed Safety pour le transport et le stockage de matières premières agricoles." },
+  { year: "2024", title: "Aujourd'hui", desc: "800+ escales par an, 200+ navires affrétés, 7 M€ de chiffre d'affaires. Leader sur le littoral français." },
 ];
 
 export default function About() {
   return (
-    <div className="min-h-screen" style={{ background: "oklch(0.975 0.005 80)" }}>
-      {/* Hero */}
-      <section className="relative pt-32 pb-20 overflow-hidden" style={{ background: "oklch(0.14 0.04 240)" }}>
-        <div className="absolute inset-0 opacity-20">
-          <img src="/manus-storage/eds_hero_ship_5b197371.jpg" alt="" className="w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />
-          <div className="absolute inset-0" style={{ background: "oklch(0.14 0.04 240 / 0.85)" }} />
-        </div>
-        {/* Chiffre fantôme */}
-        <div className="absolute -bottom-4 -right-4 pointer-events-none select-none" aria-hidden
-          style={{
-            fontFamily: "'Playfair Display', serif",
-            fontWeight: 900,
-            fontSize: "clamp(10rem, 22vw, 18rem)",
-            color: "oklch(0.975 0.005 80 / 0.03)",
-            lineHeight: 1,
-            letterSpacing: "-0.04em",
-          }}>
-          1975
-        </div>
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="eds-label mb-4" style={{ color: "oklch(0.65 0.12 65)" }}>Notre histoire</div>
-          <h1 style={{
-            fontFamily: "'Playfair Display', serif",
-            fontWeight: 700,
-            fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
-            color: "oklch(0.975 0.005 80)",
-            letterSpacing: "-0.025em",
-            marginBottom: "1.25rem",
-            maxWidth: "700px",
-          }}>
-            50 ans au service de la logistique maritime française.
-          </h1>
-          <p className="text-lg max-w-2xl" style={{ color: "oklch(0.72 0.02 240)" }}>
-            Fondée en 1975 à Dunkerque, Euro Docks Service est devenue l'une des agences maritimes de référence du littoral français, spécialisée dans le tramping, l'affrètement et les terminaux portuaires.
-          </p>
-        </div>
-      </section>
+    <div className="min-h-screen" style={{ background: "oklch(0.08 0.015 240)" }}>
 
-      {/* Histoire — timeline */}
-      <section className="py-20 lg:py-28">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <RevealSection className="mb-16">
-            <div className="eds-gold-rule" />
-            <div className="eds-label mb-3">Chronologie</div>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontWeight: 700,
-              fontSize: "clamp(1.75rem, 4vw, 3rem)",
-              color: "oklch(0.14 0.04 240)",
-            }}>
-              Cinq décennies d'excellence maritime.
-            </h2>
-          </RevealSection>
-
-          <div className="relative">
-            {/* Ligne verticale */}
-            <div className="absolute left-[5.5rem] top-0 bottom-0 w-px hidden lg:block"
-              style={{ background: "oklch(0.88 0.008 240)" }} />
-
-            <div className="flex flex-col gap-8">
-              {timeline.map(({ year, event }, i) => (
-                <RevealSection key={year} style={{ transitionDelay: `${i * 60}ms` }}>
-                  <div className="flex flex-col lg:flex-row gap-4 lg:gap-12 items-start">
-                    <div className="flex items-center gap-4 lg:w-36 shrink-0">
-                      <div style={{
-                        fontFamily: "'Playfair Display', serif",
-                        fontWeight: 900,
-                        fontSize: "1.5rem",
-                        color: "oklch(0.65 0.12 65)",
-                        letterSpacing: "-0.02em",
-                        minWidth: "4rem",
-                      }}>
-                        {year}
-                      </div>
-                      {/* Dot sur la timeline */}
-                      <div className="hidden lg:block w-3 h-3 rounded-full border-2 shrink-0"
-                        style={{
-                          borderColor: "oklch(0.65 0.12 65)",
-                          background: "oklch(0.975 0.005 80)",
-                          marginLeft: "auto",
-                        }} />
-                    </div>
-                    <div className="lg:pl-8 pb-4" style={{ borderBottom: "1px solid oklch(0.92 0.004 240)" }}>
-                      <p className="text-base leading-relaxed" style={{ color: "oklch(0.45 0.02 240)" }}>
-                        {event}
-                      </p>
-                    </div>
-                  </div>
-                </RevealSection>
+      {/* ── Hero : navire plein fond ── */}
+      <section className="relative overflow-hidden" style={{ minHeight: "520px", paddingTop: "7rem" }}>
+        <img src={IMGS.hero} alt="Euro Docks Service" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 30%" }} />
+        <div className="absolute inset-0" style={{
+          background: "linear-gradient(to bottom, oklch(0.08 0.015 240 / 0.55) 0%, oklch(0.08 0.015 240 / 0.90) 100%)"
+        }} />
+        <div className="absolute inset-0" style={{
+          background: "linear-gradient(to right, oklch(0.08 0.015 240 / 0.85) 0%, transparent 65%)"
+        }} />
+        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 pb-16 flex flex-col justify-end" style={{ minHeight: "520px" }}>
+          <div className="max-w-2xl">
+            <div className="eds-tag mb-4">À propos</div>
+            <h1 className="eds-h1 mb-4" style={{ fontSize: "clamp(2.5rem, 7vw, 5.5rem)" }}>
+              50 ans<br />
+              <span className="eds-accent">d'expertise</span><br />
+              maritime.
+            </h1>
+            <p className="text-base max-w-xl mb-8" style={{ color: "oklch(0.68 0.015 240)", lineHeight: 1.7 }}>
+              Depuis 1975, Euro Docks Service est l'opérateur maritime de référence sur le littoral français. Agence maritime, affrètement tramping, courtage en douane, terminal portuaire — une expertise complète au service des armateurs et affréteurs.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {[
+                { v: "1975", l: "Année de fondation" },
+                { v: "800+", l: "Escales / an" },
+                { v: "5", l: "Ports couverts" },
+                { v: "7 M€", l: "Chiffre d'affaires" },
+              ].map(({ v, l }) => (
+                <div key={l} className="eds-stat-pill">
+                  <span className="eds-stat-pill-value" style={{ fontSize: "1.3rem" }}>{v}</span>
+                  <span className="eds-stat-pill-label">{l}</span>
+                </div>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Valeurs */}
-      <section className="py-20 lg:py-28" style={{ background: "oklch(0.14 0.04 240)" }}>
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <RevealSection className="mb-16">
-            <div className="eds-gold-rule" />
-            <div className="eds-label mb-3" style={{ color: "oklch(0.65 0.12 65)" }}>Nos valeurs</div>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontWeight: 700,
-              fontSize: "clamp(1.75rem, 4vw, 3rem)",
-              color: "oklch(0.975 0.005 80)",
-            }}>
-              Ce qui nous distingue, depuis 1975.
-            </h2>
-          </RevealSection>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {values.map(({ icon: Icon, title, desc }) => (
-              <RevealSection key={title}>
-                <div className="p-8 h-full" style={{ background: "oklch(1 0 0 / 0.04)", border: "1px solid oklch(1 0 0 / 0.07)", borderRadius: "2px" }}>
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 flex items-center justify-center rounded shrink-0"
-                      style={{ background: "oklch(0.65 0.12 65 / 0.12)" }}>
-                      <Icon size={18} style={{ color: "oklch(0.65 0.12 65)" }} />
-                    </div>
-                    <div>
-                      <h3 style={{
-                        fontFamily: "'Playfair Display', serif",
-                        fontWeight: 600,
-                        fontSize: "1.15rem",
-                        color: "oklch(0.975 0.005 80)",
-                        marginBottom: "0.75rem",
-                      }}>
-                        {title}
-                      </h3>
-                      <p className="text-sm leading-relaxed" style={{ color: "oklch(0.72 0.02 240)" }}>
-                        {desc}
-                      </p>
-                    </div>
+      {/* ── Portrait : image port + texte ── */}
+      <section style={{ background: "oklch(0.10 0.015 240)" }}>
+        <div className="max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+            <Reveal dir="left">
+              <div className="relative" style={{ height: "560px", borderRadius: "2px", overflow: "hidden" }}>
+                <img src={IMGS.port} alt="Port de Dunkerque" className="w-full h-full object-cover" />
+                <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 240 / 0.15)" }} />
+                <div className="absolute top-4 left-4 eds-badge-amber eds-badge">
+                  <MapPin size={10} className="mr-1" /> Dunkerque — Siège social
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-6" style={{
+                  background: "linear-gradient(to top, oklch(0.06 0.015 240 / 0.95) 0%, transparent 100%)"
+                }}>
+                  <div className="text-xs italic mb-2" style={{ color: "oklch(0.72 0.14 65)" }}>
+                    « Notre force, c'est la connaissance intime de chaque port, de chaque quai, de chaque opération. »
+                  </div>
+                  <div className="text-xs" style={{ color: "oklch(0.50 0.015 240)" }}>
+                    Direction générale, Euro Docks Service
                   </div>
                 </div>
-              </RevealSection>
+              </div>
+            </Reveal>
+
+            <Reveal delay={80} dir="right">
+              <div className="eds-tag mb-4">Notre histoire</div>
+              <h2 className="eds-h2 mb-6">
+                L'opérateur<br />
+                <span className="eds-accent">de référence</span><br />
+                du littoral français.
+              </h2>
+              <p className="text-base mb-5" style={{ color: "oklch(0.62 0.015 240)", lineHeight: 1.7 }}>
+                Fondée en 1975 à Dunkerque, Euro Docks Service s'est imposée comme l'opérateur maritime incontournable sur les principaux ports français. Notre expertise couvre l'ensemble de la chaîne maritime : de l'agence portuaire à l'affrètement tramping, en passant par le courtage en douane et la gestion de terminaux dédiés.
+              </p>
+              <p className="text-base mb-8" style={{ color: "oklch(0.62 0.015 240)", lineHeight: 1.7 }}>
+                Avec 800 escales traitées par an, 200 navires affrétés et une présence dans 5 ports stratégiques, nous offrons à nos clients armateurs et affréteurs une réactivité et une expertise que seule une présence locale de 50 ans peut garantir.
+              </p>
+              <div className="mb-6" style={{
+                background: "oklch(0.14 0.03 240)",
+                padding: "1rem 1.25rem",
+                border: "1px solid oklch(1 0 0 / 0.08)",
+                borderLeft: "2px solid oklch(0.72 0.14 65)",
+              }}>
+                {[
+                  { k: "Siège social", v: "Dunkerque (Nord, France)" },
+                  { k: "Fondation", v: "1975" },
+                  { k: "Secteur", v: "Agence maritime · Tramping · Logistique" },
+                  { k: "Marchés", v: "Baltic · Continent · Méditerranée · Mer Noire" },
+                  { k: "Certifications", v: "GMP+ · OVAM · NIWO · IBG" },
+                ].map(({ k, v }) => (
+                  <div key={k} className="eds-data-row">
+                    <span className="eds-data-key">{k}</span>
+                    <span className="eds-data-value" style={{ fontSize: "0.78rem" }}>{v}</span>
+                  </div>
+                ))}
+              </div>
+              <a href="/contact" className="eds-btn eds-btn-amber">
+                Nous contacter <ArrowRight size={14} />
+              </a>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Timeline : image passerelle plein fond ── */}
+      <section className="relative overflow-hidden" style={{ minHeight: "600px" }}>
+        <img src={IMGS.bridge} alt="Passerelle de commandement" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />
+        <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 240 / 0.88)" }} />
+        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-20">
+          <Reveal className="mb-12">
+            <div className="eds-tag mb-4">Chronologie</div>
+            <h2 className="eds-h2">
+              50 ans de<br />
+              <span className="eds-accent">présence maritime.</span>
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {timeline.map((item, i) => (
+              <Reveal key={item.year} delay={i * 70}>
+                <div className="p-5" style={{
+                  background: "oklch(0 0 0 / 0.55)",
+                  backdropFilter: "blur(12px)",
+                  border: "1px solid oklch(1 0 0 / 0.10)",
+                  borderTop: i === timeline.length - 1 ? "2px solid oklch(0.72 0.14 65)" : "1px solid oklch(1 0 0 / 0.10)",
+                }}>
+                  <div style={{
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontWeight: 800,
+                    fontSize: "2.5rem",
+                    color: i === timeline.length - 1 ? "oklch(0.72 0.14 65)" : "oklch(0.35 0.015 240)",
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1,
+                    marginBottom: "0.5rem",
+                  }}>{item.year}</div>
+                  <div className="text-sm font-bold uppercase tracking-wider mb-2" style={{ color: "oklch(0.88 0.01 240)" }}>
+                    {item.title}
+                  </div>
+                  <div className="text-xs leading-relaxed" style={{ color: "oklch(0.58 0.015 240)" }}>
+                    {item.desc}
+                  </div>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Image pleine largeur avec citation */}
-      <section className="relative min-h-[380px] flex items-center overflow-hidden">
-        <img
-          src="/manus-storage/eds_chartering_1f6cba1a.jpg"
-          alt="Navigation maritime"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0" style={{ background: "oklch(0.09 0.03 240 / 0.78)" }} />
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 w-full">
-          <RevealSection className="max-w-3xl">
-            <div className="w-8 h-px mb-6" style={{ background: "oklch(0.65 0.12 65)" }} />
-            <blockquote style={{
-              fontFamily: "'Playfair Display', serif",
-              fontWeight: 400,
-              fontStyle: "italic",
-              fontSize: "clamp(1.25rem, 3vw, 2rem)",
-              color: "oklch(0.975 0.005 80)",
-              lineHeight: 1.5,
-              marginBottom: "1.5rem",
-            }}>
-              "Notre force réside dans notre connaissance intime de chaque port, de chaque contrainte opérationnelle, et dans notre capacité à proposer des solutions créatives là où d'autres voient des obstacles."
-            </blockquote>
-            <div className="text-sm font-semibold uppercase tracking-widest" style={{ color: "oklch(0.65 0.12 65)" }}>
-              Direction commerciale — Euro Docks Service
-            </div>
-          </RevealSection>
+      {/* ── Valeurs : image nuit + liste ── */}
+      <section style={{ background: "oklch(0.10 0.015 240)" }}>
+        <div className="max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+            <Reveal delay={80} dir="left">
+              <div className="eds-tag mb-4">Nos valeurs</div>
+              <h2 className="eds-h2 mb-6">
+                Réactivité.<br />
+                <span className="eds-accent">Expertise.</span><br />
+                Proximité.
+              </h2>
+              <p className="text-base mb-8" style={{ color: "oklch(0.62 0.015 240)", lineHeight: 1.7 }}>
+                Dans un secteur où chaque heure d'immobilisation coûte, notre valeur ajoutée repose sur trois piliers : la réactivité opérationnelle 24h/24, l'expertise technique accumulée en 50 ans, et la proximité physique avec chaque port d'opération.
+              </p>
+              <div className="flex flex-col gap-3">
+                {[
+                  { n: "01", title: "Réactivité 24h/24", desc: "Équipes disponibles à toute heure pour les urgences portuaires, les changements d'ETA et les incidents de cargaison." },
+                  { n: "02", title: "Expertise sectorielle", desc: "50 ans de présence sur les marchés du vrac sec, du breakbulk et du tramping. Connaissance intime de chaque terminal." },
+                  { n: "03", title: "Réseau local", desc: "Présence physique dans 5 ports stratégiques. Relations établies avec toutes les autorités portuaires françaises." },
+                  { n: "04", title: "Conformité réglementaire", desc: "Certifications GMP+, OVAM, NIWO, IBG. Courtier en douane enregistré depuis 1975." },
+                ].map((v, i) => (
+                  <Reveal key={v.n} delay={i * 60}>
+                    <div className="flex items-start gap-4 p-4" style={{
+                      background: "oklch(0.14 0.03 240)",
+                      border: "1px solid oklch(1 0 0 / 0.08)",
+                      borderLeft: "2px solid oklch(0.72 0.14 65)",
+                    }}>
+                      <div className="flex items-center justify-center shrink-0 w-8 h-8" style={{
+                        background: "oklch(0.72 0.14 65 / 0.10)",
+                        border: "1px solid oklch(0.72 0.14 65 / 0.25)",
+                      }}>
+                        <div style={{
+                          fontFamily: "'Barlow Condensed', sans-serif",
+                          fontWeight: 800,
+                          fontSize: "0.75rem",
+                          color: "oklch(0.72 0.14 65)",
+                        }}>{v.n}</div>
+                      </div>
+                      <div>
+                        <div className="text-sm font-bold uppercase tracking-wider mb-1" style={{ color: "oklch(0.90 0.01 240)" }}>
+                          {v.title}
+                        </div>
+                        <div className="text-xs leading-relaxed" style={{ color: "oklch(0.55 0.015 240)" }}>
+                          {v.desc}
+                        </div>
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </Reveal>
+
+            <Reveal dir="right">
+              <div className="relative" style={{ height: "640px", borderRadius: "2px", overflow: "hidden" }}>
+                <img src={IMGS.night} alt="Opérations nocturnes" className="w-full h-full object-cover" style={{ objectPosition: "center 50%" }} />
+                <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 240 / 0.25)" }} />
+                <div className="absolute bottom-0 left-0 right-0 p-5" style={{
+                  background: "linear-gradient(to top, oklch(0.06 0.015 240 / 0.95) 0%, transparent 100%)"
+                }}>
+                  <div className="eds-tag mb-3" style={{ fontSize: "0.58rem" }}>Zones d'opération</div>
+                  <div className="flex flex-col gap-2">
+                    {[
+                      { port: "Dunkerque", role: "Siège social · Agence & Tramping" },
+                      { port: "Boulogne-sur-Mer", role: "Terminal dédié · 800m de quai" },
+                      { port: "Rouen", role: "Terminaux grain · 3,6 Mt/an" },
+                      { port: "Bayonne", role: "Agence maritime & Transit" },
+                      { port: "Calais", role: "Agence maritime" },
+                    ].map(({ port, role }) => (
+                      <div key={port} className="flex items-start gap-2">
+                        <MapPin size={10} className="mt-0.5 shrink-0" style={{ color: "oklch(0.72 0.14 65)" }} />
+                        <div>
+                          <div className="text-xs font-semibold" style={{ color: "oklch(0.88 0.01 240)" }}>{port}</div>
+                          <div style={{ fontSize: "0.6rem", color: "oklch(0.50 0.015 240)" }}>{role}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 eds-section-dark">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <RevealSection>
-              <h2 style={{
-                fontFamily: "'Playfair Display', serif",
-                fontWeight: 700,
-                fontSize: "clamp(1.75rem, 4vw, 3rem)",
-                color: "oklch(0.975 0.005 80)",
-                marginBottom: "1.25rem",
-              }}>
-                Prêt à travailler avec les meilleurs ?
+      {/* ── Clients : image grain plein fond ── */}
+      <section className="relative overflow-hidden" style={{ minHeight: "400px" }}>
+        <img src={IMGS.grain} alt="Chargement de grain" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 50%" }} />
+        <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 240 / 0.88)" }} />
+        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-20">
+          <Reveal className="mb-10">
+            <div className="eds-tag mb-4">Clients de référence</div>
+            <h2 className="eds-h2">
+              Les plus grands<br />
+              <span className="eds-accent">nous font confiance.</span>
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+            {[
+              { name: "Glencore", sector: "Trading" },
+              { name: "Bunge", sector: "Agri-commodities" },
+              { name: "Soufflet", sector: "Céréales" },
+              { name: "Louis Dreyfus", sector: "Trading" },
+              { name: "Cargill", sector: "Agri-commodities" },
+              { name: "ArcelorMittal", sector: "Sidérurgie" },
+              { name: "Lafarge", sector: "Matériaux" },
+              { name: "Roquette", sector: "Agroalimentaire" },
+              { name: "Tereos", sector: "Sucre & Amidon" },
+              { name: "Eqiom", sector: "Matériaux" },
+            ].map(({ name, sector }, i) => (
+              <Reveal key={name} delay={i * 40}>
+                <div className="p-4 text-center" style={{
+                  background: "oklch(0 0 0 / 0.55)",
+                  backdropFilter: "blur(12px)",
+                  border: "1px solid oklch(1 0 0 / 0.10)",
+                }}>
+                  <div className="text-sm font-bold" style={{ color: "oklch(0.90 0.01 240)" }}>{name}</div>
+                  <div style={{ fontSize: "0.6rem", color: "oklch(0.50 0.015 240)", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: "0.25rem" }}>
+                    {sector}
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="relative overflow-hidden" style={{ minHeight: "340px" }}>
+        <img src={IMGS.hatch} alt="Inspection cale" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />
+        <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 240 / 0.85)" }} />
+        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-20">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+            <Reveal>
+              <div className="eds-tag mb-3">Travailler avec nous</div>
+              <h2 className="eds-h2">
+                Un projet maritime ?<br />
+                <span className="eds-accent">Parlons-en.</span>
               </h2>
-              <p className="text-base leading-relaxed" style={{ color: "oklch(0.72 0.02 240)" }}>
-                Découvrez nos services ou contactez directement notre équipe commerciale pour discuter de votre prochain projet.
-              </p>
-            </RevealSection>
-            <RevealSection className="flex flex-wrap gap-4 lg:justify-end">
-              <a href="/services" className="eds-btn-primary">
-                Nos services <ArrowRight size={15} />
-              </a>
-              <a href="/contact" className="eds-btn-outline">
-                Nous contacter
-              </a>
-            </RevealSection>
+            </Reveal>
+            <Reveal delay={100} dir="right">
+              <div className="flex flex-col gap-3">
+                <a href="/contact" className="eds-btn eds-btn-amber">
+                  Nous contacter <ArrowRight size={14} />
+                </a>
+                <a href="/services" className="eds-btn eds-btn-ghost">
+                  Voir nos services
+                </a>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>

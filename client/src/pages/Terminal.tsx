@@ -1,285 +1,311 @@
 /**
- * Port Terminal — Euro Docks Service
- * Design: Deep Navy Editorial
+ * Port Terminal — Euro Docks Service v2
+ * Design: Opérateur Maritime — photo-driven, B2B technique
  */
 
-import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { Warehouse, ArrowRight, Anchor, BarChart3 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, MapPin } from "lucide-react";
 
-function RevealSection({ children, className, style }: {
-  children: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
+function useReveal<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold: 0.10 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return { ref, visible };
+}
+
+function Reveal({ children, className = "", delay = 0, dir = "up" }: {
+  children: React.ReactNode; className?: string; delay?: number; dir?: "up" | "left" | "right";
 }) {
-  const { ref, isVisible } = useScrollReveal<HTMLDivElement>();
+  const { ref, visible } = useReveal<HTMLDivElement>();
+  const t = dir === "left" ? "translateX(-28px)" : dir === "right" ? "translateX(28px)" : "translateY(24px)";
   return (
     <div ref={ref} className={className} style={{
-      ...style,
-      opacity: isVisible ? 1 : 0,
-      transform: isVisible ? "translateY(0)" : "translateY(30px)",
-      transition: "opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1), transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
+      opacity: visible ? 1 : 0,
+      transform: visible ? "none" : t,
+      transition: `opacity 0.55s cubic-bezier(0.23,1,0.32,1) ${delay}ms, transform 0.55s cubic-bezier(0.23,1,0.32,1) ${delay}ms`,
     }}>
       {children}
     </div>
   );
 }
 
+const IMGS = {
+  hero:     "/manus-storage/eds2_boulogne_terminal_718d1e0f.jpg",
+  boulogne: "/manus-storage/eds2_boulogne_terminal_718d1e0f.jpg",
+  rouen:    "/manus-storage/eds2_rouen_grain_087bf488.jpg",
+  night:    "/manus-storage/eds2_stevedoring_night_f14f419a.jpg",
+  hatch:    "/manus-storage/eds2_hatch_inspection_5a8b030b.jpg",
+};
+
 export default function Terminal() {
   return (
-    <div className="min-h-screen" style={{ background: "oklch(0.975 0.005 80)" }}>
-      {/* Hero */}
-      <section className="relative pt-32 pb-20 overflow-hidden" style={{ background: "oklch(0.14 0.04 240)" }}>
-        <div className="absolute inset-0 opacity-25">
-          <img src="/manus-storage/eds_port_aerial_f00f9d1d.jpg" alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0" style={{ background: "oklch(0.14 0.04 240 / 0.8)" }} />
-        </div>
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="eds-label mb-4" style={{ color: "oklch(0.65 0.12 65)" }}>Infrastructure portuaire</div>
-          <h1 style={{
-            fontFamily: "'Playfair Display', serif",
-            fontWeight: 700,
-            fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
-            color: "oklch(0.975 0.005 80)",
-            letterSpacing: "-0.025em",
-            marginBottom: "1.25rem",
-          }}>
-            Port Terminal
-          </h1>
-          <p className="text-lg max-w-2xl" style={{ color: "oklch(0.72 0.02 240)" }}>
-            Des terminaux dédiés à Boulogne-sur-Mer et Rouen, avec des capacités de manutention et de stockage parmi les plus importantes du littoral français.
-          </p>
+    <div className="min-h-screen" style={{ background: "oklch(0.08 0.015 240)" }}>
+
+      {/* ── Hero : terminal Boulogne plein fond ── */}
+      <section className="relative overflow-hidden" style={{ minHeight: "520px", paddingTop: "7rem" }}>
+        <img src={IMGS.hero} alt="Terminal Boulogne-sur-Mer" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />
+        <div className="absolute inset-0" style={{
+          background: "linear-gradient(to bottom, oklch(0.08 0.015 240 / 0.65) 0%, oklch(0.08 0.015 240 / 0.90) 100%)"
+        }} />
+        <div className="absolute inset-0" style={{
+          background: "linear-gradient(to right, oklch(0.08 0.015 240 / 0.80) 0%, transparent 60%)"
+        }} />
+        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 pb-16 flex flex-col justify-end" style={{ minHeight: "520px" }}>
+          <div className="max-w-2xl">
+            <div className="eds-tag mb-4">Port Terminal</div>
+            <h1 className="eds-h1 mb-4" style={{ fontSize: "clamp(2.5rem, 7vw, 5.5rem)" }}>
+              Terminal<br />
+              <span className="eds-accent">Portuaire</span>
+            </h1>
+            <p className="text-base max-w-xl mb-8" style={{ color: "oklch(0.68 0.015 240)", lineHeight: 1.7 }}>
+              800 mètres de quai à Boulogne-sur-Mer, 77 500 m² de stockage certifié GMP+, et une présence dans tous les terminaux grain du port de Rouen.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {[
+                { v: "800 m", l: "Linéaire de quai" },
+                { v: "4", l: "Postes à quai" },
+                { v: "77 500 m²", l: "Stockage total" },
+                { v: "4,5 Mt", l: "Capacité annuelle" },
+              ].map(({ v, l }) => (
+                <div key={l} className="eds-stat-pill">
+                  <span className="eds-stat-pill-value" style={{ fontSize: "1.3rem" }}>{v}</span>
+                  <span className="eds-stat-pill-label">{l}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Chiffres globaux */}
-      <section className="py-12" style={{ background: "oklch(0.09 0.03 240)" }}>
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { value: "4,5 Mt", label: "Capacité annuelle totale" },
-              { value: "800m", label: "Linéaire de quai Boulogne" },
-              { value: "77 500m²", label: "Surface de stockage totale" },
-              { value: "120t", label: "Capacité max grue Rouen" },
-            ].map((s) => (
-              <div key={s.label} className="text-center py-4">
-                <div style={{
-                  fontFamily: "'Playfair Display', serif",
-                  fontWeight: 900,
-                  fontSize: "2.25rem",
-                  color: "oklch(0.65 0.12 65)",
-                  letterSpacing: "-0.02em",
-                }}>
-                  {s.value}
+      {/* ── Terminal Boulogne : image + données ── */}
+      <section style={{ background: "oklch(0.10 0.015 240)" }}>
+        <div className="max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            <Reveal dir="left">
+              <div className="relative" style={{ height: "560px", borderRadius: "2px", overflow: "hidden" }}>
+                <img src={IMGS.boulogne} alt="Terminal Boulogne-sur-Mer" className="w-full h-full object-cover" />
+                <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 240 / 0.20)" }} />
+                <div className="absolute top-4 left-4 eds-badge-amber eds-badge">
+                  <MapPin size={10} className="mr-1" /> Boulogne-sur-Mer
                 </div>
-                <div className="text-xs mt-1 uppercase tracking-widest" style={{ color: "oklch(0.62 0.025 240)" }}>
-                  {s.label}
+                <div className="absolute bottom-4 left-4 right-4 grid grid-cols-2 gap-2">
+                  {[
+                    { v: "800 m", l: "Linéaire de quai" },
+                    { v: "4", l: "Postes à quai" },
+                    { v: "20 000 m²", l: "Entrepôts GMP+" },
+                    { v: "57 500 m²", l: "Stockage extérieur" },
+                  ].map(({ v, l }) => (
+                    <div key={l} className="eds-stat-pill" style={{ padding: "0.6rem 0.9rem" }}>
+                      <span className="eds-stat-pill-value" style={{ fontSize: "1rem" }}>{v}</span>
+                      <span className="eds-stat-pill-label">{l}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
+            </Reveal>
+
+            <Reveal delay={80} dir="right">
+              <div className="eds-tag mb-4">Terminal Boulogne-sur-Mer</div>
+              <h2 className="eds-h2 mb-6">
+                Le terminal<br />
+                <span className="eds-accent">de référence</span><br />
+                de la Manche.
+              </h2>
+              <p className="text-base mb-6" style={{ color: "oklch(0.62 0.015 240)", lineHeight: 1.7 }}>
+                Situé dans le port de Boulogne-sur-Mer, notre terminal dispose de 800 mètres de quai, 4 postes à quai, des entrepôts certifiés GMP+ et 57 500 m² de stockage extérieur.
+              </p>
+
+              <div className="mb-6" style={{
+                background: "oklch(0.14 0.03 240)",
+                padding: "1rem 1.25rem",
+                border: "1px solid oklch(1 0 0 / 0.08)",
+                borderLeft: "2px solid oklch(0.72 0.14 65)",
+              }}>
+                {[
+                  { k: "Linéaire de quai", v: "800 mètres" },
+                  { k: "Postes à quai", v: "4 postes" },
+                  { k: "Entrepôts GMP+", v: "20 000 m²" },
+                  { k: "Stockage extérieur", v: "57 500 m²" },
+                  { k: "Tirant d'eau max", v: "10,5 mètres" },
+                  { k: "Capacité annuelle", v: "2,5 Mt" },
+                  { k: "Certification", v: "GMP+ Feed Safety" },
+                ].map(({ k, v }) => (
+                  <div key={k} className="eds-data-row">
+                    <span className="eds-data-key">{k}</span>
+                    <span className="eds-data-value" style={{ fontSize: "0.82rem" }}>{v}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mb-6">
+                <div className="eds-tag mb-3" style={{ fontSize: "0.58rem" }}>Cargaisons traitées</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {["Céréales", "Engrais", "Acier", "Granulats", "Bois", "Sel", "Charbon", "Produits chimiques"].map((c) => (
+                    <span key={c} className="eds-badge" style={{ fontSize: "0.6rem" }}>{c}</span>
+                  ))}
+                </div>
+              </div>
+
+              <a href="/contact" className="eds-btn eds-btn-amber">
+                Demander un devis <ArrowRight size={14} />
+              </a>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Opérations nocturnes : plein fond ── */}
+      <section className="relative overflow-hidden" style={{ minHeight: "420px" }}>
+        <img src={IMGS.night} alt="Opérations nocturnes" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 60%" }} />
+        <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 240 / 0.82)" }} />
+        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-20">
+          <Reveal className="mb-10">
+            <div className="eds-tag mb-4">Opérations de manutention</div>
+            <h2 className="eds-h2">
+              60 éoliennes.<br />
+              <span className="eds-accent">Des opérations</span><br />
+              hors normes.
+            </h2>
+          </Reveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {[
+              { title: "Manutention vrac", items: ["Céréales & grains", "Engrais", "Granulats", "Charbon", "Sel"] },
+              { title: "Breakbulk", items: ["Acier en bobines", "Tubes & profilés", "Bois & panneaux", "Colis industriels"] },
+              { title: "Heavy Lift", items: ["Éoliennes (60 unités)", "Générateurs", "Équipements industriels", "Pièces hors gabarit"] },
+              { title: "Liquides", items: ["Huiles végétales", "Mélasses", "Produits chimiques", "Bitume"] },
+            ].map(({ title, items }, i) => (
+              <Reveal key={title} delay={i * 60}>
+                <div className="p-5" style={{
+                  background: "oklch(0 0 0 / 0.55)",
+                  backdropFilter: "blur(12px)",
+                  border: "1px solid oklch(1 0 0 / 0.10)",
+                  borderTop: "2px solid oklch(0.72 0.14 65)",
+                }}>
+                  <div className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "oklch(0.72 0.14 65)" }}>{title}</div>
+                  {items.map((item) => (
+                    <div key={item} className="flex items-center gap-2 text-xs mb-1.5" style={{ color: "oklch(0.72 0.01 240)" }}>
+                      <div className="w-1 h-1 rounded-full shrink-0" style={{ background: "oklch(0.72 0.14 65)" }} />
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Terminal Boulogne */}
-      <section className="py-20 lg:py-28">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <RevealSection className="mb-12">
-            <div className="eds-gold-rule" />
-            <div className="eds-label mb-3">Terminal EDS Boulogne-sur-Mer</div>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontWeight: 700,
-              fontSize: "clamp(1.75rem, 4vw, 3rem)",
-              color: "oklch(0.14 0.04 240)",
-            }}>
-              Un terminal dédié au cœur du port de Boulogne.
-            </h2>
-          </RevealSection>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-            <RevealSection>
-              <div className="relative overflow-hidden rounded-sm" style={{ aspectRatio: "16/10" }}>
-                <img
-                  src="/manus-storage/eds_stevedoring_5289e3b9.jpg"
-                  alt="Terminal portuaire Boulogne-sur-Mer"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0" style={{
-                  background: "linear-gradient(to top, oklch(0.09 0.03 240 / 0.6) 0%, transparent 60%)"
-                }} />
-                <div className="absolute bottom-4 left-4">
-                  <div className="text-xs font-semibold uppercase tracking-widest" style={{ color: "oklch(0.65 0.12 65)" }}>
-                    Boulogne-sur-Mer
-                  </div>
-                  <div className="text-sm font-medium" style={{ color: "oklch(0.975 0.005 80)" }}>
-                    850 kt/an — Produits de construction & vrac
-                  </div>
-                </div>
-              </div>
-            </RevealSection>
-
-            <RevealSection>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  {
-                    icon: Anchor,
-                    title: "Infrastructure nautique",
-                    items: [
-                      "800m de quai",
-                      "4 postes à quai",
-                      "Tirant d'eau max 10,5m SW",
-                      "Navires jusqu'à 180m × 26m",
-                    ],
-                  },
-                  {
-                    icon: BarChart3,
-                    title: "Équipements de manutention",
-                    items: [
-                      "Grues 7m³",
-                      "Convoyeurs couverts",
-                      "Grue mobile heavy lift",
-                      "Convoyeurs mobiles 200t/h",
-                      "Trémies pesées",
-                      "Chargeurs pressurisés",
-                    ],
-                  },
-                  {
-                    icon: Warehouse,
-                    title: "Stockage couvert",
-                    items: [
-                      "Entrepôt 20 000m²",
-                      "Zones GMP+ (sécurité alimentaire)",
-                      "Stuffing & unstuffing containers",
-                      "Chargement camions-citernes",
-                    ],
-                  },
-                  {
-                    icon: Warehouse,
-                    title: "Stockage extérieur",
-                    items: [
-                      "Zone 1 : 17 500m² (30m du quai)",
-                      "Zone 2 : 40 000m² (150m du quai)",
-                      "Pont-bascule commercial",
-                      "Circuits courts quai-stockage",
-                    ],
-                  },
-                ].map(({ icon: Icon, title, items }) => (
-                  <div key={title} className="p-5 rounded-sm" style={{ background: "oklch(0.94 0.005 240)" }}>
-                    <div className="flex items-center gap-2 mb-3">
-                      <Icon size={15} style={{ color: "oklch(0.65 0.12 65)" }} />
-                      <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "oklch(0.35 0.04 240)" }}>
-                        {title}
-                      </span>
-                    </div>
-                    <ul className="flex flex-col gap-1.5">
-                      {items.map((item) => (
-                        <li key={item} className="text-xs flex items-center gap-2" style={{ color: "oklch(0.45 0.02 240)" }}>
-                          <span className="w-1 h-1 rounded-full shrink-0" style={{ background: "oklch(0.65 0.12 65)" }} />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </RevealSection>
-          </div>
-        </div>
-      </section>
-
-      {/* Terminal Rouen */}
-      <section className="py-20 lg:py-28" style={{ background: "oklch(0.22 0.05 240)" }}>
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <RevealSection className="mb-12">
-            <div className="eds-gold-rule" />
-            <div className="eds-label mb-3" style={{ color: "oklch(0.65 0.12 65)" }}>Terminal EDS Rouen</div>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontWeight: 700,
-              fontSize: "clamp(1.75rem, 4vw, 3rem)",
-              color: "oklch(0.975 0.005 80)",
-            }}>
-              Le premier port céréalier d'Europe Occidentale.
-            </h2>
-          </RevealSection>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-            <RevealSection>
-              <p className="text-base leading-relaxed mb-6" style={{ color: "oklch(0.72 0.02 240)" }}>
-                Euro Docks Service opère dans l'ensemble des terminaux du port de Rouen, traitant 3,6 millions de tonnes de céréales par an. Notre équipe dédiée maîtrise tous les types de produits et assure des solutions sur mesure pour chaque client.
+      {/* ── Terminal Rouen : image + données ── */}
+      <section style={{ background: "oklch(0.10 0.015 240)" }}>
+        <div className="max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            <Reveal delay={80} dir="left">
+              <div className="eds-tag mb-4">Terminal Rouen</div>
+              <h2 className="eds-h2 mb-6">
+                Premier port<br />
+                <span className="eds-accent">céréalier</span><br />
+                d'Europe.
+              </h2>
+              <p className="text-base mb-6" style={{ color: "oklch(0.62 0.015 240)", lineHeight: 1.7 }}>
+                Présence dans tous les terminaux grain du port de Rouen, premier port céréalier d'Europe. Notre équipe locale gère l'ensemble des opérations d'agence maritime et de transit.
               </p>
 
-              <div className="flex flex-col gap-3 mb-8">
+              <div className="mb-6" style={{
+                background: "oklch(0.14 0.03 240)",
+                padding: "1rem 1.25rem",
+                border: "1px solid oklch(1 0 0 / 0.08)",
+                borderLeft: "2px solid oklch(0.72 0.14 65)",
+              }}>
                 {[
-                  "Senalia", "Soufflet", "Beuzelin", "Lustucru",
-                  "Radicatel", "Lecureur", "Simarex (NATUP)",
-                ].map((terminal) => (
-                  <div key={terminal} className="flex items-center gap-3 text-sm"
-                    style={{ color: "oklch(0.78 0.015 240)" }}>
-                    <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "oklch(0.65 0.12 65)" }} />
-                    {terminal}
+                  { k: "Capacité annuelle", v: "3,6 Mt / an" },
+                  { k: "Spécialité", v: "Céréales & grains" },
+                  { k: "Rang européen", v: "1er port céréalier d'Europe" },
+                  { k: "Terminaux couverts", v: "Senalia · Soufflet · Beuzelin · Lustucru · Radicatel · Lecureur · Simarex" },
+                  { k: "Services", v: "Agence · Transit · Survey" },
+                ].map(({ k, v }) => (
+                  <div key={k} className="eds-data-row">
+                    <span className="eds-data-key">{k}</span>
+                    <span className="eds-data-value" style={{ fontSize: "0.78rem" }}>{v}</span>
                   </div>
                 ))}
               </div>
 
-              <a href="/contact" className="eds-btn-primary self-start inline-flex">
-                Demander un devis terminal <ArrowRight size={15} />
+              <a href="/contact" className="eds-btn eds-btn-amber">
+                Nous contacter <ArrowRight size={14} />
               </a>
-            </RevealSection>
+            </Reveal>
 
-            <RevealSection>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  { value: "3,6 Mt", label: "Céréales / an", desc: "Volume annuel traité dans les terminaux de Rouen" },
-                  { value: "120t", label: "Capacité grue max", desc: "Manutention de tous types de produits, toutes dimensions" },
-                  { value: "100%", label: "Terminaux couverts", desc: "Présence dans tous les terminaux grain du port de Rouen" },
-                  { value: "EDS", label: "Staff dédié", desc: "Équipe dédiée pour chaque opération de stevedoring" },
-                ].map((item) => (
-                  <div key={item.label} className="p-5 rounded-sm" style={{ background: "oklch(1 0 0 / 0.06)" }}>
-                    <div style={{
-                      fontFamily: "'Playfair Display', serif",
-                      fontWeight: 700,
-                      fontSize: "1.75rem",
-                      color: "oklch(0.65 0.12 65)",
-                      letterSpacing: "-0.02em",
-                    }}>
-                      {item.value}
-                    </div>
-                    <div className="text-xs font-semibold uppercase tracking-wider mt-1 mb-2"
-                      style={{ color: "oklch(0.85 0.01 240)" }}>
-                      {item.label}
-                    </div>
-                    <div className="text-xs leading-relaxed" style={{ color: "oklch(0.62 0.025 240)" }}>
-                      {item.desc}
-                    </div>
-                  </div>
-                ))}
+            <Reveal dir="right">
+              <div className="relative" style={{ height: "520px", borderRadius: "2px", overflow: "hidden" }}>
+                <img src={IMGS.rouen} alt="Port de Rouen" className="w-full h-full object-cover" />
+                <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 240 / 0.20)" }} />
+                <div className="absolute top-4 left-4 eds-badge-amber eds-badge">
+                  <MapPin size={10} className="mr-1" /> Rouen
+                </div>
+                <div className="absolute bottom-4 right-4 eds-stat-pill">
+                  <span className="eds-stat-pill-value">3,6 Mt</span>
+                  <span className="eds-stat-pill-label">Capacité annuelle</span>
+                </div>
               </div>
-            </RevealSection>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 eds-section-dark text-center">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <RevealSection>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontWeight: 700,
-              fontSize: "clamp(1.75rem, 4vw, 3rem)",
-              color: "oklch(0.975 0.005 80)",
-              marginBottom: "1.25rem",
-            }}>
-              Besoin de capacités de stockage ou de manutention ?
-            </h2>
-            <p className="text-base mb-8 max-w-xl mx-auto" style={{ color: "oklch(0.72 0.02 240)" }}>
-              Contactez notre équipe pour discuter de vos besoins en terminal portuaire.
-            </p>
-            <a href="/contact" className="eds-btn-primary">
-              Consulter nos disponibilités <ArrowRight size={15} />
-            </a>
-          </RevealSection>
+      {/* ── CTA : image hatch plein fond ── */}
+      <section className="relative overflow-hidden" style={{ minHeight: "360px" }}>
+        <img src={IMGS.hatch} alt="Inspection cale" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />
+        <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 240 / 0.85)" }} />
+        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <Reveal>
+              <div className="eds-tag mb-4">Prise de contact</div>
+              <h2 className="eds-h2 mb-4">
+                Un projet<br />
+                <span className="eds-accent">de terminal ?</span>
+              </h2>
+              <p className="text-base mb-6 max-w-md" style={{ color: "oklch(0.68 0.015 240)", lineHeight: 1.7 }}>
+                Notre équipe étudie votre besoin de stockage ou de manutention et vous propose une solution adaptée.
+              </p>
+              <a href="/contact" className="eds-btn eds-btn-amber">
+                Demander un devis <ArrowRight size={14} />
+              </a>
+            </Reveal>
+            <Reveal delay={120} dir="right">
+              <div className="flex flex-col gap-3">
+                {[
+                  { stat: "24h", label: "Délai de réponse" },
+                  { stat: "2 sites", label: "Boulogne + Rouen" },
+                  { stat: "GMP+", label: "Certification qualité" },
+                ].map(({ stat, label }) => (
+                  <div key={stat} className="flex items-center gap-4 p-4" style={{
+                    background: "oklch(0 0 0 / 0.55)",
+                    backdropFilter: "blur(12px)",
+                    border: "1px solid oklch(1 0 0 / 0.10)",
+                  }}>
+                    <div style={{
+                      fontFamily: "'Barlow Condensed', sans-serif",
+                      fontWeight: 800,
+                      fontSize: "1.8rem",
+                      color: "oklch(0.72 0.14 65)",
+                      letterSpacing: "-0.02em",
+                      minWidth: "4.5rem",
+                    }}>{stat}</div>
+                    <div className="text-sm" style={{ color: "oklch(0.68 0.01 240)" }}>{label}</div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
     </div>

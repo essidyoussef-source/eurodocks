@@ -1,85 +1,65 @@
 /**
- * Services — Shipping Services
- * Design: Deep Navy Editorial
+ * Services — Euro Docks Service v2
+ * Design: Opérateur Maritime — photo-driven, B2B technique
+ * Chaque service = image plein fond + données techniques superposées
  */
 
-import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { Anchor, Ship, Shield, BarChart3, ArrowRight, MapPin } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, ChevronRight, MapPin } from "lucide-react";
 
-function RevealSection({ children, className, style }: {
-  children: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
+function useReveal<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold: 0.10 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return { ref, visible };
+}
+
+function Reveal({ children, className = "", delay = 0, dir = "up" }: {
+  children: React.ReactNode; className?: string; delay?: number; dir?: "up" | "left" | "right";
 }) {
-  const { ref, isVisible } = useScrollReveal<HTMLDivElement>();
+  const { ref, visible } = useReveal<HTMLDivElement>();
+  const t = dir === "left" ? "translateX(-28px)" : dir === "right" ? "translateX(28px)" : "translateY(24px)";
   return (
     <div ref={ref} className={className} style={{
-      ...style,
-      opacity: isVisible ? 1 : 0,
-      transform: isVisible ? "translateY(0)" : "translateY(30px)",
-      transition: "opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1), transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
+      opacity: visible ? 1 : 0,
+      transform: visible ? "none" : t,
+      transition: `opacity 0.55s cubic-bezier(0.23,1,0.32,1) ${delay}ms, transform 0.55s cubic-bezier(0.23,1,0.32,1) ${delay}ms`,
     }}>
       {children}
     </div>
   );
 }
 
-// ─── Break éditorial entre groupes de services ──────────────────────────────
-function EditorialBreak({ stat, label, quote }: { stat: string; label: string; quote: string }) {
-  const { ref, isVisible } = useScrollReveal<HTMLDivElement>();
-  return (
-    <div ref={ref} className="relative overflow-hidden py-16 my-4"
-      style={{
-        background: "oklch(0.14 0.04 240)",
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? "translateY(0)" : "translateY(30px)",
-        transition: "opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1), transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
-      }}>
-      {/* Chiffre fantôme */}
-      <div className="absolute -top-4 -right-4 pointer-events-none select-none" aria-hidden
-        style={{
-          fontFamily: "'Playfair Display', serif",
-          fontWeight: 900,
-          fontSize: "clamp(8rem, 18vw, 14rem)",
-          color: "oklch(0.975 0.005 80 / 0.04)",
-          lineHeight: 1,
-          letterSpacing: "-0.04em",
-        }}>
-        {stat}
-      </div>
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-start lg:items-center gap-8">
-        <div style={{
-          fontFamily: "'Playfair Display', serif",
-          fontWeight: 900,
-          fontSize: "clamp(3.5rem, 8vw, 6rem)",
-          color: "oklch(0.65 0.12 65)",
-          lineHeight: 1,
-          letterSpacing: "-0.03em",
-          minWidth: "fit-content",
-        }}>
-          {stat}
-        </div>
-        <div style={{ borderLeft: "1px solid oklch(0.65 0.12 65 / 0.3)", paddingLeft: "2rem" }}>
-          <div className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "oklch(0.65 0.12 65)" }}>
-            {label}
-          </div>
-          <p className="text-base italic" style={{ color: "oklch(0.78 0.015 240)", fontFamily: "'Playfair Display', serif" }}>
-            "{quote}"
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
+const IMGS = {
+  hero:    "/manus-storage/eds2_hero_bulker_fe8bd601.jpg",
+  agency:  "/manus-storage/eds_hero_ship_5b197371.jpg",
+  charter: "/manus-storage/eds2_tramping_sea_fd8a56f5.jpg",
+  survey:  "/manus-storage/eds2_hatch_inspection_5a8b030b.jpg",
+  customs: "/manus-storage/eds2_grain_loading_6553e85f.jpg",
+  bridge:  "/manus-storage/eds2_chartering_bridge_e11c603a.jpg",
+};
 
 const services = [
   {
-    icon: Anchor,
-    title: "Shipping Agency",
-    subtitle: "800 escales / an",
-    description: "Représentation et assistance complète pour les navires en escale dans les ports français. Notre équipe assure la coordination entre le navire, les autorités portuaires, les chargeurs et les prestataires locaux.",
+    id: "agency",
+    img: IMGS.agency,
+    imgPos: "center 40%",
+    tag: "Shipping Agency",
+    title: "Agence Maritime",
+    stat: "800+",
+    statLabel: "Escales / an",
+    description: "Représentation et assistance complète pour les navires en escale dans les ports français. Notre équipe assure la coordination entre le navire, les autorités portuaires, les chargeurs et les prestataires locaux 24h/24.",
     ports: ["Dunkerque", "Boulogne-sur-Mer", "Calais", "Rouen", "Bayonne"],
-    details: [
+    prestations: [
       "Husbandry & Protective services",
       "Dry and liquid bulk",
       "Liner & Container ship",
@@ -87,14 +67,24 @@ const services = [
       "Project cargo",
       "Coordination douanière",
     ],
+    data: [
+      { k: "Escales traitées / an", v: "800+" },
+      { k: "Ports couverts", v: "5 ports français" },
+      { k: "Types de navires", v: "Bulk · Liner · Breakbulk · Tanker" },
+      { k: "Disponibilité", v: "24h/24 — 7j/7" },
+    ],
   },
   {
-    icon: Ship,
-    title: "Chartering & Tramping",
-    subtitle: "200 navires / an",
-    description: "Affrètement de navires sur les marchés Baltique, Continent, Méditerranée et Mer Noire. Du coaster au Panamax, nous négocions les meilleures conditions pour chaque type de cargaison.",
+    id: "charter",
+    img: IMGS.charter,
+    imgPos: "center 50%",
+    tag: "Chartering & Tramping",
+    title: "Affrètement Tramping",
+    stat: "200+",
+    statLabel: "Navires / an",
+    description: "Affrètement de navires sur les marchés Baltique, Continent, Méditerranée et Mer Noire. Du coaster au Panamax, nous négocions et gérons chaque opération avec la précision d'un partenaire de confiance.",
     ports: ["Baltic", "Continent", "Méditerranée", "Mer Noire"],
-    details: [
+    prestations: [
       "Coaster à Panamax vessels",
       "Dry bulk, Breakbulk",
       "Heavy lift & Project cargo",
@@ -102,29 +92,49 @@ const services = [
       "Suivi opérationnel complet",
       "Propositions créatives d'affrètement",
     ],
-  },
-  {
-    icon: Shield,
-    title: "Customs Ship Brokerage",
-    subtitle: "Enregistré depuis 1975",
-    description: "Courtage en douane maritime, enregistré dans les principaux ports français. Notre staff expérimenté gère l'ensemble des formalités douanières avec dépôt et garantie.",
-    ports: ["Dunkerque", "Boulogne-sur-Mer", "Calais", "Rouen", "Bayonne", "Le Havre"],
-    details: [
-      "Registered customs broker",
-      "Deposit & Garantee",
-      "Staff expérimenté depuis 1975",
-      "Formalités d'entrée/sortie",
-      "Régimes douaniers spéciaux",
-      "Assistance en cas de litige",
+    data: [
+      { k: "Navires affrétés / an", v: "200+" },
+      { k: "Marchés couverts", v: "Baltic · Continent · Med · Black Sea" },
+      { k: "Types de navires", v: "Coaster · Handysize · Supramax · Panamax" },
+      { k: "Cargaisons", v: "Dry Bulk · Breakbulk · Heavy Lift" },
     ],
   },
   {
-    icon: BarChart3,
-    title: "Maritime Survey",
-    subtitle: "Expertise technique",
-    description: "Expertise maritime complète couvrant le tirant d'eau, les tests d'étanchéité, le suivi des opérations de chargement et déchargement, et les rapports d'assurance P&I.",
+    id: "customs",
+    img: IMGS.customs,
+    imgPos: "center 60%",
+    tag: "Customs Ship Brokerage",
+    title: "Courtage en Douane",
+    stat: "1975",
+    statLabel: "Année d'enregistrement",
+    description: "Courtage en douane maritime, enregistré dans les principaux ports français depuis 1975. Notre staff expérimenté gère l'ensemble des formalités douanières avec dépôt et garantie.",
+    ports: ["Dunkerque", "Boulogne-sur-Mer", "Calais", "Rouen", "Le Havre"],
+    prestations: [
+      "Registered customs broker",
+      "Deposit & Garantee",
+      "Formalités d'entrée/sortie",
+      "Régimes douaniers spéciaux",
+      "Staff expérimenté depuis 1975",
+      "Assistance en cas de litige",
+    ],
+    data: [
+      { k: "Enregistrement", v: "Depuis 1975" },
+      { k: "Ports couverts", v: "Dunkerque · Boulogne · Calais · Rouen · Le Havre" },
+      { k: "Régimes", v: "Import · Export · Transit · Entrepôt" },
+      { k: "Garantie", v: "Deposit & Garantee inclus" },
+    ],
+  },
+  {
+    id: "survey",
+    img: IMGS.survey,
+    imgPos: "center 50%",
+    tag: "Maritime Survey",
+    title: "Expertise Maritime",
+    stat: "P&I",
+    statLabel: "Rapports certifiés",
+    description: "Expertise maritime complète couvrant le tirant d'eau, les tests d'étanchéité, les expertises de chargement/déchargement et les rapports d'assurance P&I pour armateurs et affréteurs.",
     ports: ["Dunkerque", "Boulogne-sur-Mer", "Calais", "Rouen"],
-    details: [
+    prestations: [
       "Draught surveying",
       "Ultrasonic leak test (Hose test)",
       "Loading / unloading follow-up",
@@ -134,190 +144,176 @@ const services = [
       "Holds cleaning",
       "Insurance / P&I report",
     ],
+    data: [
+      { k: "Spécialité", v: "Draught · Hose test · On/Off-hire" },
+      { k: "Ports couverts", v: "Dunkerque · Boulogne · Calais · Rouen" },
+      { k: "Assurance", v: "P&I reports certifiés" },
+      { k: "Délai rapport", v: "Sous 48 heures" },
+    ],
   },
 ];
 
 export default function Services() {
   return (
-    <div className="min-h-screen" style={{ background: "oklch(0.975 0.005 80)" }}>
-      {/* Hero de page */}
-      <section className="relative pt-32 pb-20 overflow-hidden" style={{ background: "oklch(0.14 0.04 240)" }}>
-        <div className="absolute inset-0 opacity-30">
-          <img
-            src="/manus-storage/eds_hero_ship_5b197371.jpg"
-            alt=""
-            className="w-full h-full object-cover"
-            style={{ objectPosition: "center 60%" }}
-          />
-          <div className="absolute inset-0" style={{ background: "oklch(0.14 0.04 240 / 0.8)" }} />
-        </div>
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="eds-label mb-4" style={{ color: "oklch(0.65 0.12 65)" }}>Nos expertises</div>
-          <h1 style={{
-            fontFamily: "'Playfair Display', serif",
-            fontWeight: 700,
-            fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
-            color: "oklch(0.975 0.005 80)",
-            letterSpacing: "-0.025em",
-            marginBottom: "1.25rem",
-          }}>
-            Shipping Services
+    <div className="min-h-screen" style={{ background: "oklch(0.08 0.015 240)" }}>
+
+      {/* ── Hero plein fond ── */}
+      <section className="relative overflow-hidden" style={{ minHeight: "440px", paddingTop: "7rem" }}>
+        <img src={IMGS.hero} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: "center 30%" }} />
+        <div className="absolute inset-0" style={{
+          background: "linear-gradient(to bottom, oklch(0.08 0.015 240 / 0.75) 0%, oklch(0.08 0.015 240 / 0.92) 100%)"
+        }} />
+        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 pb-16">
+          <div className="eds-tag mb-4">Nos expertises</div>
+          <h1 className="eds-h1 mb-4" style={{ fontSize: "clamp(2.5rem, 7vw, 5.5rem)" }}>
+            Shipping<br />
+            <span className="eds-accent">Services</span>
           </h1>
-          <p className="text-lg max-w-2xl" style={{ color: "oklch(0.72 0.02 240)" }}>
+          <p className="text-base max-w-xl" style={{ color: "oklch(0.68 0.015 240)", lineHeight: 1.7 }}>
             Agence maritime, affrètement tramping, courtage en douane et expertise maritime — une gamme complète de services opérés par des experts reconnus dans les ports français.
           </p>
-        </div>
-      </section>
-
-      {/* Chiffres clés */}
-      <section className="py-12" style={{ background: "oklch(0.09 0.03 240)" }}>
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="flex flex-wrap gap-3 mt-8">
             {[
-              { value: "800", label: "Escales traitées / an" },
-              { value: "200", label: "Navires affrétés / an" },
-              { value: "7M€", label: "Chiffre d'affaires" },
-              { value: "1975", label: "Année de création" },
-            ].map((s) => (
-              <div key={s.label} className="text-center py-4">
-                <div style={{
-                  fontFamily: "'Playfair Display', serif",
-                  fontWeight: 900,
-                  fontSize: "2.25rem",
-                  color: "oklch(0.65 0.12 65)",
-                  letterSpacing: "-0.02em",
-                }}>
-                  {s.value}
-                </div>
-                <div className="text-xs mt-1 uppercase tracking-widest" style={{ color: "oklch(0.62 0.025 240)" }}>
-                  {s.label}
-                </div>
+              { v: "800+", l: "Escales / an" },
+              { v: "200+", l: "Navires affrétés" },
+              { v: "7 M€", l: "Chiffre d'affaires" },
+              { v: "1975", l: "Année de création" },
+            ].map(({ v, l }) => (
+              <div key={l} className="eds-stat-pill">
+                <span className="eds-stat-pill-value" style={{ fontSize: "1.5rem" }}>{v}</span>
+                <span className="eds-stat-pill-label">{l}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Services détaillés */}
-      <section className="py-20 lg:py-28">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="flex flex-col gap-16">
-            {services.map((service, i) => {
-              const Icon = service.icon;
-              return (
-                <RevealSection key={service.title}>
-                  <div className={`grid grid-cols-1 lg:grid-cols-2 gap-10 items-start ${i % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
-                    {/* Contenu principal */}
-                    <div>
-                      <div className="flex items-center gap-4 mb-6">
-                        <div className="w-12 h-12 flex items-center justify-center rounded"
-                          style={{ background: "oklch(0.65 0.12 65 / 0.12)" }}>
-                          <Icon size={22} style={{ color: "oklch(0.65 0.12 65)" }} />
-                        </div>
-                        <div>
-                          <div className="text-xs font-semibold uppercase tracking-widest mb-0.5"
-                            style={{ color: "oklch(0.65 0.12 65)" }}>
-                            {service.subtitle}
-                          </div>
-                          <h2 style={{
-                            fontFamily: "'Playfair Display', serif",
-                            fontWeight: 700,
-                            fontSize: "1.75rem",
-                            color: "oklch(0.14 0.04 240)",
-                            letterSpacing: "-0.02em",
-                          }}>
-                            {service.title}
-                          </h2>
-                        </div>
-                      </div>
+      {/* ── Services : alternance image/contenu ── */}
+      {services.map((svc, i) => (
+        <section key={svc.id} style={{ background: i % 2 === 0 ? "oklch(0.10 0.015 240)" : "oklch(0.08 0.015 240)" }}>
+          <div className="max-w-[1440px] mx-auto px-5 lg:px-8 py-14 lg:py-20">
+            <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start`}>
 
-                      <div className="w-8 h-px mb-5" style={{ background: "oklch(0.65 0.12 65)" }} />
-
-                      <p className="text-base leading-relaxed mb-6" style={{ color: "oklch(0.45 0.02 240)" }}>
-                        {service.description}
-                      </p>
-
-                      {/* Ports */}
-                      <div className="flex flex-wrap gap-2 mb-6">
-                        {service.ports.map((p) => (
-                          <span key={p} className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-sm"
-                            style={{
-                              background: "oklch(0.94 0.005 240)",
-                              color: "oklch(0.35 0.04 240)",
-                            }}>
-                            <MapPin size={10} />
-                            {p}
-                          </span>
-                        ))}
-                      </div>
-
-                      <a href="/contact" className="eds-btn-primary self-start inline-flex">
-                        Demander un devis <ArrowRight size={15} />
-                      </a>
-                    </div>
-
-                    {/* Liste des prestations */}
-                    <div className="p-8 rounded-sm" style={{ background: "oklch(0.14 0.04 240)" }}>
-                      <div className="eds-label mb-5" style={{ color: "oklch(0.65 0.12 65)" }}>
-                        Prestations incluses
-                      </div>
-                      <ul className="flex flex-col gap-3">
-                        {service.details.map((d) => (
-                          <li key={d} className="flex items-center gap-3 text-sm"
-                            style={{ color: "oklch(0.78 0.015 240)" }}>
-                            <span className="w-1.5 h-1.5 rounded-full shrink-0"
-                              style={{ background: "oklch(0.65 0.12 65)" }} />
-                            {d}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+              {/* Image — alterne gauche/droite */}
+              <Reveal dir={i % 2 === 0 ? "left" : "right"} className={i % 2 === 1 ? "lg:order-2" : ""}>
+                <div className="relative" style={{ height: "520px", borderRadius: "2px", overflow: "hidden" }}>
+                  <img
+                    src={svc.img}
+                    alt={svc.title}
+                    className="w-full h-full object-cover"
+                    style={{
+                      objectPosition: svc.imgPos,
+                      transition: "transform 6s ease-out",
+                    }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1.04)"; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0" style={{
+                    background: "linear-gradient(to top, oklch(0.06 0.015 240 / 0.70) 0%, oklch(0.06 0.015 240 / 0.20) 60%, transparent 100%)"
+                  }} />
+                  {/* Tag */}
+                  <div className="absolute top-4 left-4 eds-badge-amber eds-badge">{svc.tag}</div>
+                  {/* Stat */}
+                  <div className="absolute top-4 right-4 eds-stat-pill">
+                    <span className="eds-stat-pill-value" style={{ fontSize: "1.3rem" }}>{svc.stat}</span>
+                    <span className="eds-stat-pill-label">{svc.statLabel}</span>
                   </div>
+                  {/* Ports */}
+                  <div className="absolute bottom-4 left-4 flex flex-wrap gap-1.5">
+                    {svc.ports.map((p) => (
+                      <span key={p} className="eds-badge" style={{ fontSize: "0.55rem" }}>
+                        <MapPin size={8} className="mr-1" />{p}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
 
-                  {i === 1 && (
-                    <EditorialBreak
-                      stat="800"
-                      label="Escales traitées par an"
-                      quote="Chaque escale est une opération unique. Notre équipe dédiée assure la coordination complète entre le navire, les autorités portuaires et les chargeurs."
-                    />
-                  )}
-                  {i === 3 && (
-                    <EditorialBreak
-                      stat="1975"
-                      label="Année d'enregistrement comme courtier en douane"
-                      quote="Près de 50 ans d'expertise douanière maritime dans les ports français. Une légitimité qui ne s'improvise pas."
-                    />
-                  )}
-                  {i !== 1 && i !== 3 && i < services.length - 1 && (
-                    <div className="mt-16 h-px" style={{ background: "oklch(0.88 0.008 240)" }} />
-                  )}
-                </RevealSection>
-              );
-            })}
+              {/* Contenu */}
+              <Reveal delay={80} dir={i % 2 === 0 ? "right" : "left"} className={i % 2 === 1 ? "lg:order-1" : ""}>
+                <div className="eds-tag mb-4">{svc.tag}</div>
+                <h2 className="eds-h2 mb-4">{svc.title}</h2>
+                <p className="text-base mb-6" style={{ color: "oklch(0.62 0.015 240)", lineHeight: 1.7 }}>
+                  {svc.description}
+                </p>
+
+                {/* Tableau données techniques */}
+                <div className="mb-6" style={{
+                  background: "oklch(0.14 0.03 240)",
+                  padding: "1rem 1.25rem",
+                  border: "1px solid oklch(1 0 0 / 0.08)",
+                  borderLeft: "2px solid oklch(0.72 0.14 65)",
+                }}>
+                  {svc.data.map(({ k, v }) => (
+                    <div key={k} className="eds-data-row">
+                      <span className="eds-data-key">{k}</span>
+                      <span className="eds-data-value" style={{ fontSize: "0.78rem" }}>{v}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Prestations */}
+                <div className="mb-6">
+                  <div className="eds-tag mb-3" style={{ fontSize: "0.58rem" }}>Prestations incluses</div>
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                    {svc.prestations.map((p) => (
+                      <div key={p} className="flex items-start gap-2 text-xs" style={{ color: "oklch(0.68 0.015 240)" }}>
+                        <ChevronRight size={11} className="mt-0.5 shrink-0" style={{ color: "oklch(0.72 0.14 65)" }} />
+                        {p}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <a href="/contact" className="eds-btn eds-btn-amber">
+                  Demander un devis <ArrowRight size={14} />
+                </a>
+              </Reveal>
+            </div>
           </div>
-        </div>
-      </section>
 
-      {/* CTA */}
-      <section className="py-20 eds-section-dark text-center">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <RevealSection>
-            <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontWeight: 700,
-              fontSize: "clamp(1.75rem, 4vw, 3rem)",
-              color: "oklch(0.975 0.005 80)",
-              marginBottom: "1.25rem",
-            }}>
-              Un projet d'affrètement ou d'agence maritime ?
-            </h2>
-            <p className="text-base mb-8 max-w-xl mx-auto" style={{ color: "oklch(0.72 0.02 240)" }}>
-              Contactez notre équipe commerciale pour un devis personnalisé sous 24 heures.
-            </p>
-            <a href="/contact" className="eds-btn-primary">
-              Nous contacter <ArrowRight size={15} />
-            </a>
-          </RevealSection>
+          {/* Séparateur */}
+          {i < services.length - 1 && (
+            <div style={{ height: "1px", background: "oklch(1 0 0 / 0.05)", margin: "0 2rem" }} />
+          )}
+        </section>
+      ))}
+
+      {/* ── Break éditorial : image passerelle plein fond ── */}
+      <section className="relative overflow-hidden" style={{ minHeight: "360px" }}>
+        <img src={IMGS.bridge} alt="" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0" style={{ background: "oklch(0.08 0.015 240 / 0.88)" }} />
+        <div className="relative z-10 max-w-[1440px] mx-auto px-5 lg:px-8 py-16 lg:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+            <Reveal className="lg:col-span-2">
+              <div className="eds-tag mb-4">Prise de contact</div>
+              <h2 className="eds-h2 mb-4">
+                Un projet d'affrètement<br />
+                <span className="eds-accent">ou d'agence maritime ?</span>
+              </h2>
+              <p className="text-base mb-6 max-w-md" style={{ color: "oklch(0.68 0.015 240)", lineHeight: 1.7 }}>
+                Contactez notre équipe commerciale pour un devis personnalisé sous 24 heures.
+              </p>
+              <a href="/contact" className="eds-btn eds-btn-amber">
+                Nous contacter <ArrowRight size={14} />
+              </a>
+            </Reveal>
+            <Reveal delay={120} dir="right">
+              <div className="flex flex-col gap-4">
+                {[
+                  { stat: "24h", label: "Délai de réponse" },
+                  { stat: "50 ans", label: "D'expertise maritime" },
+                  { stat: "5 ports", label: "De présence directe" },
+                ].map(({ stat, label }) => (
+                  <div key={stat} className="eds-stat-pill flex-row items-center gap-4" style={{ display: "flex" }}>
+                    <span className="eds-stat-pill-value" style={{ fontSize: "1.5rem", minWidth: "4rem" }}>{stat}</span>
+                    <span className="eds-stat-pill-label">{label}</span>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
     </div>
