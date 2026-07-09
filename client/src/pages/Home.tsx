@@ -4,12 +4,12 @@
  * Chaque section = une image cinématique plein fond + contenu technique superposé
  */
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import {
-  Anchor, Ship, Truck, Warehouse, BarChart3, Shield,
-  ArrowRight, ChevronDown, ChevronRight, MapPin, Globe
+  ArrowRight, ChevronDown, ChevronRight, MapPin
 } from "lucide-react";
+import { ScrollCinematic } from "@/components/ScrollCinematic";
 
 // ─── Hook scroll reveal ──────────────────────────────────────
 function useReveal<T extends HTMLElement>() {
@@ -161,70 +161,10 @@ export default function Home() {
     <div className="min-h-screen" style={{ background: "oklch(0.08 0.015 240)" }}>
 
       {/* ══════════════════════════════════════════════════════
-          HERO — Plein écran, navire Panamax, stats superposées
+          HERO — Scroll-Driven Cinematic Experience
+          3 actes : zoom cargo → cale grain → carte mondiale
       ══════════════════════════════════════════════════════ */}
-      <section className="eds-photo-section" style={{ height: "100vh", minHeight: "700px" }}>
-        <img src={IMGS.hero} alt="Bulk carrier en mer" className="eds-photo-bg" style={{ objectPosition: "center 35%" }} />
-        {/* Overlay gradient bas */}
-        <div className="absolute inset-0" style={{
-          background: "linear-gradient(to top, oklch(0.08 0.015 240) 0%, oklch(0.08 0.015 240 / 0.65) 35%, oklch(0.08 0.015 240 / 0.20) 70%, transparent 100%)"
-        }} />
-        {/* Overlay gauche */}
-        <div className="absolute inset-0" style={{
-          background: "linear-gradient(to right, oklch(0.08 0.015 240 / 0.80) 0%, oklch(0.08 0.015 240 / 0.30) 50%, transparent 100%)"
-        }} />
-
-        {/* Contenu hero */}
-        <div className="absolute inset-0 flex flex-col justify-end pb-16 lg:pb-20">
-          <div className="max-w-[1440px] mx-auto px-5 lg:px-8 w-full">
-            <div className="max-w-3xl">
-              <div className="eds-tag mb-5">Agence Maritime & Tramping — Depuis 1975</div>
-              <h1 className="eds-h1 mb-6">
-                L'intelligence<br />
-                opérationnelle<br />
-                <span className="eds-accent">au service</span><br />
-                de votre cargo.
-              </h1>
-              <p className="text-base lg:text-lg mb-8 max-w-xl" style={{
-                color: "oklch(0.75 0.01 240)",
-                fontWeight: 400,
-                lineHeight: 1.65,
-              }}>
-                Spécialiste du tramping, de l'affrètement dry bulk et des terminaux portuaires sur les ports de Dunkerque, Boulogne-sur-Mer, Rouen et Bayonne.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <a href="/contact" className="eds-btn eds-btn-amber">
-                  Demander un devis <ArrowRight size={14} />
-                </a>
-                <a href="/services" className="eds-btn eds-btn-ghost">
-                  Nos expertises
-                </a>
-              </div>
-            </div>
-
-            {/* Stats superposées en bas à droite */}
-            <div ref={statsRef} className="hidden lg:flex gap-3 absolute bottom-16 right-8">
-              <StatPill value={800} suffix="" label="Escales / an" active={statsVisible} />
-              <StatPill value={200} suffix="" label="Navires affrétés" active={statsVisible} />
-              <StatPill value={4500} suffix=" kt" label="Vrac traité" active={statsVisible} />
-              <StatPill value={7} suffix=" M€" label="Chiffre d'affaires" active={statsVisible} />
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 animate-bounce">
-          <ChevronDown size={18} style={{ color: "oklch(0.72 0.14 65)" }} />
-        </div>
-      </section>
-
-      {/* Stats mobile */}
-      <div className="lg:hidden grid grid-cols-2 gap-2 px-4 py-6" style={{ background: "oklch(0.10 0.015 240)" }}>
-        <StatPill value={800} suffix="" label="Escales / an" active={true} />
-        <StatPill value={200} suffix="" label="Navires affrétés" active={true} />
-        <StatPill value={4500} suffix=" kt" label="Vrac traité" active={true} />
-        <StatPill value={7} suffix=" M€" label="Chiffre d'affaires" active={true} />
-      </div>
+      <ScrollCinematic />
 
       {/* ══════════════════════════════════════════════════════
           SECTION 2 — SERVICES : grille de cartes photo
