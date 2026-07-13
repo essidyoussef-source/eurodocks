@@ -1,15 +1,27 @@
-/**
- * Euro Docks Service — Design System SONAR v3
- * Direction artistique : "SONAR / Instrument de bord"
- * Palette : Ink abyssal (bleu-vert profond) + Signal vert-lime (radar/plotter)
- * Typo : Archivo (monumentale) + IBM Plex Mono (data instrument)
- * Motif : lignes bathymétriques, radar, plotter nautique
- */
-
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+
+/* ═══════════════════════════════════════════════════════════════
+   EURO DOCKS SERVICE — Design System "MARITIME PRESTIGE"
+   Direction artistique : Élégance industrielle, sobre et puissante
+   
+   Palette :
+   - Fond : Blanc cassé / Ivoire chaud (#F7F4EF)
+   - Navy : Bleu marine profond (#0D1B2A)
+   - Or : Ambre doré (#B8860B → #C9973A)
+   - Acier : Gris bleuté (#4A5568)
+   - Crème : (#EDE8DF)
+   
+   Typographie :
+   - Display : Cormorant Garamond (serif élégant, autorité)
+   - Corps : Inter (lisibilité parfaite, neutralité)
+   - Mono : JetBrains Mono (données techniques)
+   
+   Philosophie : Pas de néon, pas de noir total, pas de typo condensée agressive.
+   Chaque page respire. Les photos parlent. Le texte guide.
+═══════════════════════════════════════════════════════════════ */
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -31,81 +43,45 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/* ─── SONAR TOKENS ─────────────────────────────────────────── */
 :root {
-  /* Palette SONAR */
-  --sonar-abyss:    oklch(0.08 0.025 200);   /* Ink abyssal — fond principal */
-  --sonar-deep:     oklch(0.12 0.035 200);   /* Profond — cards, sections */
-  --sonar-ocean:    oklch(0.18 0.045 200);   /* Océan — éléments secondaires */
-  --sonar-teal:     oklch(0.28 0.055 195);   /* Teal — bordures, séparateurs */
-  --sonar-mid:      oklch(0.42 0.04 200);    /* Mid — texte muted */
-  --sonar-light:    oklch(0.65 0.03 200);    /* Clair — texte secondaire */
-  --sonar-ghost:    oklch(0.82 0.015 200);   /* Ghost — texte tertiaire */
-  --sonar-white:    oklch(0.97 0.005 200);   /* Blanc technique */
+  --radius: 0.25rem;
 
-  /* Signal radar */
-  --sonar-signal:   oklch(0.82 0.18 145);    /* Vert-lime signal — accent principal */
-  --sonar-signal-dk:oklch(0.65 0.16 145);    /* Signal sombre */
-  --sonar-signal-lt:oklch(0.92 0.12 145);    /* Signal clair */
-  --sonar-signal-glow: oklch(0.82 0.18 145 / 0.25); /* Glow signal */
+  /* ── Tokens EDS Maritime Prestige ── */
+  --eds-ivory:    oklch(0.97 0.012 80);      /* Fond principal ivoire chaud */
+  --eds-cream:    oklch(0.93 0.018 78);      /* Fond secondaire crème */
+  --eds-navy:     oklch(0.16 0.04 240);      /* Navy profond */
+  --eds-navy-mid: oklch(0.25 0.05 235);      /* Navy intermédiaire */
+  --eds-gold:     oklch(0.68 0.12 72);       /* Or ambre */
+  --eds-gold-lt:  oklch(0.78 0.10 75);       /* Or clair */
+  --eds-steel:    oklch(0.45 0.025 240);     /* Gris acier bleuté */
+  --eds-steel-lt: oklch(0.65 0.018 240);     /* Gris acier clair */
+  --eds-white:    oklch(1 0 0);
+  --eds-ink:      oklch(0.20 0.025 240);     /* Texte principal */
 
-  /* Ambre instrument */
-  --sonar-amber:    oklch(0.78 0.14 68);     /* Ambre — données chiffrées */
-  --sonar-amber-dk: oklch(0.62 0.13 68);
-
-  /* Système shadcn */
-  --radius: 0.1rem;
-  --background: oklch(0.08 0.025 200);
-  --foreground: oklch(0.97 0.005 200);
-  --card: oklch(0.12 0.035 200);
-  --card-foreground: oklch(0.97 0.005 200);
-  --popover: oklch(0.12 0.035 200);
-  --popover-foreground: oklch(0.97 0.005 200);
-  --primary: oklch(0.82 0.18 145);
-  --primary-foreground: oklch(0.08 0.025 200);
-  --secondary: oklch(0.18 0.045 200);
-  --secondary-foreground: oklch(0.97 0.005 200);
-  --muted: oklch(0.16 0.04 200);
-  --muted-foreground: oklch(0.55 0.03 200);
-  --accent: oklch(0.82 0.18 145);
-  --accent-foreground: oklch(0.08 0.025 200);
-  --destructive: oklch(0.65 0.22 25);
-  --destructive-foreground: oklch(0.97 0 0);
-  --border: oklch(1 0 0 / 0.08);
-  --input: oklch(1 0 0 / 0.10);
-  --ring: oklch(0.82 0.18 145 / 0.50);
-  --chart-1: oklch(0.82 0.18 145);
-  --chart-2: oklch(0.78 0.14 68);
-  --chart-3: oklch(0.65 0.16 145);
-  --chart-4: oklch(0.42 0.04 200);
-  --chart-5: oklch(0.28 0.055 195);
-  --sidebar: oklch(0.12 0.035 200);
-  --sidebar-foreground: oklch(0.97 0.005 200);
-  --sidebar-accent: oklch(0.18 0.045 200);
-  --sidebar-accent-foreground: oklch(0.97 0.005 200);
-  --sidebar-border: oklch(1 0 0 / 0.08);
-  --sidebar-ring: oklch(0.82 0.18 145 / 0.50);
-  --sidebar-primary: oklch(0.82 0.18 145);
-  --sidebar-primary-foreground: oklch(0.08 0.025 200);
+  /* ── Tailwind tokens ── */
+  --background:              var(--eds-ivory);
+  --foreground:              var(--eds-ink);
+  --card:                    var(--eds-white);
+  --card-foreground:         var(--eds-ink);
+  --popover:                 var(--eds-white);
+  --popover-foreground:      var(--eds-ink);
+  --primary:                 var(--eds-navy);
+  --primary-foreground:      var(--eds-white);
+  --secondary:               var(--eds-cream);
+  --secondary-foreground:    var(--eds-ink);
+  --muted:                   var(--eds-cream);
+  --muted-foreground:        var(--eds-steel);
+  --accent:                  var(--eds-gold);
+  --accent-foreground:       var(--eds-navy);
+  --destructive:             oklch(0.577 0.245 27.325);
+  --border:                  oklch(0.87 0.012 80);
+  --input:                   oklch(0.87 0.012 80);
+  --ring:                    var(--eds-navy);
 }
 
 @layer base {
@@ -114,408 +90,534 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Archivo', sans-serif;
-    background: var(--sonar-abyss);
-    color: var(--sonar-white);
-    overflow-x: hidden;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   a[href] {
     @apply cursor-pointer;
   }
-  html {
-    scroll-behavior: smooth;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TYPOGRAPHIE MARITIME PRESTIGE
+═══════════════════════════════════════════════════════════════ */
+
+.eds-display {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--eds-navy);
+}
+
+.eds-display-light {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+  color: var(--eds-navy);
+}
+
+.eds-h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  letter-spacing: -0.03em;
+  line-height: 1.0;
+  color: var(--eds-white);
+}
+
+.eds-h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--eds-navy);
+}
+
+.eds-h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--eds-navy);
+}
+
+.eds-label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--eds-gold);
+}
+
+.eds-label-dark {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--eds-steel-lt);
+}
+
+.eds-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--eds-steel);
+}
+
+.eds-mono {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BOUTONS MARITIME PRESTIGE
+═══════════════════════════════════════════════════════════════ */
+
+.eds-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.875rem 2rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.eds-btn:active {
+  transform: scale(0.97);
+}
+
+.eds-btn-navy {
+  background: var(--eds-navy);
+  color: var(--eds-white);
+}
+
+.eds-btn-navy:hover {
+  background: var(--eds-navy-mid);
+  transform: translateY(-1px);
+}
+
+.eds-btn-gold {
+  background: var(--eds-gold);
+  color: var(--eds-navy);
+}
+
+.eds-btn-gold:hover {
+  background: var(--eds-gold-lt);
+  transform: translateY(-1px);
+}
+
+.eds-btn-outline {
+  background: transparent;
+  color: var(--eds-white);
+  border: 1px solid oklch(1 0 0 / 0.45);
+}
+
+.eds-btn-outline:hover {
+  background: oklch(1 0 0 / 0.1);
+  border-color: oklch(1 0 0 / 0.7);
+}
+
+.eds-btn-outline-navy {
+  background: transparent;
+  color: var(--eds-navy);
+  border: 1px solid var(--eds-navy);
+}
+
+.eds-btn-outline-navy:hover {
+  background: var(--eds-navy);
+  color: var(--eds-white);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════════════ */
+
+.eds-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.eds-nav-transparent {
+  background: transparent;
+}
+
+.eds-nav-solid {
+  background: var(--eds-navy);
+  box-shadow: 0 1px 0 oklch(1 0 0 / 0.08);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTIONS PHOTO-DRIVEN
+═══════════════════════════════════════════════════════════════ */
+
+.eds-photo-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.eds-photo-section img,
+.eds-photo-section video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.eds-overlay-dark {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    oklch(0.10 0.03 240 / 0.92) 0%,
+    oklch(0.10 0.03 240 / 0.55) 45%,
+    oklch(0.10 0.03 240 / 0.25) 100%
+  );
+}
+
+.eds-overlay-left {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    oklch(0.10 0.03 240 / 0.85) 0%,
+    oklch(0.10 0.03 240 / 0.4) 55%,
+    transparent 100%
+  );
+}
+
+.eds-overlay-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    oklch(0.08 0.025 240 / 0.5) 100%
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DIVIDER OR
+═══════════════════════════════════════════════════════════════ */
+
+.eds-gold-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.eds-gold-rule::before {
+  content: '';
+  display: block;
+  width: 2rem;
+  height: 1px;
+  background: var(--eds-gold);
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CARDS SERVICES
+═══════════════════════════════════════════════════════════════ */
+
+.eds-service-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--eds-white);
+  border: 1px solid var(--border);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.eds-service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px oklch(0.10 0.03 240 / 0.12);
+  border-color: var(--eds-gold);
+}
+
+.eds-service-card-dark {
+  background: var(--eds-navy-mid);
+  border: 1px solid oklch(1 0 0 / 0.08);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.eds-service-card-dark:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px oklch(0 0 0 / 0.3);
+  border-color: var(--eds-gold);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STAT BLOCKS
+═══════════════════════════════════════════════════════════════ */
+
+.eds-stat-block {
+  padding: 2rem 2.5rem;
+  border-left: 3px solid var(--eds-gold);
+}
+
+.eds-stat-number {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  line-height: 1;
+  color: var(--eds-navy);
+  letter-spacing: -0.03em;
+}
+
+.eds-stat-number-light {
+  color: var(--eds-white);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SCROLL REVEAL ANIMATIONS
+═══════════════════════════════════════════════════════════════ */
+
+@keyframes eds-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
+
+@keyframes eds-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes eds-line-grow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.eds-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1),
+              transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.eds-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO SCROLL INDICATOR
+═══════════════════════════════════════════════════════════════ */
+
+@keyframes eds-scroll-pulse {
+  0%, 100% { opacity: 0.4; transform: translateY(0); }
+  50%       { opacity: 1;   transform: translateY(6px); }
+}
+
+.eds-scroll-indicator {
+  animation: eds-scroll-pulse 2s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CONTAINER
+═══════════════════════════════════════════════════════════════ */
 
 @layer components {
   .container {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
+
   .flex {
     min-height: 0;
     min-width: 0;
   }
-  @media (min-width: 640px) {
-    .container { padding-left: 1.5rem; padding-right: 1.5rem; }
-  }
-  @media (min-width: 1024px) {
-    .container { padding-left: 2rem; padding-right: 2rem; max-width: 1440px; }
-  }
 
-  /* ── SONAR TYPOGRAPHY ── */
-  .sonar-display {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 900;
-    font-size: clamp(3.5rem, 10vw, 9rem);
-    line-height: 0.92;
-    letter-spacing: -0.03em;
-    text-transform: uppercase;
-    color: var(--sonar-white);
-  }
-
-  .sonar-h1 {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2.8rem, 7vw, 6.5rem);
-    line-height: 0.94;
-    letter-spacing: -0.025em;
-    text-transform: uppercase;
-    color: var(--sonar-white);
-  }
-
-  .sonar-h2 {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 800;
-    font-size: clamp(2rem, 4.5vw, 4rem);
-    line-height: 0.96;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    color: var(--sonar-white);
-  }
-
-  .sonar-h3 {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 700;
-    font-size: clamp(1.2rem, 2.5vw, 2rem);
-    line-height: 1.05;
-    letter-spacing: -0.01em;
-    text-transform: uppercase;
-    color: var(--sonar-white);
-  }
-
-  .sonar-mono {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.72rem;
-    font-weight: 400;
-    letter-spacing: 0.08em;
-    color: var(--sonar-signal);
-  }
-
-  .sonar-mono-lg {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 1.1rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    color: var(--sonar-signal);
-  }
-
-  .sonar-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.62rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--sonar-signal);
-  }
-
-  .sonar-signal {
-    color: var(--sonar-signal);
-  }
-
-  .sonar-amber {
-    color: var(--sonar-amber);
-  }
-
-  /* ── SONAR BUTTONS ── */
-  .sonar-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.75rem;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    border: none;
-    cursor: pointer;
-    transition: all 0.18s cubic-bezier(0.23, 1, 0.32, 1);
-    text-decoration: none;
-  }
-  .sonar-btn:active { transform: scale(0.97); }
-
-  .sonar-btn-signal {
-    background: var(--sonar-signal);
-    color: var(--sonar-abyss);
-  }
-  .sonar-btn-signal:hover {
-    background: var(--sonar-signal-lt);
-    box-shadow: 0 0 24px var(--sonar-signal-glow);
-  }
-
-  .sonar-btn-outline {
-    background: transparent;
-    color: var(--sonar-signal);
-    border: 1px solid var(--sonar-signal);
-  }
-  .sonar-btn-outline:hover {
-    background: var(--sonar-signal-glow);
-    box-shadow: 0 0 16px var(--sonar-signal-glow);
-  }
-
-  .sonar-btn-ghost {
-    background: oklch(1 0 0 / 0.06);
-    color: var(--sonar-ghost);
-    border: 1px solid oklch(1 0 0 / 0.10);
-  }
-  .sonar-btn-ghost:hover {
-    background: oklch(1 0 0 / 0.10);
-    color: var(--sonar-white);
-  }
-
-  /* ── SONAR NAV ── */
-  .sonar-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 2rem;
-    height: 64px;
-    transition: background 0.3s ease, backdrop-filter 0.3s ease;
-  }
-  .sonar-nav-scrolled {
-    background: oklch(0.08 0.025 200 / 0.92);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid oklch(1 0 0 / 0.06);
-  }
-
-  /* ── SONAR HUD ELEMENTS ── */
-  .sonar-hud-frame {
-    border: 1px solid var(--sonar-signal);
-    position: relative;
-  }
-  .sonar-hud-frame::before,
-  .sonar-hud-frame::after {
-    content: "";
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border-color: var(--sonar-signal);
-    border-style: solid;
-  }
-  .sonar-hud-frame::before {
-    top: -1px; left: -1px;
-    border-width: 2px 0 0 2px;
-  }
-  .sonar-hud-frame::after {
-    bottom: -1px; right: -1px;
-    border-width: 0 2px 2px 0;
-  }
-
-  .sonar-data-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid oklch(1 0 0 / 0.06);
-  }
-  .sonar-data-row:last-child { border-bottom: none; }
-
-  .sonar-data-key {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.10em;
-    text-transform: uppercase;
-    color: var(--sonar-mid);
-  }
-
-  .sonar-data-value {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.72rem;
-    font-weight: 500;
-    color: var(--sonar-signal);
-  }
-
-  /* ── SONAR STAT ── */
-  .sonar-stat {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-  .sonar-stat-value {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    line-height: 1;
-    letter-spacing: -0.03em;
-    color: var(--sonar-amber);
-  }
-  .sonar-stat-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--sonar-mid);
-  }
-
-  /* ── SONAR BADGE ── */
-  .sonar-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.2rem 0.6rem;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.58rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    border: 1px solid var(--sonar-signal);
-    color: var(--sonar-signal);
-    background: var(--sonar-signal-glow);
-  }
-
-  /* ── SONAR CARD ── */
-  .sonar-card {
-    background: oklch(0.12 0.035 200 / 0.80);
-    backdrop-filter: blur(16px);
-    border: 1px solid oklch(1 0 0 / 0.08);
-    border-top: 1.5px solid var(--sonar-signal);
-    padding: 1.5rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  }
-  .sonar-card:hover {
-    border-top-color: var(--sonar-signal-lt);
-    box-shadow: 0 0 24px oklch(0.82 0.18 145 / 0.08);
-  }
-
-  /* ── SONAR PHOTO SECTION ── */
-  .sonar-photo-section {
-    position: relative;
-    overflow: hidden;
-  }
-  .sonar-photo-bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-  }
-  .sonar-overlay-dark {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom,
-      oklch(0.08 0.025 200 / 0.30) 0%,
-      oklch(0.08 0.025 200 / 0.75) 70%,
-      oklch(0.08 0.025 200) 100%
-    );
-  }
-  .sonar-overlay-left {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right,
-      oklch(0.08 0.025 200 / 0.90) 0%,
-      oklch(0.08 0.025 200 / 0.55) 50%,
-      transparent 100%
-    );
-  }
-
-  /* ── SONAR BATHYMETRIC PATTERN ── */
-  .sonar-bathymetric {
-    background-image:
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 39px,
-        oklch(0.82 0.18 145 / 0.04) 39px,
-        oklch(0.82 0.18 145 / 0.04) 40px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 79px,
-        oklch(0.82 0.18 145 / 0.03) 79px,
-        oklch(0.82 0.18 145 / 0.03) 80px
-      );
-  }
-
-  /* ── SONAR REVEAL ANIMATIONS ── */
-  @media (prefers-reduced-motion: no-preference) {
-    .sonar-reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.65s cubic-bezier(0.23, 1, 0.32, 1),
-                  transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-    .sonar-reveal.sonar-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .sonar-reveal-left {
-      opacity: 0;
-      transform: translateX(-32px);
-      transition: opacity 0.65s cubic-bezier(0.23, 1, 0.32, 1),
-                  transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-    .sonar-reveal-left.sonar-visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    .sonar-reveal-right {
-      opacity: 0;
-      transform: translateX(32px);
-      transition: opacity 0.65s cubic-bezier(0.23, 1, 0.32, 1),
-                  transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-    .sonar-reveal-right.sonar-visible {
-      opacity: 1;
-      transform: translateX(0);
+  @media (min-width: 768px) {
+    .container {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
     }
   }
 
-  /* ── SONAR KEYFRAMES ── */
-  @keyframes sonar-ping {
-    0% { transform: scale(1); opacity: 0.8; }
-    50% { transform: scale(1.8); opacity: 0.2; }
-    100% { transform: scale(1); opacity: 0.8; }
+  @media (min-width: 1280px) {
+    .container {
+      padding-left: 4rem;
+      padding-right: 4rem;
+      max-width: 1400px;
+    }
   }
+}
 
-  @keyframes sonar-scan {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100vh); }
-  }
+/* ═══════════════════════════════════════════════════════════════
+   REDUCED MOTION
+═══════════════════════════════════════════════════════════════ */
 
-  @keyframes sonar-blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
+@media (prefers-reduced-motion: reduce) {
+  .eds-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 
-  @keyframes sonar-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-  }
+/* ═══════════════════════════════════════════════════════════════
+   CHIFFRES MONUMENTAUX — "Data as Design"
+═══════════════════════════════════════════════════════════════ */
 
-  @keyframes sonar-trace {
-    0% { stroke-dashoffset: 2000; opacity: 0; }
-    10% { opacity: 1; }
-    100% { stroke-dashoffset: 0; opacity: 1; }
-  }
+/* Chiffre géant en arrière-plan décoratif */
+.eds-bg-numeral {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(8rem, 18vw, 18rem);
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  color: var(--eds-navy);
+  opacity: 0.04;
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+}
 
-  @keyframes sonar-arc-particle {
-    0% { offset-distance: 0%; opacity: 0; }
-    5% { opacity: 1; }
-    95% { opacity: 1; }
-    100% { offset-distance: 100%; opacity: 0; }
-  }
+.eds-bg-numeral-light {
+  color: var(--eds-white);
+  opacity: 0.06;
+}
 
-  @keyframes sonar-count-up {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+/* Chiffre éditorial en premier plan — ancre de composition */
+.eds-monumental-number {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(5rem, 12vw, 11rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--eds-navy);
+}
 
-  @keyframes sonar-grain-fall {
-    0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(80px) rotate(360deg); opacity: 0; }
-  }
+.eds-monumental-number-gold {
+  color: var(--eds-gold);
+}
+
+.eds-monumental-number-light {
+  color: var(--eds-white);
+}
+
+/* Diviseur éditorial chiffré */
+.eds-number-divider {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 3rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.eds-number-divider-dark {
+  border-color: oklch(1 0 0 / 0.08);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MONOGRAMME EDS — Marque propriétaire
+═══════════════════════════════════════════════════════════════ */
+
+.eds-monogram {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  position: relative;
+}
+
+.eds-monogram-letters {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  color: var(--eds-white);
+  line-height: 1;
+}
+
+.eds-monogram-rule {
+  width: 2px;
+  background: var(--eds-gold);
+  align-self: stretch;
+  min-height: 28px;
+  margin: 0 0.6rem;
+}
+
+.eds-monogram-tagline {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.52rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--eds-gold);
+  line-height: 1.3;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION ÉDITORIALE ASYMÉTRIQUE
+═══════════════════════════════════════════════════════════════ */
+
+.eds-editorial-break {
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 0;
+}
+
+.eds-editorial-break::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, transparent, var(--eds-gold), transparent);
+}
+
+/* Pull-quote éditorial */
+.eds-pull-quote {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--eds-navy);
+  border-left: 3px solid var(--eds-gold);
+  padding-left: 2rem;
+}
+
+.eds-pull-quote-light {
+  color: var(--eds-white);
+  border-color: var(--eds-gold);
 }

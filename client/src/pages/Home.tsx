@@ -1,513 +1,678 @@
 /**
- * Home — Euro Docks Service v3 SONAR
- * DA : "SONAR / Instrument de bord" — Ink abyssal + Signal vert-lime
- * Structure : SonarScrollExperience (scroll-scrub 4 scènes) + sections post-sticky
+ * Home — Euro Docks Service
+ * DA : Maritime Prestige — Ivoire chaud, navy profond, or ambre
+ * Typographie : Cormorant Garamond (display) + Inter (corps)
+ * Structure : Hero photo plein écran → Stats → Services → Clients → CTA
  */
 
 import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
-import { ArrowRight, ChevronRight, MapPin, Anchor, Ship, Truck, Warehouse, BarChart3, Shield } from "lucide-react";
-import { SonarScrollExperience } from "@/components/SonarScrollExperience";
+import { ArrowRight, Anchor, Ship, Package, FileText, MapPin, BarChart3, ChevronDown } from "lucide-react";
 
-// ─── Hook Reveal ─────────────────────────────────────────────
-function useReveal<T extends HTMLElement>() {
-  const ref = useRef<T>(null);
-  const [visible, setVisible] = useState(false);
+// ── Images générées ──────────────────────────────────────────
+const HERO_VIDEO = "/manus-storage/eds_hero_vraquier_final_a8b3c2d1.mp4";
+const IMG_PORT   = "/manus-storage/sonar_s3_quay_e4f5a6b7.jpg";
+const IMG_GRAIN  = "/manus-storage/sonar_s2_grain_c8d9e0f1.jpg";
+const IMG_SHIP   = "/manus-storage/eds2_tramping_sea_a2b3c4d5.jpg";
+const IMG_ROUEN  = "/manus-storage/sonar_s3_crane_f6a7b8c9.jpg";
+
+// ── Données ──────────────────────────────────────────────────
+const STATS = [
+  { value: "800+",  label: "Escales / an",       sub: "5 ports français" },
+  { value: "200+",  label: "Navires affrétés",    sub: "Dry bulk & tramping" },
+  { value: "4.5 Mt",label: "Vrac traité / an",    sub: "Céréales, engrais, acier" },
+  { value: "1975",  label: "Année de fondation",  sub: "50 ans d'expertise" },
+];
+
+const SERVICES = [
+  {
+    icon: Anchor,
+    title: "Agence Maritime",
+    desc: "Représentation complète du navire et de l'armateur en escale. Coordination portuaire, formalités douanières, ravitaillement, équipage.",
+    href: "/services",
+    img: IMG_PORT,
+  },
+  {
+    icon: Ship,
+    title: "Affrètement Tramping",
+    desc: "Courtage et négociation de chartes-parties. Spécialistes du tramping dry bulk sur les routes Baltique, Atlantique, Méditerranée.",
+    href: "/services",
+    img: IMG_SHIP,
+  },
+  {
+    icon: Package,
+    title: "Manutention & Terminal",
+    desc: "Opérations de chargement et déchargement. Terminaux de Boulogne-sur-Mer (800 m de quai) et Rouen (3,6 Mt/an).",
+    href: "/terminal",
+    img: IMG_GRAIN,
+  },
+  {
+    icon: FileText,
+    title: "Transit & Douane",
+    desc: "Commissionnaire agréé en douane. Dédouanement import/export, documents de transport, certifications phytosanitaires.",
+    href: "/freight",
+    img: IMG_ROUEN,
+  },
+];
+
+const CLIENTS = [
+  "Soufflet Négoce", "Groupe Avril", "Dreyfus", "Bunge", "Cargill",
+  "Tereos", "InVivo", "Timab Industries", "Yara", "OCP Group",
+  "ArcelorMittal", "Trafigura", "Glencore", "Viterra", "ADM",
+];
+
+const PORTS = [
+  { name: "Dunkerque",       role: "Port principal",         detail: "Tirant d'eau : 17,5 m" },
+  { name: "Boulogne-s-Mer",  role: "Terminal vrac",          detail: "800 m de quai" },
+  { name: "Rouen",           role: "Céréales & agrobulk",    detail: "3,6 Mt / an" },
+  { name: "Bayonne",         role: "Engrais & chimie",       detail: "Spécialité liquides" },
+  { name: "Calais",          role: "Transit multimodal",     detail: "Ro-Ro & conteneurs" },
+];
+
+// ── Hook scroll reveal ────────────────────────────────────────
+function useReveal() {
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold: 0.10 }
+      ([entry]) => { if (entry.isIntersecting) { el.classList.add("visible"); obs.disconnect(); } },
+      { threshold: 0.12 }
     );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
-  return { ref, visible };
+  return ref;
 }
 
-function Reveal({ children, className = "", delay = 0 }: {
-  children: React.ReactNode; className?: string; delay?: number;
+// ── Composants ───────────────────────────────────────────────
+function RevealBlock({ children, delay = 0, className = "" }: {
+  children: React.ReactNode; delay?: number; className?: string;
 }) {
-  const { ref, visible } = useReveal<HTMLDivElement>();
+  const ref = useReveal();
   return (
-    <div ref={ref} className={className} style={{
-      opacity: visible ? 1 : 0,
-      transform: visible ? "none" : "translateY(24px)",
-      transition: `opacity 0.65s cubic-bezier(0.23,1,0.32,1) ${delay}ms, transform 0.65s cubic-bezier(0.23,1,0.32,1) ${delay}ms`,
-    }}>
+    <div
+      ref={ref}
+      className={`eds-reveal ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
       {children}
     </div>
   );
 }
 
-// ─── Hook CountUp ────────────────────────────────────────────
-function useCountUp(target: number, duration = 1800, active = false) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!active) return;
-    let start = 0;
-    const step = (ts: number) => {
-      if (!start) start = ts;
-      const p = Math.min((ts - start) / duration, 1);
-      const ease = 1 - Math.pow(1 - p, 3);
-      setCount(Math.floor(ease * target));
-      if (p < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [active, target, duration]);
-  return count;
-}
-
-// ─── Composant ServiceCard SONAR ─────────────────────────────
-function ServiceCard({ img, tag, title, details, href, tall = false }: {
-  img: string; tag: string; title: string; details: string[];
-  href: string; tall?: boolean;
+function StatBlock({ value, label, sub, light = false }: {
+  value: string; label: string; sub: string; light?: boolean;
 }) {
   return (
-    <Link href={href} style={{ textDecoration: "none" }}>
+    <div className="eds-stat-block" style={{ borderLeftColor: "var(--eds-gold)" }}>
+      <div className={`eds-stat-number ${light ? "eds-stat-number-light" : ""}`}>{value}</div>
       <div style={{
-        position: "relative", overflow: "hidden",
-        height: tall ? "460px" : "340px",
-        cursor: "pointer",
-        border: "1px solid oklch(1 0 0 / 0.08)",
-        borderTop: "1.5px solid oklch(0.82 0.18 145 / 0.40)",
-        transition: "border-top-color 0.2s ease, box-shadow 0.2s ease",
-      }}
-        onMouseEnter={e => {
-          (e.currentTarget as HTMLElement).style.borderTopColor = "oklch(0.82 0.18 145)";
-          (e.currentTarget as HTMLElement).style.boxShadow = "0 0 32px oklch(0.82 0.18 145 / 0.10)";
-        }}
-        onMouseLeave={e => {
-          (e.currentTarget as HTMLElement).style.borderTopColor = "oklch(0.82 0.18 145 / 0.40)";
-          (e.currentTarget as HTMLElement).style.boxShadow = "none";
-        }}
-      >
-        <img src={img} alt={title} style={{
-          position: "absolute", inset: 0,
-          width: "100%", height: "100%",
-          objectFit: "cover",
-          transition: "transform 0.5s ease",
-        }} />
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "linear-gradient(to top, oklch(0.08 0.025 200 / 0.95) 0%, oklch(0.08 0.025 200 / 0.55) 50%, oklch(0.08 0.025 200 / 0.20) 100%)",
-        }} />
-        <div style={{
-          position: "absolute", inset: 0,
-          display: "flex", flexDirection: "column",
-          justifyContent: "flex-end",
-          padding: "1.25rem",
-        }}>
-          <div style={{
-            fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: "0.55rem", letterSpacing: "0.15em",
-            textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
-            marginBottom: "0.5rem",
-          }}>{tag}</div>
-          <h3 style={{
-            fontFamily: "'Archivo', sans-serif",
-            fontWeight: 800, fontSize: "1.1rem",
-            letterSpacing: "-0.01em", textTransform: "uppercase",
-            color: "oklch(0.97 0.005 200)", marginBottom: "0.75rem",
-          }}>{title}</h3>
-          <div style={{ borderTop: "1px solid oklch(1 0 0 / 0.15)", paddingTop: "0.75rem" }}>
-            <ul style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-              {details.map(d => (
-                <li key={d} style={{
-                  display: "flex", alignItems: "flex-start", gap: "0.5rem",
-                  fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: "0.62rem", color: "oklch(0.60 0.025 200)",
-                }}>
-                  <ChevronRight size={10} style={{ marginTop: "1px", flexShrink: 0, color: "oklch(0.82 0.18 145)" }} />
-                  {d}
-                </li>
-              ))}
-            </ul>
-            <div style={{
-              marginTop: "0.75rem", display: "flex", alignItems: "center", gap: "0.4rem",
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: "0.60rem", fontWeight: 600, letterSpacing: "0.10em",
-              textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
-            }}>
-              EN SAVOIR PLUS <ArrowRight size={10} />
-            </div>
-          </div>
-        </div>
-      </div>
-    </Link>
+        fontFamily: "'Inter', sans-serif",
+        fontWeight: 500, fontSize: "0.75rem",
+        letterSpacing: "0.08em", textTransform: "uppercase",
+        color: light ? "oklch(1 0 0 / 0.7)" : "var(--eds-steel)",
+        marginTop: "0.35rem",
+      }}>{label}</div>
+      <div style={{
+        fontFamily: "'Inter', sans-serif",
+        fontSize: "0.7rem",
+        color: light ? "oklch(1 0 0 / 0.4)" : "var(--eds-steel-lt)",
+        marginTop: "0.2rem",
+      }}>{sub}</div>
+    </div>
   );
 }
 
-// ─── Images ──────────────────────────────────────────────────
-const IMGS = {
-  s1_wide:  "/manus-storage/sonar_s1_wide_4e87cc79.jpg",
-  s2_hatch: "/manus-storage/sonar_s2_hatch_684a13c3.jpg",
-  s2_grain: "/manus-storage/sonar_s2_grain_6e5d0efe.jpg",
-  s3_quay:  "/manus-storage/sonar_s3_quay_1898dc53.jpg",
-  s3_crane: "/manus-storage/sonar_s3_crane_89d5c612.jpg",
-  s4_map:   "/manus-storage/sonar_s4_map_bg_0afa04dc.jpg",
-  s4_ports: "/manus-storage/sonar_s4_ports_58ea5b25.jpg",
-};
-
-// ─── PAGE ────────────────────────────────────────────────────
+// ── Page principale ───────────────────────────────────────────
 export default function Home() {
-  const statsRef = useRef<HTMLDivElement>(null);
-  const [statsActive, setStatsActive] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const el = statsRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setStatsActive(true); obs.disconnect(); } },
-      { threshold: 0.2 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
+    const v = videoRef.current;
+    if (!v) return;
+    v.play().catch(() => {});
   }, []);
 
-  const c800 = useCountUp(800, 1600, statsActive);
-  const c200 = useCountUp(200, 1400, statsActive);
-  const c4500 = useCountUp(4500, 2000, statsActive);
-  const c50 = useCountUp(50, 1200, statsActive);
-
   return (
-    <div style={{ background: "var(--sonar-abyss)", minHeight: "100vh" }}>
+    <div style={{ background: "var(--eds-ivory)" }}>
 
-      {/* ══════════════════════════════════════════════════════
-          SCROLL CINEMATIC — 4 scènes scroll-scrub
-      ══════════════════════════════════════════════════════ */}
-      <SonarScrollExperience />
+      {/* ═══════════════════════════════════════════════════════
+          HERO — Vidéo plein écran
+      ═══════════════════════════════════════════════════════ */}
+      <section style={{
+        position: "relative",
+        height: "100vh",
+        minHeight: "600px",
+        overflow: "hidden",
+        display: "flex",
+        alignItems: "flex-end",
+        paddingBottom: "6rem",
+        paddingTop: "94px",
+      }}>
+        {/* Vidéo */}
+        <video
+          ref={videoRef}
+          autoPlay muted loop playsInline
+          onLoadedData={() => setVideoLoaded(true)}
+          style={{
+            position: "absolute", inset: 0,
+            width: "100%", height: "100%",
+            objectFit: "cover",
+            opacity: videoLoaded ? 1 : 0,
+            transition: "opacity 1s ease",
+          }}
+        >
+          <source src={HERO_VIDEO} type="video/mp4" />
+        </video>
 
-      {/* ══════════════════════════════════════════════════════
-          POST-STICKY : SECTION SERVICES
-      ══════════════════════════════════════════════════════ */}
-      <section style={{ background: "var(--sonar-deep)", padding: "6rem 0" }}>
-        <div className="container">
-          <Reveal className="mb-12">
-            <div style={{
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: "0.62rem", letterSpacing: "0.15em",
-              color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
-              display: "flex", alignItems: "center", gap: "0.75rem",
-              marginBottom: "1rem",
-            }}>
-              <span style={{ display: "inline-block", width: "24px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
-              NOS EXPERTISES
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-              <h2 style={{
-                fontFamily: "'Archivo', sans-serif",
-                fontWeight: 900, fontSize: "clamp(2rem, 4vw, 3.5rem)",
-                letterSpacing: "-0.025em", textTransform: "uppercase",
-                color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
-              }}>
-                UNE GAMME COMPLÈTE<br />
-                <span style={{ color: "oklch(0.82 0.18 145)" }}>DE SERVICES MARITIMES</span>
-              </h2>
-            </div>
-          </Reveal>
+        {/* Fallback image */}
+        {!videoLoaded && (
+          <img
+            src={IMG_SHIP}
+            alt="Vraquier en mer"
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        )}
 
-          {/* Grille services */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2px" }} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            <Reveal delay={0}>
-              <ServiceCard
-                img={IMGS.s1_wide}
-                tag="Shipping Agency"
-                title="Agence Maritime"
-                details={["Husbandry & Protective", "Dry/liquid bulk · Liner · Breakbulk", "Heavy lift & Project cargo", "5 ports français"]}
-                href="/services" tall
-              />
-            </Reveal>
-            <Reveal delay={60}>
-              <ServiceCard
-                img={IMGS.s3_quay}
-                tag="Chartering & Tramping"
-                title="Affrètement Tramping"
-                details={["Coaster à Panamax", "Dry bulk · Breakbulk · Heavy lift", "Baltic · Continent · Med · Black Sea", "200 navires / an"]}
-                href="/services" tall
-              />
-            </Reveal>
-            <Reveal delay={120}>
-              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-                <ServiceCard
-                  img={IMGS.s2_grain}
-                  tag="Maritime Survey"
-                  title="Expertise Maritime"
-                  details={["Draught surveying", "Ultrasonic leak test", "On/Off-hire survey", "P&I reports"]}
-                  href="/services"
-                />
-                <ServiceCard
-                  img={IMGS.s4_ports}
-                  tag="Customs Brokerage"
-                  title="Courtage en Douane"
-                  details={["Registered broker depuis 1975", "Deposit & Garantee", "Dunkirk · Boulogne · Calais · Rouen"]}
-                  href="/services"
-                />
-              </div>
-            </Reveal>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px", marginTop: "2px" }} className="grid-cols-1 md:grid-cols-2">
-            <Reveal delay={0}>
-              <ServiceCard
-                img={IMGS.s2_hatch}
-                tag="Freight Forwarding"
-                title="Transit Multimodal"
-                details={["Rhine · North France · Mosel · Seine", "Bulk · steel · break products", "GMP+ certified", "Couverture 9,5 M€"]}
-                href="/freight"
-              />
-            </Reveal>
-            <Reveal delay={60}>
-              <ServiceCard
-                img={IMGS.s3_crane}
-                tag="Port Terminal"
-                title="Terminal Portuaire"
-                details={["800m de quai — Boulogne-sur-Mer", "Entrepôts 20 000 m² GMP+", "Stockage extérieur 57 500 m²", "3,6 Mt/an — Rouen"]}
-                href="/terminal"
-              />
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-          CHIFFRES CLÉS — fond photo + count-up
-      ══════════════════════════════════════════════════════ */}
-      <section style={{ position: "relative", overflow: "hidden", minHeight: "400px" }}>
-        <img src={IMGS.s4_map} alt="" style={{
-          position: "absolute", inset: 0, width: "100%", height: "100%",
-          objectFit: "cover",
+        {/* Overlays */}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(to top, oklch(0.10 0.03 240 / 0.88) 0%, oklch(0.10 0.03 240 / 0.45) 50%, oklch(0.10 0.03 240 / 0.15) 100%)",
         }} />
         <div style={{
           position: "absolute", inset: 0,
-          background: "oklch(0.08 0.025 200 / 0.88)",
+          background: "linear-gradient(to right, oklch(0.10 0.03 240 / 0.6) 0%, transparent 65%)",
         }} />
-        {/* Grille bathymétrique */}
-        <div className="sonar-bathymetric" style={{
-          position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.5,
-        }} />
-        <div className="container" style={{ position: "relative", zIndex: 1, padding: "5rem 2rem" }}>
-          <div ref={statsRef} style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "1px",
-          }} className="grid-cols-2 lg:grid-cols-4">
-            {[
-              { value: c800, suffix: "+", label: "ESCALES / AN", desc: "Opérations portuaires" },
-              { value: c200, suffix: "+", label: "NAVIRES AFFRÉTÉS", desc: "Par an, tous types" },
-              { value: c4500, suffix: " KT", label: "VRAC TRAITÉ", desc: "Capacité annuelle" },
-              { value: c50, suffix: " ANS", label: "D'EXPERTISE", desc: "Fondé en 1975" },
-            ].map(({ value, suffix, label, desc }) => (
-              <div key={label} style={{
-                background: "oklch(0 0 0 / 0.45)",
-                backdropFilter: "blur(12px)",
-                borderTop: "1.5px solid oklch(0.82 0.18 145 / 0.60)",
-                border: "1px solid oklch(1 0 0 / 0.08)",
-                padding: "2rem 1.5rem",
-                textAlign: "center",
-              }}>
-                <div style={{
-                  fontFamily: "'Archivo', sans-serif",
-                  fontWeight: 900,
-                  fontSize: "clamp(2.5rem, 5vw, 4rem)",
-                  color: "oklch(0.78 0.14 68)",
-                  lineHeight: 1,
-                  letterSpacing: "-0.03em",
-                }}>
-                  {value.toLocaleString("fr-FR")}{suffix}
-                </div>
-                <div style={{
-                  fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: "0.60rem", letterSpacing: "0.15em",
-                  textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
-                  marginTop: "0.5rem",
-                }}>{label}</div>
-                <div style={{
-                  fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: "0.58rem", color: "oklch(0.45 0.025 200)",
-                  marginTop: "0.25rem",
-                }}>{desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ══════════════════════════════════════════════════════
-          CLIENTS DE RÉFÉRENCE
-      ══════════════════════════════════════════════════════ */}
-      <section style={{ background: "oklch(0.10 0.03 200)", padding: "5rem 0" }}>
-        <div className="container">
-          <Reveal className="mb-10">
-            <div style={{
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: "0.62rem", letterSpacing: "0.15em",
-              color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
-              display: "flex", alignItems: "center", gap: "0.75rem",
-              marginBottom: "1rem",
-            }}>
-              <span style={{ display: "inline-block", width: "24px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
-              CLIENTS DE RÉFÉRENCE
+        {/* Contenu hero */}
+        <div style={{ position: "relative", zIndex: 2, maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem", width: "100%" }}>
+          <div style={{ maxWidth: "780px" }}>
+
+            {/* Label */}
+            <div className="eds-gold-rule" style={{ marginBottom: "1.5rem" }}>
+              <span className="eds-label" style={{ color: "var(--eds-gold)" }}>
+                Agence Maritime & Tramping — Depuis 1975
+              </span>
             </div>
-            <h2 style={{
-              fontFamily: "'Archivo', sans-serif",
-              fontWeight: 900, fontSize: "clamp(1.8rem, 3.5vw, 3rem)",
-              letterSpacing: "-0.025em", textTransform: "uppercase",
-              color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
-            }}>
-              LES LEADERS MONDIAUX<br />
-              <span style={{ color: "oklch(0.82 0.18 145)" }}>DE L'AGRO-INDUSTRIE</span>
-            </h2>
-          </Reveal>
 
+            {/* Titre */}
+            <h1 style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontWeight: 700,
+              fontSize: "clamp(3.2rem, 7vw, 6.5rem)",
+              letterSpacing: "-0.03em",
+              lineHeight: 1.0,
+              color: "var(--eds-white)",
+              marginBottom: "1.75rem",
+            }}>
+              L'expertise maritime<br />
+              <span style={{ color: "var(--eds-gold)", fontStyle: "italic", fontWeight: 300 }}>
+                au service de votre cargo.
+              </span>
+            </h1>
+
+            {/* Sous-titre */}
+            <p style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: "1.05rem",
+              lineHeight: 1.7,
+              color: "oklch(1 0 0 / 0.7)",
+              maxWidth: "520px",
+              marginBottom: "2.5rem",
+            }}>
+              Spécialiste du tramping dry bulk, de l'affrètement et des terminaux portuaires.
+              Dunkerque · Boulogne-sur-Mer · Rouen · Bayonne.
+            </p>
+
+            {/* CTAs */}
+            <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+              <Link href="/contact" className="eds-btn eds-btn-gold">
+                Demander un devis <ArrowRight size={15} />
+              </Link>
+              <Link href="/services" className="eds-btn eds-btn-outline">
+                Nos expertises
+              </Link>
+            </div>
+          </div>
+
+          {/* Stats en bas du hero */}
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(5, 1fr)",
-            gap: "1px",
-          }} className="grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
-            {[
-              { name: "GLENCORE", sector: "Négoce matières premières" },
-              { name: "BUNGE", sector: "Agro-industrie mondiale" },
-              { name: "SOUFFLET", sector: "Céréales & Malt" },
-              { name: "LOUIS DREYFUS", sector: "Commerce de grains" },
-              { name: "CARGILL", sector: "Agro-industrie" },
-              { name: "ARCELORMITTAL", sector: "Sidérurgie mondiale" },
-              { name: "LAFARGE", sector: "Matériaux de construction" },
-              { name: "ROQUETTE", sector: "Chimie végétale" },
-              { name: "TEREOS", sector: "Sucre & Amidon" },
-              { name: "EQIOM", sector: "Ciment & Granulats" },
-              { name: "TRANSGRAINS", sector: "Négoce céréales" },
-              { name: "LECUREUR", sector: "Meunerie" },
-              { name: "LHOIST", sector: "Chaux & Minéraux" },
-              { name: "LIBERTY ALU", sector: "Aluminium primaire" },
-              { name: "DESIALIS", sector: "Coopérative céréalière" },
-            ].map(({ name, sector }, i) => (
-              <Reveal key={name} delay={i * 20}>
-                <div style={{
-                  background: "oklch(1 0 0 / 0.03)",
-                  border: "1px solid oklch(1 0 0 / 0.06)",
-                  padding: "1rem",
-                  transition: "background 0.2s ease, border-color 0.2s ease",
-                }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLElement).style.background = "oklch(0.82 0.18 145 / 0.05)";
-                    (e.currentTarget as HTMLElement).style.borderColor = "oklch(0.82 0.18 145 / 0.20)";
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLElement).style.background = "oklch(1 0 0 / 0.03)";
-                    (e.currentTarget as HTMLElement).style.borderColor = "oklch(1 0 0 / 0.06)";
-                  }}
-                >
-                  <div style={{
-                    fontFamily: "'Archivo', sans-serif",
-                    fontWeight: 800, fontSize: "0.82rem",
-                    textTransform: "uppercase", letterSpacing: "0.02em",
-                    color: "oklch(0.88 0.01 200)", marginBottom: "0.2rem",
-                  }}>{name}</div>
-                  <div style={{
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: "0.58rem", color: "oklch(0.42 0.02 200)",
-                  }}>{sector}</div>
-                </div>
-              </Reveal>
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: "0",
+            marginTop: "4rem",
+            borderTop: "1px solid oklch(1 0 0 / 0.12)",
+            paddingTop: "2rem",
+          }} className="hidden lg:grid">
+            {STATS.map((s, i) => (
+              <StatBlock key={i} {...s} light />
+            ))}
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div style={{
+          position: "absolute", bottom: "2rem", left: "50%", transform: "translateX(-50%)",
+          display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem",
+          zIndex: 2,
+        }}>
+          <span style={{
+            fontFamily: "'Inter', sans-serif",
+            fontSize: "0.6rem", letterSpacing: "0.18em",
+            textTransform: "uppercase", color: "oklch(1 0 0 / 0.4)",
+          }}>Défiler</span>
+          <ChevronDown size={16} color="oklch(1 0 0 / 0.4)" className="eds-scroll-indicator" />
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          STATS MOBILE (visible uniquement < lg)
+      ═══════════════════════════════════════════════════════ */}
+      <section style={{ background: "var(--eds-navy)", padding: "3rem 0" }} className="lg:hidden">
+        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 1.5rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "0" }}>
+            {STATS.map((s, i) => (
+              <StatBlock key={i} {...s} light />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════
-          CTA FINAL — fond photo + formulaire rapide
-      ══════════════════════════════════════════════════════ */}
-      <section style={{ position: "relative", overflow: "hidden", minHeight: "480px" }}>
-        <img src={IMGS.s3_quay} alt="" style={{
-          position: "absolute", inset: 0, width: "100%", height: "100%",
-          objectFit: "cover",
-        }} />
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "linear-gradient(135deg, oklch(0.08 0.025 200 / 0.95) 0%, oklch(0.08 0.025 200 / 0.80) 100%)",
-        }} />
-        <div className="sonar-bathymetric" style={{
-          position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.4,
-        }} />
-        <div className="container" style={{ position: "relative", zIndex: 1, padding: "5rem 2rem" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }} className="grid-cols-1 lg:grid-cols-2">
-            <Reveal>
-              <div style={{
-                fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: "0.62rem", letterSpacing: "0.15em",
-                color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
-                display: "flex", alignItems: "center", gap: "0.75rem",
-                marginBottom: "1.5rem",
-              }}>
-                <span style={{ display: "inline-block", width: "24px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
-                PRISE DE CONTACT
-              </div>
-              <h2 style={{
-                fontFamily: "'Archivo', sans-serif",
-                fontWeight: 900, fontSize: "clamp(2rem, 4vw, 3.5rem)",
-                letterSpacing: "-0.025em", textTransform: "uppercase",
-                color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
-                marginBottom: "1.5rem",
-              }}>
-                UNE OPÉRATION<br />
-                À PLANIFIER ?<br />
-                <span style={{ color: "oklch(0.82 0.18 145)" }}>PARLONS-EN.</span>
-              </h2>
-              <p style={{
-                fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: "0.78rem", color: "oklch(0.60 0.025 200)",
-                lineHeight: 1.7, maxWidth: "420px", marginBottom: "2rem",
-              }}>
-                Notre équipe répond sous 24 heures pour tout projet d'affrètement,
-                d'agence maritime ou de transit multimodal.
-              </p>
-              <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-                <Link href="/contact" className="sonar-btn sonar-btn-signal">
-                  DEMANDER UN DEVIS <ArrowRight size={14} />
-                </Link>
-                <a href="mailto:commercial@eurodocks.com" className="sonar-btn sonar-btn-ghost">
-                  commercial@eurodocks.com
-                </a>
-              </div>
-            </Reveal>
+      {/* ═══════════════════════════════════════════════════════
+          INTRO — Qui sommes-nous
+      ═══════════════════════════════════════════════════════ */}
+      <section style={{ padding: "7rem 0", background: "var(--eds-ivory)" }}>
+        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6rem", alignItems: "center" }} className="grid-cols-1 lg:grid-cols-2">
 
-            <Reveal delay={150}>
-              <div style={{
-                borderLeft: "1.5px solid oklch(0.82 0.18 145 / 0.25)",
-                paddingLeft: "2rem",
-              }}>
-                {[
-                  { stat: "24H", label: "Délai de réponse garanti" },
-                  { stat: "50 ANS", label: "D'expertise maritime" },
-                  { stat: "9,5 M€", label: "Couverture assurance transit" },
-                  { stat: "5 PORTS", label: "Présence sur le littoral français" },
-                ].map(({ stat, label }) => (
-                  <div key={stat} style={{
-                    display: "flex", alignItems: "center", gap: "1.5rem",
-                    marginBottom: "1.5rem",
-                  }}>
-                    <div style={{
-                      fontFamily: "'Archivo', sans-serif",
-                      fontWeight: 900,
-                      fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
-                      color: "oklch(0.78 0.14 68)",
-                      lineHeight: 1, letterSpacing: "-0.02em",
-                      minWidth: "7rem",
-                    }}>{stat}</div>
-                    <div style={{
-                      fontFamily: "'IBM Plex Mono', monospace",
-                      fontSize: "0.65rem", color: "oklch(0.55 0.025 200)",
-                      lineHeight: 1.4,
-                    }}>{label}</div>
-                  </div>
-                ))}
+            {/* Texte */}
+            <RevealBlock>
+              <div className="eds-gold-rule">
+                <span className="eds-label">Notre identité</span>
               </div>
-            </Reveal>
+              <h2 className="eds-h2" style={{ marginBottom: "1.5rem" }}>
+                50 ans d'excellence<br />
+                <span style={{ fontStyle: "italic", fontWeight: 300 }}>dans le tramping.</span>
+              </h2>
+              <p className="eds-body" style={{ marginBottom: "1.25rem" }}>
+                Fondée en 1975, Euro Docks Service est une agence maritime indépendante spécialisée dans le tramping dry bulk. Depuis cinq décennies, nous assistons armateurs et affréteurs dans leurs opérations portuaires sur les grands ports français de la façade Atlantique et Manche.
+              </p>
+              <p className="eds-body" style={{ marginBottom: "2.5rem" }}>
+                Notre expertise couvre l'intégralité de la chaîne logistique maritime : représentation du navire, affrètement, manutention, transit douanier et gestion de terminaux. Une offre intégrée, portée par des équipes opérationnelles disponibles 24h/24.
+              </p>
+              <Link href="/about" className="eds-btn eds-btn-outline-navy">
+                Notre histoire <ArrowRight size={14} />
+              </Link>
+            </RevealBlock>
+
+            {/* Image */}
+            <RevealBlock delay={150}>
+              <div style={{ position: "relative" }}>
+                <img
+                  src={IMG_PORT}
+                  alt="Port de Boulogne-sur-Mer"
+                  style={{
+                    width: "100%",
+                    height: "480px",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+                {/* Badge flottant */}
+                <div style={{
+                  position: "absolute",
+                  bottom: "-2rem",
+                  left: "-2rem",
+                  background: "var(--eds-navy)",
+                  padding: "1.5rem 2rem",
+                  borderLeft: "3px solid var(--eds-gold)",
+                }}>
+                  <div style={{
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontWeight: 700, fontSize: "2.5rem",
+                    color: "var(--eds-white)", lineHeight: 1,
+                  }}>50</div>
+                  <div style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: "0.68rem", letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    color: "var(--eds-gold)", marginTop: "0.25rem",
+                  }}>ans d'expertise</div>
+                </div>
+              </div>
+            </RevealBlock>
           </div>
         </div>
       </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          SERVICES — Grille photo-driven
+      ═══════════════════════════════════════════════════════ */}
+      <section style={{ padding: "7rem 0", background: "var(--eds-cream)" }}>
+        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem" }}>
+
+          <RevealBlock>
+            <div className="eds-gold-rule">
+              <span className="eds-label">Nos expertises</span>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3.5rem" }}>
+              <h2 className="eds-h2" style={{ maxWidth: "480px" }}>
+                Une offre intégrée<br />
+                <span style={{ fontStyle: "italic", fontWeight: 300 }}>de bout en bout.</span>
+              </h2>
+              <Link href="/services" className="eds-btn eds-btn-outline-navy hidden lg:inline-flex">
+                Toutes nos expertises <ArrowRight size={14} />
+              </Link>
+            </div>
+          </RevealBlock>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1.5rem" }} className="grid-cols-1 md:grid-cols-2">
+            {SERVICES.map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <RevealBlock key={i} delay={i * 80}>
+                  <Link href={s.href} style={{ textDecoration: "none", display: "block" }}>
+                    <div style={{
+                      position: "relative",
+                      height: "380px",
+                      overflow: "hidden",
+                      cursor: "pointer",
+                    }}
+                      className="eds-service-card"
+                    >
+                      {/* Image */}
+                      <img
+                        src={s.img}
+                        alt={s.title}
+                        style={{
+                          position: "absolute", inset: 0,
+                          width: "100%", height: "100%",
+                          objectFit: "cover",
+                          transition: "transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
+                        }}
+                        className="service-img"
+                      />
+                      <style>{`.eds-service-card:hover .service-img { transform: scale(1.04); }`}</style>
+
+                      {/* Overlay gradient */}
+                      <div style={{
+                        position: "absolute", inset: 0,
+                        background: "linear-gradient(to top, oklch(0.10 0.03 240 / 0.9) 0%, oklch(0.10 0.03 240 / 0.3) 60%, transparent 100%)",
+                      }} />
+
+                      {/* Contenu */}
+                      <div style={{
+                        position: "absolute", inset: 0,
+                        padding: "2rem",
+                        display: "flex", flexDirection: "column", justifyContent: "flex-end",
+                      }}>
+                        <div style={{
+                          width: "40px", height: "40px",
+                          background: "var(--eds-gold)",
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          marginBottom: "1rem",
+                        }}>
+                          <Icon size={18} color="var(--eds-navy)" />
+                        </div>
+                        <h3 style={{
+                          fontFamily: "'Cormorant Garamond', Georgia, serif",
+                          fontWeight: 600, fontSize: "1.6rem",
+                          color: "var(--eds-white)", lineHeight: 1.1,
+                          marginBottom: "0.75rem",
+                          letterSpacing: "-0.01em",
+                        }}>{s.title}</h3>
+                        <p style={{
+                          fontFamily: "'Inter', sans-serif",
+                          fontSize: "0.85rem", lineHeight: 1.65,
+                          color: "oklch(1 0 0 / 0.7)",
+                        }}>{s.desc}</p>
+                        <div style={{
+                          display: "flex", alignItems: "center", gap: "0.4rem",
+                          marginTop: "1.25rem",
+                          fontFamily: "'Inter', sans-serif",
+                          fontSize: "0.72rem", letterSpacing: "0.08em",
+                          textTransform: "uppercase",
+                          color: "var(--eds-gold)",
+                        }}>
+                          En savoir plus <ArrowRight size={12} />
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </RevealBlock>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          PORTS — Présence géographique
+      ═══════════════════════════════════════════════════════ */}
+      <section style={{ background: "var(--eds-navy)", padding: "7rem 0", position: "relative", overflow: "hidden" }}>
+        {/* Image de fond subtile */}
+        <img
+          src={IMG_ROUEN}
+          alt=""
+          style={{
+            position: "absolute", inset: 0,
+            width: "100%", height: "100%",
+            objectFit: "cover",
+            opacity: 0.08,
+          }}
+        />
+        <div style={{ position: "relative", zIndex: 1, maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem" }}>
+          <RevealBlock>
+            <div className="eds-gold-rule">
+              <span className="eds-label">Présence portuaire</span>
+            </div>
+            <h2 style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontWeight: 600, fontSize: "clamp(2rem, 4vw, 3.5rem)",
+              letterSpacing: "-0.02em", lineHeight: 1.1,
+              color: "var(--eds-white)",
+              marginBottom: "3.5rem",
+            }}>
+              5 ports,<br />
+              <span style={{ fontStyle: "italic", fontWeight: 300, color: "var(--eds-gold)" }}>
+                une couverture nationale.
+              </span>
+            </h2>
+          </RevealBlock>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "0" }} className="grid-cols-1 sm:grid-cols-3 lg:grid-cols-5">
+            {PORTS.map((p, i) => (
+              <RevealBlock key={i} delay={i * 60}>
+                <div style={{
+                  padding: "2rem 1.5rem",
+                  borderLeft: i === 0 ? "1px solid oklch(1 0 0 / 0.12)" : "none",
+                  borderRight: "1px solid oklch(1 0 0 / 0.12)",
+                  borderTop: "1px solid oklch(1 0 0 / 0.12)",
+                  borderBottom: "1px solid oklch(1 0 0 / 0.12)",
+                  transition: "background 0.25s ease",
+                }}
+                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "oklch(1 0 0 / 0.04)"}
+                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "transparent"}
+                >
+                  <MapPin size={16} color="var(--eds-gold)" style={{ marginBottom: "1rem" }} />
+                  <div style={{
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontWeight: 600, fontSize: "1.1rem",
+                    color: "var(--eds-white)", marginBottom: "0.4rem",
+                  }}>{p.name}</div>
+                  <div style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: "0.72rem", letterSpacing: "0.05em",
+                    color: "var(--eds-gold)", marginBottom: "0.5rem",
+                    textTransform: "uppercase",
+                  }}>{p.role}</div>
+                  <div style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: "0.75rem",
+                    color: "oklch(1 0 0 / 0.45)",
+                  }}>{p.detail}</div>
+                </div>
+              </RevealBlock>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          BREAK ÉDITORIAL — Chiffres monumentaux
+      ═══════════════════════════════════════════════════════ */}
+      <section style={{ background: "var(--eds-navy)", padding: "5rem 0", position: "relative", overflow: "hidden" }}>
+        {/* Numéral géant décoratif */}
+        <div className="eds-bg-numeral eds-bg-numeral-light" style={{ right: "-2rem", top: "-3rem" }}>800</div>
+        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem", position: "relative", zIndex: 1 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "0" }} className="grid-cols-2 lg:grid-cols-4">
+            {[
+              { n: "800+", u: "escales", d: "par an" },
+              { n: "200+", u: "navires", d: "affrétés" },
+              { n: "4,5 Mt", u: "vrac", d: "traité / an" },
+              { n: "50", u: "ans", d: "d'expertise" },
+            ].map((s, i) => (
+              <RevealBlock key={i} delay={i * 80}>
+                <div style={{
+                  padding: "3rem 2.5rem",
+                  borderRight: i < 3 ? "1px solid oklch(1 0 0 / 0.08)" : "none",
+                  borderLeft: i === 0 ? "3px solid var(--eds-gold)" : "none",
+                }}>
+                  <div style={{
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontWeight: 700,
+                    fontSize: "clamp(3.5rem, 6vw, 6rem)",
+                    lineHeight: 0.9,
+                    letterSpacing: "-0.04em",
+                    color: i === 0 ? "var(--eds-gold)" : "var(--eds-white)",
+                    marginBottom: "0.75rem",
+                  }}>{s.n}</div>
+                  <div style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: "0.7rem", letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    color: "var(--eds-gold)", marginBottom: "0.2rem",
+                  }}>{s.u}</div>
+                  <div style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: "0.72rem",
+                    color: "oklch(1 0 0 / 0.4)",
+                  }}>{s.d}</div>
+                </div>
+              </RevealBlock>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          CLIENTS — Références
+      ═══════════════════════════════════════════════════════ */}
+      <section style={{ padding: "6rem 0", background: "var(--eds-ivory)" }}>
+        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem" }}>
+          <RevealBlock>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3.5rem" }}>
+              <div>
+                <div className="eds-gold-rule">
+                  <span className="eds-label">Ils nous font confiance</span>
+                </div>
+                <h2 className="eds-h2" style={{ marginTop: "0.75rem", maxWidth: "400px" }}>
+                  15 acteurs
+                  <span style={{ fontStyle: "italic", fontWeight: 300 }}> du négoce mondial.</span>
+                </h2>
+              </div>
+              {/* Pull-quote éditorial */}
+              <div style={{ maxWidth: "320px" }} className="hidden lg:block">
+                <div className="eds-pull-quote" style={{ fontSize: "1.1rem" }}>
+                  « De Cargill à ArcelorMittal, nos clients nous font confiance depuis des décennies. »
+                </div>
+              </div>
+            </div>
+          </RevealBlock>
+
+          <RevealBlock delay={100}>
+            <div style={{
+              display: "flex", flexWrap: "wrap", gap: "0",
+              border: "1px solid var(--border)",
+            }}>
+              {CLIENTS.map((client, i) => (
+                <div key={i} style={{
+                  flex: "1 1 180px",
+                  padding: "1.25rem 1.75rem",
+                  borderRight: "1px solid var(--border)",
+                  borderBottom: "1px solid var(--border)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  transition: "background 0.2s ease",
+                }}
+                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "var(--eds-cream)"}
+                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "transparent"}
+                >
+                  <span style={{
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontWeight: 600, fontSize: "0.95rem",
+                    color: "var(--eds-steel)",
+                    letterSpacing: "0.02em",
+                    textAlign: "center",
+                  }}>{client}</span>
+                </div>
+              ))}
+            </div>
+          </RevealBlock>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          CTA FINAL — Asymétrique
+      ═══════════════════════════════════════════════════════ */}
+      <section style={{ position: "relative", overflow: "hidden", minHeight: "520px", display: "flex", alignItems: "center" }}>
+        <img
+          src={IMG_SHIP}
+          alt="Vraquier en mer"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+        />
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(to right, oklch(0.10 0.03 240 / 0.95) 0%, oklch(0.10 0.03 240 / 0.6) 60%, transparent 100%)",
+        }} />
+        <div style={{ position: "relative", zIndex: 1, maxWidth: "1400px", margin: "0 auto", padding: "6rem 2.5rem" }}>
+          <RevealBlock>
+            <div className="eds-gold-rule">
+              <span className="eds-label">Travaillons ensemble</span>
+            </div>
+            <h2 style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontWeight: 700, fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
+              letterSpacing: "-0.03em", lineHeight: 1.05,
+              color: "var(--eds-white)", maxWidth: "600px",
+              marginBottom: "1.5rem",
+            }}>
+              Un projet d'affrètement ?<br />
+              <span style={{ fontStyle: "italic", fontWeight: 300, color: "var(--eds-gold)" }}>
+                Parlons-en.
+              </span>
+            </h2>
+            <p style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: "1rem", lineHeight: 1.7,
+              color: "oklch(1 0 0 / 0.65)",
+              maxWidth: "440px", marginBottom: "2.5rem",
+            }}>
+              Nos équipes opérationnelles répondent sous 24 heures. Devis gratuit, sans engagement.
+            </p>
+            <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+              <Link href="/contact" className="eds-btn eds-btn-gold">
+                Demander un devis <ArrowRight size={15} />
+              </Link>
+              <Link href="/services" className="eds-btn eds-btn-outline">
+                Découvrir nos services
+              </Link>
+            </div>
+          </RevealBlock>
+        </div>
+      </section>
+
     </div>
   );
 }

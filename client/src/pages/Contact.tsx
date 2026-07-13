@@ -1,94 +1,84 @@
 /**
- * Contact — Euro Docks Service v3 SONAR
- * DA : "SONAR / Instrument de bord" — Ink abyssal + Signal vert-lime
+ * Contact — Euro Docks Service
+ * DA : Maritime Prestige — Ivoire chaud, navy profond, or ambre
+ * Typographie : Cormorant Garamond (display) + Inter (corps)
  */
 
 import { useEffect, useRef, useState } from "react";
-import { Phone, Mail, MapPin, ArrowRight, Clock } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
 
-function useReveal<T extends HTMLElement>() {
-  const ref = useRef<T>(null);
-  const [visible, setVisible] = useState(false);
+function useReveal() {
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      ([entry]) => { if (entry.isIntersecting) { el.classList.add("visible"); obs.disconnect(); } },
       { threshold: 0.08 }
     );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
-  return { ref, visible };
+  return ref;
 }
 
-function Reveal({ children, className = "", delay = 0, dir = "up" }: {
-  children: React.ReactNode; className?: string; delay?: number; dir?: "up" | "left" | "right";
-}) {
-  const { ref, visible } = useReveal<HTMLDivElement>();
-  const t = dir === "left" ? "translateX(-28px)" : dir === "right" ? "translateX(28px)" : "translateY(24px)";
-  return (
-    <div ref={ref} className={className} style={{
-      opacity: visible ? 1 : 0,
-      transform: visible ? "none" : t,
-      transition: `opacity 0.65s cubic-bezier(0.23,1,0.32,1) ${delay}ms, transform 0.65s cubic-bezier(0.23,1,0.32,1) ${delay}ms`,
-    }}>
-      {children}
-    </div>
-  );
+function RevealBlock({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useReveal();
+  return <div ref={ref} className="eds-reveal" style={{ transitionDelay: `${delay}ms` }}>{children}</div>;
 }
 
-const IMGS = {
-  hero:  "/manus-storage/sonar_s3_quay_1898dc53.jpg",
-  night: "/manus-storage/sonar_s3_crane_89d5c612.jpg",
-};
+const IMG_HERO  = "/manus-storage/sonar_s3_quay_e4f5a6b7.jpg";
+const IMG_NIGHT = "/manus-storage/sonar_s3_crane_f6a7b8c9.jpg";
 
-const offices = [
-  {
-    city: "Dunkerque",
-    role: "Siège social",
-    address: "Port de Dunkerque, France",
-    phone: "+33 (0)3 28 63 00 00",
-    email: "commercial@eurodocks.com",
-    services: ["Shipping Agency", "Chartering & Tramping", "Customs Brokerage"],
-  },
+const OFFICES = [
   {
     city: "Boulogne-sur-Mer",
-    role: "Terminal dédié",
-    address: "Port de Boulogne-sur-Mer, France",
-    phone: "+33 (0)3 21 99 00 00",
-    email: "boulogne@eurodocks.com",
-    services: ["Port Terminal", "Stevedoring", "Maritime Survey"],
+    role: "Siège social & Terminal principal",
+    address: "Quai Gambetta, 62200 Boulogne-sur-Mer",
+    phone: "+33 (0)3 21 30 XX XX",
+    email: "boulogne@eurodocks.fr",
+    services: ["Agence maritime", "Consignation", "Stevedoring"],
+  },
+  {
+    city: "Dunkerque",
+    role: "Agence maritime Nord",
+    address: "Port de Dunkerque, 59140 Dunkerque",
+    phone: "+33 (0)3 28 XX XX XX",
+    email: "dunkerque@eurodocks.fr",
+    services: ["Shipping Agency", "Tramping", "Courtage douane"],
   },
   {
     city: "Rouen",
-    role: "Terminaux grain",
-    address: "Port de Rouen, France",
-    phone: "+33 (0)2 35 52 00 00",
-    email: "rouen@eurodocks.com",
-    services: ["Grain Terminal", "Freight Forwarding", "Shipping Agency"],
+    role: "Terminal céréales & agrobulk",
+    address: "Port de Rouen, 76000 Rouen",
+    phone: "+33 (0)2 35 XX XX XX",
+    email: "rouen@eurodocks.fr",
+    services: ["Grain Terminal", "Freight Forwarding", "Expertise maritime"],
   },
 ];
 
 const inputStyle: React.CSSProperties = {
   width: "100%",
-  background: "oklch(0.12 0.03 200)",
-  border: "1px solid oklch(1 0 0 / 0.10)",
-  borderBottom: "1px solid oklch(0.82 0.18 145 / 0.25)",
-  padding: "0.875rem 1rem",
-  color: "oklch(0.90 0.005 200)",
-  fontFamily: "'IBM Plex Mono', monospace",
-  fontSize: "0.75rem",
+  fontFamily: "'Inter', sans-serif",
+  fontSize: "0.9rem",
+  color: "var(--eds-navy)",
+  background: "var(--eds-white)",
+  border: "1px solid var(--border)",
+  borderRadius: 0,
+  padding: "0.85rem 1rem",
   outline: "none",
-  transition: "border-color 0.2s ease",
+  transition: "border-color 0.2s",
 };
 
 const labelStyle: React.CSSProperties = {
-  fontFamily: "'IBM Plex Mono', monospace",
-  fontSize: "0.58rem", letterSpacing: "0.12em",
+  fontFamily: "'Inter', sans-serif",
+  fontSize: "0.65rem",
+  fontWeight: 600,
+  letterSpacing: "0.12em",
   textTransform: "uppercase" as const,
-  color: "oklch(0.82 0.18 145)",
-  display: "block", marginBottom: "0.4rem",
+  color: "var(--eds-steel)",
+  display: "block",
+  marginBottom: "0.4rem",
 };
 
 export default function Contact() {
@@ -103,368 +93,292 @@ export default function Contact() {
   };
 
   return (
-    <div style={{ background: "var(--sonar-abyss)", minHeight: "100vh" }}>
+    <div style={{ background: "var(--eds-ivory)" }}>
 
-      {/* ── Hero ── */}
-      <section style={{ position: "relative", overflow: "hidden", minHeight: "480px" }}>
-        <img src={IMGS.hero} alt="" style={{
-          position: "absolute", inset: 0, width: "100%", height: "100%",
-          objectFit: "cover", objectPosition: "center 40%",
+      {/* ── HERO ── */}
+      <section style={{
+        position: "relative", height: "55vh", minHeight: "420px",
+        overflow: "hidden", display: "flex", alignItems: "flex-end",
+        paddingBottom: "5rem", paddingTop: "94px",
+      }}>
+        <img src={IMG_HERO} alt="Contact Euro Docks Service" style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover",
         }} />
         <div style={{
           position: "absolute", inset: 0,
-          background: "linear-gradient(to bottom, oklch(0.08 0.025 200 / 0.60) 0%, oklch(0.08 0.025 200 / 0.95) 100%)",
+          background: "linear-gradient(to top, oklch(0.10 0.03 240 / 0.95) 0%, oklch(0.10 0.03 240 / 0.5) 55%, oklch(0.10 0.03 240 / 0.15) 100%)",
         }} />
-        <div className="sonar-bathymetric" style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.4 }} />
-        <div className="container" style={{ position: "relative", zIndex: 1, paddingTop: "5rem", paddingBottom: "5rem" }}>
-          <div style={{
-            fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: "0.62rem", letterSpacing: "0.15em",
-            color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
-            display: "flex", alignItems: "center", gap: "0.75rem",
-            marginBottom: "1.5rem",
-          }}>
-            <span style={{ width: "24px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
-            Contact
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(to right, oklch(0.10 0.03 240 / 0.75) 0%, transparent 55%)",
+        }} />
+        <div style={{ position: "relative", zIndex: 2, maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem", width: "100%" }}>
+          <div className="eds-gold-rule">
+            <span className="eds-label" style={{ color: "var(--eds-gold)" }}>Contact</span>
           </div>
           <h1 style={{
-            fontFamily: "'Archivo', sans-serif",
-            fontWeight: 900, fontSize: "clamp(3rem, 8vw, 7rem)",
-            letterSpacing: "-0.03em", textTransform: "uppercase",
-            color: "oklch(0.97 0.005 200)", lineHeight: 0.92,
-            marginBottom: "1.5rem",
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontWeight: 700, fontSize: "clamp(2.8rem, 6vw, 5rem)",
+            letterSpacing: "-0.03em", lineHeight: 1.0,
+            color: "var(--eds-white)", marginBottom: "1rem",
           }}>
-            PARLONS<br />
-            <span style={{ color: "oklch(0.82 0.18 145)" }}>DE VOTRE PROJET.</span>
+            Parlons de<br />
+            <span style={{ fontStyle: "italic", fontWeight: 300, color: "var(--eds-gold)" }}>
+              votre prochaine escale.
+            </span>
           </h1>
           <p style={{
-            fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: "0.80rem", color: "oklch(0.60 0.025 200)",
-            lineHeight: 1.7, maxWidth: "480px",
+            fontFamily: "'Inter', sans-serif",
+            fontSize: "1rem", lineHeight: 1.7,
+            color: "oklch(1 0 0 / 0.65)", maxWidth: "440px",
           }}>
-            Affrètement, agence maritime, transit multimodal ou terminal portuaire —
-            notre équipe répond sous 24 heures.
+            Réponse garantie sous 2 heures. Disponibles 24h/24 pour les urgences opérationnelles.
           </p>
         </div>
       </section>
 
-      {/* ── Formulaire + Infos ── */}
-      <section style={{ background: "var(--sonar-deep)", padding: "5rem 0" }}>
-        <div className="container">
-          <div style={{
-            display: "grid", gridTemplateColumns: "1.4fr 1fr",
-            gap: "4rem", alignItems: "start",
-          }} className="grid-cols-1 lg:grid-cols-2">
+      {/* ── FORMULAIRE + INFOS ── */}
+      <section style={{ padding: "6rem 0", background: "var(--eds-cream)" }}>
+        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6rem", alignItems: "start" }} className="grid-cols-1 lg:grid-cols-2">
 
             {/* Formulaire */}
-            <Reveal dir="left">
-              <div>
-                <div style={{
-                  fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: "0.60rem", letterSpacing: "0.15em",
-                  color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
-                  display: "flex", alignItems: "center", gap: "0.75rem",
-                  marginBottom: "1rem",
-                }}>
-                  <span style={{ width: "20px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
-                  Envoyer un message
-                </div>
-                <h2 style={{
-                  fontFamily: "'Archivo', sans-serif",
-                  fontWeight: 900, fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
-                  letterSpacing: "-0.025em", textTransform: "uppercase",
-                  color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
-                  marginBottom: "2rem",
-                }}>
-                  DEMANDE<br />
-                  <span style={{ color: "oklch(0.82 0.18 145)" }}>DE DEVIS.</span>
-                </h2>
+            <RevealBlock>
+              <div className="eds-gold-rule"><span className="eds-label">Demande de contact</span></div>
+              <h2 className="eds-h2" style={{ marginBottom: "2.5rem" }}>
+                Votre demande<br />
+                <span style={{ fontStyle: "italic", fontWeight: 300 }}>en détail.</span>
+              </h2>
 
-                {submitted ? (
+              {submitted ? (
+                <div style={{ padding: "3rem", background: "var(--eds-navy)", textAlign: "center" }}>
                   <div style={{
-                    border: "1px solid oklch(0.82 0.18 145 / 0.30)",
-                    borderTop: "1.5px solid oklch(0.82 0.18 145)",
-                    padding: "2rem",
-                    background: "oklch(0.82 0.18 145 / 0.05)",
-                  }}>
-                    <div style={{
-                      fontFamily: "'Archivo', sans-serif",
-                      fontWeight: 800, fontSize: "1.2rem",
-                      textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
-                      marginBottom: "0.5rem",
-                    }}>MESSAGE ENVOYÉ</div>
-                    <p style={{
-                      fontFamily: "'IBM Plex Mono', monospace",
-                      fontSize: "0.72rem", color: "oklch(0.58 0.025 200)",
-                      lineHeight: 1.7,
-                    }}>
-                      Notre équipe commerciale vous répondra sous 24 heures ouvrées.
-                    </p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-                      <div>
-                        <label style={labelStyle}>NOM *</label>
-                        <input
-                          type="text" placeholder="Jean Dupont" required
-                          value={formData.name}
-                          onChange={e => setFormData(f => ({ ...f, name: e.target.value }))}
-                          style={inputStyle}
-                          onFocus={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145)")}
-                          onBlur={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145 / 0.25)")}
-                        />
-                      </div>
-                      <div>
-                        <label style={labelStyle}>SOCIÉTÉ *</label>
-                        <input
-                          type="text" placeholder="Armateur SA" required
-                          value={formData.company}
-                          onChange={e => setFormData(f => ({ ...f, company: e.target.value }))}
-                          style={inputStyle}
-                          onFocus={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145)")}
-                          onBlur={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145 / 0.25)")}
-                        />
-                      </div>
-                    </div>
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-                      <div>
-                        <label style={labelStyle}>EMAIL *</label>
-                        <input
-                          type="email" placeholder="contact@armateur.com" required
-                          value={formData.email}
-                          onChange={e => setFormData(f => ({ ...f, email: e.target.value }))}
-                          style={inputStyle}
-                          onFocus={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145)")}
-                          onBlur={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145 / 0.25)")}
-                        />
-                      </div>
-                      <div>
-                        <label style={labelStyle}>TÉLÉPHONE</label>
-                        <input
-                          type="tel" placeholder="+33 6 00 00 00 00"
-                          value={formData.phone}
-                          onChange={e => setFormData(f => ({ ...f, phone: e.target.value }))}
-                          style={inputStyle}
-                          onFocus={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145)")}
-                          onBlur={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145 / 0.25)")}
-                        />
-                      </div>
-                    </div>
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontSize: "2rem", fontWeight: 600,
+                    color: "var(--eds-gold)", marginBottom: "1rem",
+                  }}>Message envoyé</div>
+                  <p style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: "0.9rem", color: "oklch(1 0 0 / 0.65)",
+                  }}>Notre équipe vous répondra dans les 2 heures.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
                     <div>
-                      <label style={labelStyle}>SERVICE *</label>
-                      <select
-                        required
-                        value={formData.service}
-                        onChange={e => setFormData(f => ({ ...f, service: e.target.value }))}
-                        style={{ ...inputStyle, cursor: "pointer" }}
-                        onFocus={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145)")}
-                        onBlur={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145 / 0.25)")}
-                      >
-                        <option value="" disabled>Sélectionner un service</option>
-                        <option value="agency">Agence Maritime</option>
-                        <option value="charter">Affrètement Tramping</option>
-                        <option value="customs">Courtage en Douane</option>
-                        <option value="survey">Expertise Maritime</option>
-                        <option value="freight">Freight Forwarding</option>
-                        <option value="terminal">Port Terminal</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label style={labelStyle}>MESSAGE *</label>
-                      <textarea
-                        rows={5} required
-                        placeholder="Décrivez votre projet : type de cargaison, port de chargement/déchargement, tonnage, période..."
-                        value={formData.message}
-                        onChange={e => setFormData(f => ({ ...f, message: e.target.value }))}
-                        style={{ ...inputStyle, resize: "vertical" }}
-                        onFocus={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145)")}
-                        onBlur={e => (e.currentTarget.style.borderBottomColor = "oklch(0.82 0.18 145 / 0.25)")}
+                      <label style={labelStyle}>Nom *</label>
+                      <input type="text" placeholder="Jean Dupont" required
+                        value={formData.name}
+                        onChange={e => setFormData(f => ({ ...f, name: e.target.value }))}
+                        style={inputStyle}
+                        onFocus={e => (e.currentTarget.style.borderColor = "var(--eds-gold)")}
+                        onBlur={e => (e.currentTarget.style.borderColor = "var(--border)")}
                       />
                     </div>
-                    <button type="submit" className="sonar-btn sonar-btn-signal" style={{ alignSelf: "flex-start" }}>
-                      ENVOYER LA DEMANDE <ArrowRight size={13} />
-                    </button>
-                  </form>
-                )}
-              </div>
-            </Reveal>
+                    <div>
+                      <label style={labelStyle}>Société *</label>
+                      <input type="text" placeholder="Armement SA" required
+                        value={formData.company}
+                        onChange={e => setFormData(f => ({ ...f, company: e.target.value }))}
+                        style={inputStyle}
+                        onFocus={e => (e.currentTarget.style.borderColor = "var(--eds-gold)")}
+                        onBlur={e => (e.currentTarget.style.borderColor = "var(--border)")}
+                      />
+                    </div>
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
+                    <div>
+                      <label style={labelStyle}>Email *</label>
+                      <input type="email" placeholder="contact@armement.fr" required
+                        value={formData.email}
+                        onChange={e => setFormData(f => ({ ...f, email: e.target.value }))}
+                        style={inputStyle}
+                        onFocus={e => (e.currentTarget.style.borderColor = "var(--eds-gold)")}
+                        onBlur={e => (e.currentTarget.style.borderColor = "var(--border)")}
+                      />
+                    </div>
+                    <div>
+                      <label style={labelStyle}>Téléphone</label>
+                      <input type="tel" placeholder="+33 6 XX XX XX XX"
+                        value={formData.phone}
+                        onChange={e => setFormData(f => ({ ...f, phone: e.target.value }))}
+                        style={inputStyle}
+                        onFocus={e => (e.currentTarget.style.borderColor = "var(--eds-gold)")}
+                        onBlur={e => (e.currentTarget.style.borderColor = "var(--border)")}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Service *</label>
+                    <select required value={formData.service}
+                      onChange={e => setFormData(f => ({ ...f, service: e.target.value }))}
+                      style={{ ...inputStyle, appearance: "none" as const }}
+                      onFocus={e => (e.currentTarget.style.borderColor = "var(--eds-gold)")}
+                      onBlur={e => (e.currentTarget.style.borderColor = "var(--border)")}
+                    >
+                      <option value="" disabled>Sélectionner...</option>
+                      <option value="agency">Agence maritime / Consignation</option>
+                      <option value="charter">Affrètement tramping</option>
+                      <option value="customs">Transit & douane</option>
+                      <option value="survey">Expertise maritime</option>
+                      <option value="freight">Freight forwarding</option>
+                      <option value="terminal">Terminal portuaire</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Message *</label>
+                    <textarea rows={5} required
+                      placeholder="Décrivez votre besoin : type de navire, cargaison, ports, tonnage, période..."
+                      value={formData.message}
+                      onChange={e => setFormData(f => ({ ...f, message: e.target.value }))}
+                      style={{ ...inputStyle, resize: "vertical" }}
+                      onFocus={e => (e.currentTarget.style.borderColor = "var(--eds-gold)")}
+                      onBlur={e => (e.currentTarget.style.borderColor = "var(--border)")}
+                    />
+                  </div>
+                  <button type="submit" className="eds-btn eds-btn-gold" style={{ alignSelf: "flex-start" }}>
+                    Envoyer la demande <Send size={14} />
+                  </button>
+                </form>
+              )}
+            </RevealBlock>
 
             {/* Infos de contact */}
-            <Reveal dir="right" delay={100}>
-              <div>
-                <div style={{
-                  fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: "0.60rem", letterSpacing: "0.15em",
-                  color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
-                  display: "flex", alignItems: "center", gap: "0.75rem",
-                  marginBottom: "1rem",
-                }}>
-                  <span style={{ width: "20px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
-                  Réponse rapide
-                </div>
-                <h2 style={{
-                  fontFamily: "'Archivo', sans-serif",
-                  fontWeight: 900, fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
-                  letterSpacing: "-0.02em", textTransform: "uppercase",
-                  color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
-                  marginBottom: "0.75rem",
-                }}>DISPONIBLES<br />24H/24.</h2>
-                <p style={{
-                  fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: "0.70rem", color: "oklch(0.55 0.025 200)",
-                  lineHeight: 1.7, marginBottom: "1.75rem",
-                }}>
-                  Notre équipe opérationnelle est disponible 24h/24 pour les urgences portuaires.
-                  Les demandes commerciales sont traitées sous 24 heures ouvrées.
-                </p>
+            <RevealBlock delay={150}>
+              <div className="eds-gold-rule"><span className="eds-label">Nos agences</span></div>
+              <h2 className="eds-h2" style={{ marginBottom: "2.5rem" }}>
+                3 agences<br />
+                <span style={{ fontStyle: "italic", fontWeight: 300 }}>à votre service.</span>
+              </h2>
 
-                {/* Infos clés */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "2rem" }}>
-                  {[
-                    { icon: <Clock size={14} />, label: "Réponse sous 24 heures", sub: "Jours ouvrés — urgences traitées immédiatement" },
-                    { icon: <Phone size={14} />, label: "+33 (0)3 28 63 00 00", sub: "TÉLÉPHONE" },
-                    { icon: <Mail size={14} />, label: "commercial@eurodocks.com", sub: "EMAIL COMMERCIAL" },
-                  ].map(({ icon, label, sub }) => (
-                    <div key={label} style={{
-                      display: "flex", alignItems: "flex-start", gap: "0.75rem",
-                      padding: "0.875rem 1rem",
-                      background: "oklch(1 0 0 / 0.03)",
-                      border: "1px solid oklch(1 0 0 / 0.08)",
-                      borderLeft: "2px solid oklch(0.82 0.18 145 / 0.40)",
-                    }}>
-                      <span style={{ color: "oklch(0.82 0.18 145)", marginTop: "1px", flexShrink: 0 }}>{icon}</span>
-                      <div>
-                        <div style={{
-                          fontFamily: "'IBM Plex Mono', monospace",
-                          fontSize: "0.62rem", letterSpacing: "0.08em",
-                          textTransform: "uppercase", color: "oklch(0.45 0.025 200)",
-                          marginBottom: "0.2rem",
-                        }}>{sub}</div>
-                        <div style={{
-                          fontFamily: "'IBM Plex Mono', monospace",
-                          fontSize: "0.72rem", fontWeight: 500,
-                          color: "oklch(0.85 0.01 200)",
-                        }}>{label}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Photo nuit */}
-                <div style={{ position: "relative", height: "220px", overflow: "hidden" }}>
-                  <img src={IMGS.night} alt="Opérations nocturnes" style={{
-                    width: "100%", height: "100%", objectFit: "cover",
-                  }} />
-                  <div style={{
-                    position: "absolute", inset: 0,
-                    background: "linear-gradient(to top, oklch(0.08 0.025 200 / 0.80) 0%, transparent 60%)",
-                  }} />
-                  <div style={{
-                    position: "absolute", bottom: "1rem", left: "1rem",
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: "0.60rem", color: "oklch(0.65 0.025 200)",
-                    fontStyle: "italic",
+              <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
+                {OFFICES.map(({ city, role, address, phone, email, services }, i) => (
+                  <div key={i} style={{
+                    padding: "2rem",
+                    borderLeft: i === 0 ? "3px solid var(--eds-gold)" : "1px solid var(--border)",
+                    borderBottom: i < 2 ? "1px solid var(--border)" : "none",
+                    background: i === 0 ? "var(--eds-white)" : "transparent",
+                    marginLeft: i === 0 ? 0 : "2px",
                   }}>
-                    Opérations 24h/24 — Dunkerque, Boulogne, Rouen, Bayonne, Calais
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.25rem" }}>
+                      <MapPin size={14} color="var(--eds-gold)" />
+                      <span style={{
+                        fontFamily: "'Cormorant Garamond', Georgia, serif",
+                        fontWeight: 700, fontSize: "1.2rem", color: "var(--eds-navy)",
+                      }}>{city}</span>
+                    </div>
+                    <div style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: "0.65rem", fontWeight: 600,
+                      letterSpacing: "0.1em", textTransform: "uppercase",
+                      color: "var(--eds-gold)", marginBottom: "1rem",
+                    }}>{role}</div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", marginBottom: "0.75rem" }}>
+                      {[
+                        { icon: <MapPin size={12} />, text: address },
+                        { icon: <Phone size={12} />, text: phone },
+                        { icon: <Mail size={12} />, text: email },
+                      ].map(({ icon, text }, j) => (
+                        <div key={j} style={{
+                          display: "flex", alignItems: "flex-start", gap: "0.5rem",
+                          fontFamily: "'Inter', sans-serif",
+                          fontSize: "0.82rem", color: "var(--eds-steel)",
+                        }}>
+                          <span style={{ color: "var(--eds-steel)", marginTop: "2px", flexShrink: 0 }}>{icon}</span>
+                          {text}
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+                      {services.map((s, j) => (
+                        <span key={j} style={{
+                          fontFamily: "'Inter', sans-serif",
+                          fontSize: "0.65rem", letterSpacing: "0.06em",
+                          color: "var(--eds-steel)",
+                          border: "1px solid var(--border)",
+                          padding: "0.2rem 0.5rem",
+                        }}>{s}</span>
+                      ))}
+                    </div>
                   </div>
+                ))}
+              </div>
+
+              {/* Urgences */}
+              <div style={{
+                marginTop: "2rem", padding: "1.5rem 2rem",
+                background: "var(--eds-navy)", borderLeft: "3px solid var(--eds-gold)",
+              }}>
+                <div style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: "0.65rem", fontWeight: 600,
+                  letterSpacing: "0.12em", textTransform: "uppercase",
+                  color: "var(--eds-gold)", marginBottom: "0.5rem",
+                }}>Urgences opérationnelles 24h/24</div>
+                <div style={{
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontWeight: 700, fontSize: "1.5rem", color: "var(--eds-white)",
+                }}>+33 (0)6 XX XX XX XX</div>
+                <div style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: "0.78rem", color: "oklch(1 0 0 / 0.5)", marginTop: "0.25rem",
+                }}>Astreinte permanente — 365 jours / an</div>
+              </div>
+
+              {/* Photo nuit */}
+              <div style={{ position: "relative", height: "220px", overflow: "hidden", marginTop: "2rem" }}>
+                <img src={IMG_NIGHT} alt="Opérations nocturnes" style={{
+                  width: "100%", height: "100%", objectFit: "cover",
+                }} />
+                <div style={{
+                  position: "absolute", inset: 0,
+                  background: "linear-gradient(to top, oklch(0.10 0.03 240 / 0.8) 0%, transparent 60%)",
+                }} />
+                <div style={{
+                  position: "absolute", bottom: "1rem", left: "1rem",
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: "0.72rem", fontStyle: "italic",
+                  color: "oklch(1 0 0 / 0.6)",
+                }}>
+                  Opérations 24h/24 — Dunkerque, Boulogne, Rouen
                 </div>
               </div>
-            </Reveal>
+            </RevealBlock>
           </div>
         </div>
       </section>
 
-      {/* ── Agences ── */}
-      <section style={{ position: "relative", overflow: "hidden", padding: "5rem 0" }}>
-        <img src={IMGS.hero} alt="" style={{
-          position: "absolute", inset: 0, width: "100%", height: "100%",
-          objectFit: "cover", objectPosition: "center 70%",
-        }} />
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "oklch(0.08 0.025 200 / 0.92)",
-        }} />
-        <div className="sonar-bathymetric" style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.3 }} />
-        <div className="container" style={{ position: "relative", zIndex: 1 }}>
-          <Reveal className="mb-10">
-            <div style={{
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: "0.60rem", letterSpacing: "0.15em",
-              color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
-              display: "flex", alignItems: "center", gap: "0.75rem",
-              marginBottom: "1rem",
-            }}>
-              <span style={{ width: "20px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
-              Nos agences
-            </div>
-            <h2 style={{
-              fontFamily: "'Archivo', sans-serif",
-              fontWeight: 900, fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
-              letterSpacing: "-0.025em", textTransform: "uppercase",
-              color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
-            }}>
-              PRÉSENTS DANS<br />
-              <span style={{ color: "oklch(0.82 0.18 145)" }}>5 PORTS FRANÇAIS.</span>
-            </h2>
-          </Reveal>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1px" }} className="grid-cols-1 md:grid-cols-3">
-            {offices.map((office, i) => (
-              <Reveal key={office.city} delay={i * 80}>
+      {/* ── DÉLAI DE RÉPONSE ── */}
+      <section style={{ padding: "4rem 0", background: "var(--eds-navy)" }}>
+        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0" }} className="grid-cols-1 sm:grid-cols-3">
+            {[
+              { v: "< 2h", l: "Délai de réponse", sub: "Garanti en heures ouvrées" },
+              { v: "24h/24", l: "Astreinte urgences", sub: "365 jours par an" },
+              { v: "3", l: "Agences en France", sub: "Boulogne · Dunkerque · Rouen" },
+            ].map(({ v, l, sub }, i) => (
+              <div key={i} style={{
+                padding: "2.5rem 2rem",
+                borderRight: i < 2 ? "1px solid oklch(1 0 0 / 0.08)" : "none",
+                borderLeft: i === 0 ? "3px solid var(--eds-gold)" : "none",
+                textAlign: "center",
+              }}>
                 <div style={{
-                  background: "oklch(0 0 0 / 0.55)",
-                  backdropFilter: "blur(16px)",
-                  border: "1px solid oklch(1 0 0 / 0.08)",
-                  borderTop: "1.5px solid oklch(0.82 0.18 145 / 0.40)",
-                  padding: "2rem",
-                  height: "100%",
-                }}>
-                  <div style={{
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: "0.58rem", letterSpacing: "0.12em",
-                    textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
-                    marginBottom: "0.5rem",
-                  }}>{office.role}</div>
-                  <h3 style={{
-                    fontFamily: "'Archivo', sans-serif",
-                    fontWeight: 800, fontSize: "1.4rem",
-                    textTransform: "uppercase", letterSpacing: "-0.01em",
-                    color: "oklch(0.97 0.005 200)", marginBottom: "1.25rem",
-                  }}>{office.city}</h3>
-
-                  <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "1.25rem" }}>
-                    {[
-                      { icon: <MapPin size={11} />, text: office.address },
-                      { icon: <Phone size={11} />, text: office.phone },
-                      { icon: <Mail size={11} />, text: office.email },
-                    ].map(({ icon, text }) => (
-                      <div key={text} style={{
-                        display: "flex", alignItems: "center", gap: "0.5rem",
-                        fontFamily: "'IBM Plex Mono', monospace",
-                        fontSize: "0.62rem", color: "oklch(0.52 0.025 200)",
-                      }}>
-                        <span style={{ color: "oklch(0.82 0.18 145)", flexShrink: 0 }}>{icon}</span>
-                        {text}
-                      </div>
-                    ))}
-                  </div>
-
-                  <div style={{ borderTop: "1px solid oklch(1 0 0 / 0.08)", paddingTop: "1rem" }}>
-                    {office.services.map(s => (
-                      <div key={s} style={{
-                        fontFamily: "'IBM Plex Mono', monospace",
-                        fontSize: "0.60rem", color: "oklch(0.45 0.025 200)",
-                        padding: "0.2rem 0",
-                        display: "flex", alignItems: "center", gap: "0.4rem",
-                      }}>
-                        <span style={{ width: "10px", height: "1px", background: "oklch(0.82 0.18 145 / 0.40)", flexShrink: 0 }} />
-                        {s}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </Reveal>
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontWeight: 700, fontSize: "2.5rem",
+                  color: "var(--eds-gold)", lineHeight: 1, letterSpacing: "-0.03em",
+                }}>{v}</div>
+                <div style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: "0.72rem", fontWeight: 600,
+                  letterSpacing: "0.08em", textTransform: "uppercase",
+                  color: "var(--eds-white)", marginTop: "0.5rem",
+                }}>{l}</div>
+                <div style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: "0.72rem", color: "oklch(1 0 0 / 0.4)", marginTop: "0.2rem",
+                }}>{sub}</div>
+              </div>
             ))}
           </div>
         </div>

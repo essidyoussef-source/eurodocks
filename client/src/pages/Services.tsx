@@ -1,451 +1,369 @@
 /**
- * Services — Euro Docks Service v3 SONAR
- * DA : "SONAR / Instrument de bord" — Ink abyssal + Signal vert-lime
- * Structure : Hero photo + 4 services alternés + CTA
+ * Services — Euro Docks Service
+ * DA : Maritime Prestige — Ivoire chaud, navy profond, or ambre
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "wouter";
-import { ArrowRight, ChevronRight, MapPin } from "lucide-react";
+import { ArrowRight, Anchor, Ship, FileText, Scale, Search, Package } from "lucide-react";
 
-function useReveal<T extends HTMLElement>() {
-  const ref = useRef<T>(null);
-  const [visible, setVisible] = useState(false);
+const IMG_HERO    = "/manus-storage/sonar_s1_wide_4e87cc79.jpg";
+const IMG_AGENCY  = "/manus-storage/sonar_s3_quay_e4f5a6b7.jpg";
+const IMG_CHARTER = "/manus-storage/sonar_s1_close_a1f7b2e8.jpg";
+const IMG_SURVEY  = "/manus-storage/sonar_s2_hatch_684a13c3.jpg";
+const IMG_CUSTOMS = "/manus-storage/sonar_s2_grain_6e5d0efe.jpg";
+const IMG_GRAIN   = "/manus-storage/eds2_tramping_sea_a2b3c4d5.jpg";
+const IMG_PORT    = "/manus-storage/sonar_s3_crane_f6a7b8c9.jpg";
+
+function useReveal() {
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      ([entry]) => { if (entry.isIntersecting) { el.classList.add("visible"); obs.disconnect(); } },
       { threshold: 0.08 }
     );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
-  return { ref, visible };
+  return ref;
 }
 
-function Reveal({ children, className = "", delay = 0, dir = "up" }: {
-  children: React.ReactNode; className?: string; delay?: number; dir?: "up" | "left" | "right";
-}) {
-  const { ref, visible } = useReveal<HTMLDivElement>();
-  const t = dir === "left" ? "translateX(-28px)" : dir === "right" ? "translateX(28px)" : "translateY(24px)";
+function RevealBlock({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useReveal();
   return (
-    <div ref={ref} className={className} style={{
-      opacity: visible ? 1 : 0,
-      transform: visible ? "none" : t,
-      transition: `opacity 0.65s cubic-bezier(0.23,1,0.32,1) ${delay}ms, transform 0.65s cubic-bezier(0.23,1,0.32,1) ${delay}ms`,
-    }}>
+    <div ref={ref} className="eds-reveal" style={{ transitionDelay: `${delay}ms` }}>
       {children}
     </div>
   );
 }
 
-const IMGS = {
-  hero:    "/manus-storage/sonar_s1_wide_4e87cc79.jpg",
-  agency:  "/manus-storage/eds_hero_ship_5b197371.jpg",
-  charter: "/manus-storage/sonar_s1_close_a1f7b2e8.jpg",
-  survey:  "/manus-storage/sonar_s2_hatch_684a13c3.jpg",
-  customs: "/manus-storage/sonar_s2_grain_6e5d0efe.jpg",
-};
-
-const services = [
+const SERVICES = [
   {
-    id: "agency",
-    img: IMGS.agency,
-    tag: "Shipping Agency",
+    icon: Anchor,
     title: "Agence Maritime",
-    stat: "800+",
-    statLabel: "Escales / an",
-    description: "Représentation et assistance complète pour les navires en escale dans les ports français. Notre équipe assure la coordination entre le navire, les autorités portuaires, les chargeurs et les prestataires locaux 24h/24.",
-    ports: ["Dunkerque", "Boulogne-sur-Mer", "Calais", "Rouen", "Bayonne"],
-    prestations: [
-      "Husbandry & Protective services",
-      "Dry and liquid bulk",
-      "Liner & Container ship",
-      "Breakbulk & Heavy lift",
-      "Project cargo",
-      "Coordination douanière",
+    subtitle: "Ship Agency",
+    desc: "Représentation complète du navire et de l'armateur en escale. Coordination avec les autorités portuaires, pilotes, terminaux et services douaniers. Disponibles 24h/24, 7j/7.",
+    details: [
+      "Coordination portuaire 24h/24",
+      "Formalités d'escale",
+      "Ravitaillement soutes & vivres",
+      "Assistance à l'équipage",
+      "Documents de bord",
+      "Suivi opérations cargo",
     ],
-    data: [
-      { k: "Escales traitées / an", v: "800+" },
-      { k: "Ports couverts", v: "5 ports français" },
-      { k: "Types de navires", v: "Bulk · Liner · Breakbulk · Tanker" },
-      { k: "Disponibilité", v: "24h/24 — 7j/7" },
-    ],
+    img: IMG_AGENCY,
+    stat: { value: "800+", label: "Escales / an" },
   },
   {
-    id: "charter",
-    img: IMGS.charter,
-    tag: "Chartering & Tramping",
+    icon: Ship,
     title: "Affrètement Tramping",
-    stat: "200+",
-    statLabel: "Navires / an",
-    description: "Affrètement de navires sur les marchés Baltique, Continent, Méditerranée et Mer Noire. Du coaster au Panamax, nous négocions et gérons chaque opération avec la précision d'un partenaire de confiance.",
-    ports: ["Baltic", "Continent", "Méditerranée", "Mer Noire"],
-    prestations: [
-      "Coaster à Panamax vessels",
-      "Dry bulk, Breakbulk",
-      "Heavy lift & Project cargo",
-      "Négociation charter-parties",
-      "Suivi opérationnel complet",
-      "Propositions créatives d'affrètement",
+    subtitle: "Chartering & Tramping",
+    desc: "Courtage et négociation de chartes-parties pour le tramping dry bulk. Spécialistes des routes Baltique, Atlantique Nord, Méditerranée et Mer Noire. Expertise céréales, engrais, acier.",
+    details: [
+      "Négociation chartes-parties",
+      "Voyage & time charter",
+      "Tramping dry bulk",
+      "Céréales, engrais, acier",
+      "Routes Baltique / Atlantique / Med",
+      "Suivi marchés BDI",
     ],
-    data: [
-      { k: "Navires affrétés / an", v: "200+" },
-      { k: "Marchés couverts", v: "Baltic · Continent · Med · Black Sea" },
-      { k: "Types de navires", v: "Coaster · Handysize · Supramax · Panamax" },
-      { k: "Cargaisons", v: "Dry Bulk · Breakbulk · Heavy Lift" },
-    ],
+    img: IMG_CHARTER,
+    stat: { value: "200+", label: "Navires affrétés / an" },
   },
   {
-    id: "customs",
-    img: IMGS.customs,
-    tag: "Customs Ship Brokerage",
-    title: "Courtage en Douane",
-    stat: "1975",
-    statLabel: "Année d'enregistrement",
-    description: "Courtage en douane maritime, enregistré dans les principaux ports français depuis 1975. Notre staff expérimenté gère l'ensemble des formalités douanières avec dépôt et garantie.",
-    ports: ["Dunkerque", "Boulogne-sur-Mer", "Calais", "Rouen", "Le Havre"],
-    prestations: [
-      "Registered customs broker",
-      "Deposit & Garantee",
-      "Formalités d'entrée/sortie",
-      "Régimes douaniers spéciaux",
-      "Staff expérimenté depuis 1975",
-      "Assistance en cas de litige",
-    ],
-    data: [
-      { k: "Enregistrement", v: "Depuis 1975" },
-      { k: "Ports couverts", v: "Dunkerque · Boulogne · Calais · Rouen · Le Havre" },
-      { k: "Régimes", v: "Import · Export · Transit · Entrepôt" },
-      { k: "Garantie", v: "Deposit & Garantee inclus" },
-    ],
-  },
-  {
-    id: "survey",
-    img: IMGS.survey,
-    tag: "Maritime Survey",
+    icon: Search,
     title: "Expertise Maritime",
-    stat: "P&I",
-    statLabel: "Rapports certifiés",
-    description: "Expertise maritime complète couvrant le tirant d'eau, les tests d'étanchéité, les expertises de chargement/déchargement et les rapports d'assurance P&I pour armateurs et affréteurs.",
-    ports: ["Dunkerque", "Boulogne-sur-Mer", "Calais", "Rouen"],
-    prestations: [
-      "Draught surveying",
-      "Ultrasonic leak test (Hose test)",
-      "Loading / unloading follow-up",
-      "Consulting breakbulk",
-      "On / Off-hire survey",
-      "Bunkers & condition survey",
-      "Holds cleaning",
-      "Insurance / P&I report",
+    subtitle: "Marine Survey",
+    desc: "Expertise et inspection des navires et cargaisons. Sondages de jauge, constats de dommages, inspections de cale et expertises contradictoires. Rapports P&I certifiés.",
+    details: [
+      "Draught survey",
+      "Inspection cales & écoutilles",
+      "Constat dommages cargo",
+      "Expertise contradictoire",
+      "Certificats phytosanitaires",
+      "Rapports P&I certifiés",
     ],
-    data: [
-      { k: "Spécialité", v: "Draught · Hose test · On/Off-hire" },
-      { k: "Ports couverts", v: "Dunkerque · Boulogne · Calais · Rouen" },
-      { k: "Assurance", v: "P&I reports certifiés" },
-      { k: "Délai rapport", v: "Sous 48 heures" },
+    img: IMG_SURVEY,
+    stat: { value: "1 200+", label: "Expertises / an" },
+  },
+  {
+    icon: Scale,
+    title: "Courtage en Douane",
+    subtitle: "Customs Brokerage",
+    desc: "Commissionnaire agréé en douane depuis 1975. Dédouanement import/export, régimes douaniers spéciaux, licences d'importation et certificats d'origine.",
+    details: [
+      "Dédouanement import/export",
+      "Régimes douaniers spéciaux",
+      "Licences d'importation",
+      "Certificats d'origine",
+      "Déclarations EDI",
+      "Conseil réglementaire",
     ],
+    img: IMG_CUSTOMS,
+    stat: { value: "5 000+", label: "Déclarations / an" },
+  },
+  {
+    icon: Package,
+    title: "Manutention Portuaire",
+    subtitle: "Stevedoring",
+    desc: "Opérations de chargement et déchargement en vrac sur les terminaux de Boulogne-sur-Mer et Rouen. Équipement adapté au vrac sec, pesage et échantillonnage.",
+    details: [
+      "Chargement / déchargement vrac",
+      "Grabs et convoyeurs",
+      "Pesage et échantillonnage",
+      "Stockage entrepôt",
+      "Contrôle qualité",
+      "Rapport de manutention",
+    ],
+    img: IMG_GRAIN,
+    stat: { value: "4,5 Mt", label: "Vrac traité / an" },
+  },
+  {
+    icon: FileText,
+    title: "Freight Forwarding",
+    subtitle: "Commissionnaire de Transport",
+    desc: "Organisation du transport multimodal de bout en bout. Mer, route, rail et air. Gestion des documents de transport, assurance cargo et suivi en temps réel.",
+    details: [
+      "Transport multimodal",
+      "Connaissements & LTA",
+      "Assurance cargo",
+      "Groupage maritime",
+      "Suivi expéditions",
+      "Conseil logistique",
+    ],
+    img: IMG_PORT,
+    stat: { value: "3 500+", label: "Expéditions / an" },
   },
 ];
 
 export default function Services() {
   return (
-    <div style={{ background: "var(--sonar-abyss)", minHeight: "100vh" }}>
+    <div style={{ background: "var(--eds-ivory)" }}>
 
-      {/* ── Hero plein fond ── */}
-      <section style={{ position: "relative", overflow: "hidden", minHeight: "520px" }}>
-        <img src={IMGS.hero} alt="" style={{
-          position: "absolute", inset: 0, width: "100%", height: "100%",
-          objectFit: "cover", objectPosition: "center 30%",
+      {/* ── HERO ── */}
+      <section style={{
+        position: "relative", height: "65vh", minHeight: "480px",
+        overflow: "hidden", display: "flex", alignItems: "flex-end",
+        paddingBottom: "5rem", paddingTop: "94px",
+      }}>
+        <img src={IMG_HERO} alt="Nos services maritimes" style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover",
         }} />
         <div style={{
           position: "absolute", inset: 0,
-          background: "linear-gradient(to bottom, oklch(0.08 0.025 200 / 0.65) 0%, oklch(0.08 0.025 200 / 0.95) 100%)",
+          background: "linear-gradient(to top, oklch(0.10 0.03 240 / 0.92) 0%, oklch(0.10 0.03 240 / 0.5) 55%, oklch(0.10 0.03 240 / 0.2) 100%)",
         }} />
-        <div className="sonar-bathymetric" style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.4 }} />
-        <div className="container" style={{ position: "relative", zIndex: 1, paddingTop: "5rem", paddingBottom: "5rem" }}>
-          <div style={{
-            fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: "0.62rem", letterSpacing: "0.15em",
-            color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
-            display: "flex", alignItems: "center", gap: "0.75rem",
-            marginBottom: "1.5rem",
-          }}>
-            <span style={{ display: "inline-block", width: "24px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
-            Nos expertises
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(to right, oklch(0.10 0.03 240 / 0.7) 0%, transparent 60%)",
+        }} />
+        <div style={{ position: "relative", zIndex: 2, maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem", width: "100%" }}>
+          <div className="eds-gold-rule">
+            <span className="eds-label" style={{ color: "var(--eds-gold)" }}>Expertises</span>
           </div>
           <h1 style={{
-            fontFamily: "'Archivo', sans-serif",
-            fontWeight: 900, fontSize: "clamp(3rem, 8vw, 7rem)",
-            letterSpacing: "-0.03em", textTransform: "uppercase",
-            color: "oklch(0.97 0.005 200)", lineHeight: 0.92,
-            marginBottom: "1.5rem",
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontWeight: 700, fontSize: "clamp(2.8rem, 6vw, 5.5rem)",
+            letterSpacing: "-0.03em", lineHeight: 1.0,
+            color: "var(--eds-white)", marginBottom: "1rem",
           }}>
-            SHIPPING<br />
-            <span style={{ color: "oklch(0.82 0.18 145)" }}>SERVICES</span>
+            Nos services<br />
+            <span style={{ fontStyle: "italic", fontWeight: 300, color: "var(--eds-gold)" }}>
+              maritimes & portuaires.
+            </span>
           </h1>
           <p style={{
-            fontFamily: "'IBM Plex Mono', monospace",
-            fontSize: "0.80rem", color: "oklch(0.62 0.025 200)",
-            lineHeight: 1.7, maxWidth: "520px", marginBottom: "2.5rem",
+            fontFamily: "'Inter', sans-serif",
+            fontSize: "1rem", lineHeight: 1.7,
+            color: "oklch(1 0 0 / 0.65)", maxWidth: "480px",
           }}>
-            Agence maritime, affrètement tramping, courtage en douane et expertise maritime —
-            une gamme complète de services opérés par des experts reconnus dans les ports français.
+            Une offre intégrée couvrant l'ensemble de la chaîne logistique maritime, de l'affrètement à la livraison finale.
           </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "1px" }}>
-            {[
-              { v: "800+", l: "Escales / an" },
-              { v: "200+", l: "Navires affrétés" },
-              { v: "7 M€", l: "Chiffre d'affaires" },
-              { v: "1975", l: "Année de création" },
-            ].map(({ v, l }) => (
-              <div key={l} style={{
-                background: "oklch(0 0 0 / 0.50)",
-                backdropFilter: "blur(12px)",
-                border: "1px solid oklch(1 0 0 / 0.10)",
-                borderTop: "1.5px solid oklch(0.82 0.18 145 / 0.60)",
-                padding: "0.75rem 1.25rem",
-                minWidth: "120px",
-              }}>
-                <div style={{
-                  fontFamily: "'Archivo', sans-serif",
-                  fontWeight: 900, fontSize: "1.6rem",
-                  color: "oklch(0.78 0.14 68)",
-                  letterSpacing: "-0.02em", lineHeight: 1,
-                }}>{v}</div>
-                <div style={{
-                  fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: "0.58rem", letterSpacing: "0.12em",
-                  textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
-                  marginTop: "0.25rem",
-                }}>{l}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* ── Services : alternance image/contenu ── */}
-      {services.map((svc, i) => (
-        <section key={svc.id} style={{
-          background: i % 2 === 0 ? "var(--sonar-deep)" : "var(--sonar-abyss)",
-          padding: "0",
-          position: "relative",
-          overflow: "hidden",
-        }}>
-          <div className="container" style={{ padding: "5rem 2rem" }}>
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "4rem",
-              alignItems: "center",
-            }} className="grid-cols-1 lg:grid-cols-2">
-
-              {/* Image */}
-              <Reveal dir={i % 2 === 0 ? "left" : "right"} className={i % 2 === 1 ? "lg:order-2" : ""}>
-                <div style={{ position: "relative", height: "520px", overflow: "hidden" }}>
-                  <img src={svc.img} alt={svc.title} style={{
-                    width: "100%", height: "100%", objectFit: "cover",
-                    objectPosition: "center 40%",
-                  }} />
-                  {/* Overlay gradient */}
-                  <div style={{
-                    position: "absolute", inset: 0,
-                    background: "linear-gradient(to top, oklch(0.08 0.025 200 / 0.70) 0%, transparent 50%)",
-                  }} />
-                  {/* Badge stat */}
-                  <div style={{
-                    position: "absolute", top: "1.25rem", right: "1.25rem",
-                    background: "oklch(0 0 0 / 0.75)",
-                    backdropFilter: "blur(12px)",
-                    border: "1px solid oklch(1 0 0 / 0.12)",
-                    borderTop: "1.5px solid oklch(0.82 0.18 145)",
-                    padding: "0.75rem 1rem",
-                    textAlign: "center",
+      {/* ── INTRO STATS ── */}
+      <section style={{ padding: "5rem 0", background: "var(--eds-cream)" }}>
+        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem" }}>
+          <RevealBlock>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }} className="grid-cols-1 lg:grid-cols-2">
+              <div>
+                <div className="eds-gold-rule"><span className="eds-label">Notre approche</span></div>
+                <h2 className="eds-h2" style={{ marginBottom: "1.25rem" }}>
+                  Une expertise<br />
+                  <span style={{ fontStyle: "italic", fontWeight: 300 }}>de bout en bout.</span>
+                </h2>
+                <p className="eds-body">
+                  Depuis 1975, Euro Docks Service accompagne armateurs, affréteurs et chargeurs dans toutes leurs opérations maritimes. Notre force : une équipe opérationnelle disponible 24h/24, une connaissance intime des ports français et un réseau international de partenaires certifiés.
+                </p>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0" }}>
+                {[
+                  { v: "800+", l: "Escales / an" },
+                  { v: "50 ans", l: "D'expertise" },
+                  { v: "5", l: "Ports français" },
+                  { v: "24h/24", l: "Disponibilité" },
+                ].map(({ v, l }, i) => (
+                  <div key={i} style={{
+                    padding: "2rem",
+                    borderRight: i % 2 === 0 ? "1px solid var(--border)" : "none",
+                    borderBottom: i < 2 ? "1px solid var(--border)" : "none",
                   }}>
                     <div style={{
-                      fontFamily: "'Archivo', sans-serif",
-                      fontWeight: 900, fontSize: "1.8rem",
-                      color: "oklch(0.78 0.14 68)",
-                      letterSpacing: "-0.02em", lineHeight: 1,
-                    }}>{svc.stat}</div>
+                      fontFamily: "'Cormorant Garamond', Georgia, serif",
+                      fontWeight: 700, fontSize: "2.5rem",
+                      color: "var(--eds-navy)", lineHeight: 1, letterSpacing: "-0.03em",
+                    }}>{v}</div>
                     <div style={{
-                      fontFamily: "'IBM Plex Mono', monospace",
-                      fontSize: "0.55rem", letterSpacing: "0.12em",
-                      textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
-                      marginTop: "0.2rem",
-                    }}>{svc.statLabel}</div>
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: "0.72rem", letterSpacing: "0.08em",
+                      textTransform: "uppercase", color: "var(--eds-steel)", marginTop: "0.4rem",
+                    }}>{l}</div>
                   </div>
-                  {/* Ports */}
-                  <div style={{
-                    position: "absolute", bottom: "1.25rem", left: "1.25rem",
-                    display: "flex", flexWrap: "wrap", gap: "0.4rem",
-                  }}>
-                    {svc.ports.map(p => (
-                      <span key={p} style={{
-                        display: "flex", alignItems: "center", gap: "0.3rem",
-                        fontFamily: "'IBM Plex Mono', monospace",
-                        fontSize: "0.55rem", letterSpacing: "0.08em",
-                        color: "oklch(0.80 0.01 200)",
-                        background: "oklch(0 0 0 / 0.60)",
-                        backdropFilter: "blur(8px)",
-                        padding: "0.2rem 0.5rem",
-                        border: "1px solid oklch(1 0 0 / 0.10)",
-                      }}>
-                        <MapPin size={8} style={{ color: "oklch(0.82 0.18 145)" }} />
-                        {p}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </Reveal>
+                ))}
+              </div>
+            </div>
+          </RevealBlock>
+        </div>
+      </section>
 
-              {/* Contenu */}
-              <Reveal dir={i % 2 === 0 ? "right" : "left"} delay={80} className={i % 2 === 1 ? "lg:order-1" : ""}>
-                <div>
-                  <div style={{
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: "0.60rem", letterSpacing: "0.15em",
-                    textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
-                    display: "flex", alignItems: "center", gap: "0.75rem",
-                    marginBottom: "1rem",
-                  }}>
-                    <span style={{ width: "20px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
-                    {svc.tag}
-                  </div>
-                  <h2 style={{
-                    fontFamily: "'Archivo', sans-serif",
-                    fontWeight: 900, fontSize: "clamp(2rem, 3.5vw, 3rem)",
-                    letterSpacing: "-0.025em", textTransform: "uppercase",
-                    color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
-                    marginBottom: "1.25rem",
-                  }}>{svc.title}</h2>
-                  <p style={{
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: "0.75rem", color: "oklch(0.58 0.025 200)",
-                    lineHeight: 1.75, marginBottom: "1.75rem",
-                  }}>{svc.description}</p>
+      {/* ── SERVICES DÉTAILLÉS — alternance image/texte ── */}
+      {SERVICES.map((s, i) => {
+        const Icon = s.icon;
+        const isEven = i % 2 === 0;
+        return (
+          <section key={i} style={{
+            background: isEven ? "var(--eds-ivory)" : "var(--eds-cream)",
+            overflow: "hidden",
+          }}>
+            <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
+              <RevealBlock>
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  minHeight: "520px",
+                }} className="grid-cols-1 lg:grid-cols-2">
 
-                  {/* Data HUD */}
+                  {/* Image */}
                   <div style={{
-                    border: "1px solid oklch(1 0 0 / 0.08)",
-                    borderTop: "1.5px solid oklch(0.82 0.18 145 / 0.40)",
-                    padding: "1rem",
-                    marginBottom: "1.5rem",
-                    background: "oklch(1 0 0 / 0.02)",
+                    order: isEven ? 1 : 2,
+                    position: "relative", minHeight: "400px",
                   }}>
-                    {svc.data.map(({ k, v }) => (
-                      <div key={k} style={{
-                        display: "flex", justifyContent: "space-between",
-                        alignItems: "center", padding: "0.45rem 0",
-                        borderBottom: "1px solid oklch(1 0 0 / 0.05)",
-                      }}>
-                        <span style={{
-                          fontFamily: "'IBM Plex Mono', monospace",
-                          fontSize: "0.60rem", letterSpacing: "0.08em",
-                          textTransform: "uppercase", color: "oklch(0.42 0.025 200)",
-                        }}>{k}</span>
-                        <span style={{
-                          fontFamily: "'IBM Plex Mono', monospace",
-                          fontSize: "0.65rem", fontWeight: 500,
-                          color: "oklch(0.82 0.18 145)",
-                        }}>{v}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Prestations */}
-                  <div style={{ marginBottom: "1.75rem" }}>
+                    <img src={s.img} alt={s.title} style={{
+                      position: "absolute", inset: 0,
+                      width: "100%", height: "100%", objectFit: "cover",
+                    }} />
+                    {/* Badge stat */}
                     <div style={{
-                      fontFamily: "'IBM Plex Mono', monospace",
-                      fontSize: "0.58rem", letterSpacing: "0.12em",
-                      textTransform: "uppercase", color: "oklch(0.45 0.025 200)",
-                      marginBottom: "0.75rem",
-                    }}>Prestations incluses</div>
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.4rem" }}>
-                      {svc.prestations.map(p => (
-                        <div key={p} style={{
-                          display: "flex", alignItems: "flex-start", gap: "0.4rem",
-                          fontFamily: "'IBM Plex Mono', monospace",
-                          fontSize: "0.62rem", color: "oklch(0.60 0.025 200)",
-                        }}>
-                          <ChevronRight size={10} style={{ marginTop: "1px", flexShrink: 0, color: "oklch(0.82 0.18 145)" }} />
-                          {p}
-                        </div>
-                      ))}
+                      position: "absolute",
+                      bottom: "2rem",
+                      [isEven ? "right" : "left"]: "2rem",
+                      background: "var(--eds-navy)",
+                      padding: "1.25rem 1.75rem",
+                      borderLeft: "3px solid var(--eds-gold)",
+                    }}>
+                      <div style={{
+                        fontFamily: "'Cormorant Garamond', Georgia, serif",
+                        fontWeight: 700, fontSize: "2rem",
+                        color: "var(--eds-white)", lineHeight: 1,
+                      }}>{s.stat.value}</div>
+                      <div style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: "0.65rem", letterSpacing: "0.1em",
+                        textTransform: "uppercase", color: "var(--eds-gold)", marginTop: "0.25rem",
+                      }}>{s.stat.label}</div>
                     </div>
                   </div>
 
-                  <Link href="/contact" style={{
-                    display: "inline-flex", alignItems: "center", gap: "0.5rem",
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.12em",
-                    textTransform: "uppercase", color: "oklch(0.82 0.18 145)",
-                    textDecoration: "none", transition: "gap 0.2s ease",
-                  }}
-                    onMouseEnter={e => (e.currentTarget.style.gap = "0.75rem")}
-                    onMouseLeave={e => (e.currentTarget.style.gap = "0.5rem")}
-                  >
-                    Demander un devis <ArrowRight size={12} />
-                  </Link>
+                  {/* Contenu */}
+                  <div style={{
+                    order: isEven ? 2 : 1,
+                    padding: "4rem 3.5rem",
+                    display: "flex", flexDirection: "column", justifyContent: "center",
+                  }}>
+                    <div style={{
+                      width: "44px", height: "44px",
+                      background: "var(--eds-gold)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      marginBottom: "1.5rem",
+                    }}>
+                      <Icon size={20} color="var(--eds-navy)" />
+                    </div>
+                    <div style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: "0.65rem", letterSpacing: "0.18em",
+                      textTransform: "uppercase", color: "var(--eds-gold)", marginBottom: "0.5rem",
+                    }}>{s.subtitle}</div>
+                    <h2 style={{
+                      fontFamily: "'Cormorant Garamond', Georgia, serif",
+                      fontWeight: 600, fontSize: "clamp(1.8rem, 3vw, 2.8rem)",
+                      letterSpacing: "-0.02em", lineHeight: 1.1,
+                      color: "var(--eds-navy)", marginBottom: "1.25rem",
+                    }}>{s.title}</h2>
+                    <p style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: "0.95rem", lineHeight: 1.75,
+                      color: "var(--eds-steel)", marginBottom: "2rem",
+                    }}>{s.desc}</p>
+                    <div style={{
+                      display: "grid", gridTemplateColumns: "1fr 1fr",
+                      gap: "0.5rem 1.5rem", marginBottom: "2.5rem",
+                    }}>
+                      {s.details.map((d, j) => (
+                        <div key={j} style={{
+                          display: "flex", alignItems: "center", gap: "0.5rem",
+                          fontFamily: "'Inter', sans-serif",
+                          fontSize: "0.82rem", color: "var(--eds-steel)",
+                        }}>
+                          <span style={{ width: "16px", height: "1px", background: "var(--eds-gold)", flexShrink: 0 }} />
+                          {d}
+                        </div>
+                      ))}
+                    </div>
+                    <Link href="/contact" className="eds-btn eds-btn-outline-navy" style={{ alignSelf: "flex-start" }}>
+                      Demander un devis <ArrowRight size={14} />
+                    </Link>
+                  </div>
                 </div>
-              </Reveal>
+              </RevealBlock>
             </div>
-          </div>
-        </section>
-      ))}
+          </section>
+        );
+      })}
 
-      {/* ── CTA Final ── */}
-      <section style={{ position: "relative", overflow: "hidden", minHeight: "320px" }}>
-        <img src={IMGS.hero} alt="" style={{
-          position: "absolute", inset: 0, width: "100%", height: "100%",
-          objectFit: "cover", objectPosition: "center 60%",
-        }} />
+      {/* ── CTA FINAL ── */}
+      <section style={{
+        position: "relative", overflow: "hidden",
+        minHeight: "400px", display: "flex", alignItems: "center",
+      }}>
+        <img src={IMG_HERO} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
         <div style={{
           position: "absolute", inset: 0,
-          background: "linear-gradient(135deg, oklch(0.08 0.025 200 / 0.96) 0%, oklch(0.08 0.025 200 / 0.85) 100%)",
+          background: "linear-gradient(to right, oklch(0.10 0.03 240 / 0.95) 0%, oklch(0.10 0.03 240 / 0.65) 60%, transparent 100%)",
         }} />
-        <div className="sonar-bathymetric" style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.4 }} />
-        <div className="container" style={{ position: "relative", zIndex: 1, padding: "5rem 2rem" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "3rem", flexWrap: "wrap" }}>
-            <div>
-              <div style={{
-                fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: "0.60rem", letterSpacing: "0.15em",
-                color: "oklch(0.82 0.18 145)", textTransform: "uppercase",
-                display: "flex", alignItems: "center", gap: "0.75rem",
-                marginBottom: "1rem",
-              }}>
-                <span style={{ width: "20px", height: "1px", background: "oklch(0.82 0.18 145)" }} />
-                Prise de contact
-              </div>
-              <h2 style={{
-                fontFamily: "'Archivo', sans-serif",
-                fontWeight: 900, fontSize: "clamp(1.8rem, 3.5vw, 3rem)",
-                letterSpacing: "-0.025em", textTransform: "uppercase",
-                color: "oklch(0.97 0.005 200)", lineHeight: 0.95,
-              }}>
-                UN PROJET D'AFFRÈTEMENT<br />
-                <span style={{ color: "oklch(0.82 0.18 145)" }}>OU D'AGENCE MARITIME ?</span>
-              </h2>
-              <p style={{
-                fontFamily: "'IBM Plex Mono', monospace",
-                fontSize: "0.72rem", color: "oklch(0.55 0.025 200)",
-                lineHeight: 1.7, marginTop: "1rem", maxWidth: "420px",
-              }}>
-                Contactez notre équipe commerciale pour un devis personnalisé sous 24 heures.
-              </p>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-              <Link href="/contact" className="sonar-btn sonar-btn-signal">
-                NOUS CONTACTER <ArrowRight size={13} />
+        <div style={{ position: "relative", zIndex: 1, maxWidth: "1400px", margin: "0 auto", padding: "5rem 2.5rem" }}>
+          <RevealBlock>
+            <div className="eds-gold-rule"><span className="eds-label">Contact</span></div>
+            <h2 style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontWeight: 700, fontSize: "clamp(2rem, 4vw, 3.5rem)",
+              letterSpacing: "-0.03em", lineHeight: 1.05,
+              color: "var(--eds-white)", maxWidth: "500px", marginBottom: "2rem",
+            }}>
+              Besoin d'un devis ?<br />
+              <span style={{ fontStyle: "italic", fontWeight: 300, color: "var(--eds-gold)" }}>Réponse sous 24h.</span>
+            </h2>
+            <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+              <Link href="/contact" className="eds-btn eds-btn-gold">
+                Nous contacter <ArrowRight size={15} />
               </Link>
-              <a href="mailto:commercial@eurodocks.com" className="sonar-btn sonar-btn-ghost">
-                commercial@eurodocks.com
-              </a>
+              <Link href="/terminal" className="eds-btn eds-btn-outline">
+                Terminaux portuaires
+              </Link>
             </div>
-          </div>
+          </RevealBlock>
         </div>
       </section>
     </div>
