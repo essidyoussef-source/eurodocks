@@ -15,11 +15,11 @@
    - Crème : (#EDE8DF)
    
    Typographie :
-   - Display : Cormorant Garamond (serif élégant, autorité)
-   - Corps : Inter (lisibilité parfaite, neutralité)
+   - Display : Barlow Condensed (condensé puissant, autorité industrielle)
+   - Corps : Barlow (lisibilité premium, dynamisme)
    - Mono : JetBrains Mono (données techniques)
    
-   Philosophie : Pas de néon, pas de noir total, pas de typo condensée agressive.
+   Philosophie : Photos vivantes, arrondis généreux, typo Barlow puissante.
    Chaque page respire. Les photos parlent. Le texte guide.
 ═══════════════════════════════════════════════════════════════ */
 
@@ -49,7 +49,7 @@
 }
 
 :root {
-  --radius: 0.25rem;
+  --radius: 0.75rem;
 
   /* ── Tokens EDS Maritime Prestige ── */
   --eds-ivory:    oklch(0.97 0.012 80);      /* Fond principal ivoire chaud */
@@ -90,7 +90,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Barlow', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -106,52 +106,55 @@
 ═══════════════════════════════════════════════════════════════ */
 
 .eds-display {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.0;
   color: var(--eds-navy);
 }
 
 .eds-display-light {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-weight: 300;
   font-style: italic;
   letter-spacing: 0.01em;
-  line-height: 1.15;
-  color: var(--eds-navy);
-}
-
-.eds-h1 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-weight: 700;
-  font-size: clamp(3rem, 7vw, 6.5rem);
-  letter-spacing: -0.03em;
-  line-height: 1.0;
-  color: var(--eds-white);
-}
-
-.eds-h2 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-weight: 600;
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  letter-spacing: -0.02em;
   line-height: 1.1;
   color: var(--eds-navy);
 }
 
-.eds-h3 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-weight: 600;
-  font-size: clamp(1.4rem, 2.5vw, 2rem);
+.eds-h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: clamp(3.2rem, 8vw, 7.5rem);
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  color: var(--eds-white);
+  text-transform: uppercase;
+}
+
+.eds-h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
   letter-spacing: -0.01em;
-  line-height: 1.2;
+  line-height: 1.0;
   color: var(--eds-navy);
+  text-transform: uppercase;
+}
+
+.eds-h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  letter-spacing: 0em;
+  line-height: 1.1;
+  color: var(--eds-navy);
+  text-transform: uppercase;
 }
 
 .eds-label {
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
   font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -159,8 +162,8 @@
 }
 
 .eds-label-dark {
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
   font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -168,7 +171,7 @@
 }
 
 .eds-body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: 1rem;
   line-height: 1.75;
   color: var(--eds-steel);
@@ -188,14 +191,15 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
   font-size: 0.82rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 0.875rem 2rem;
   border: none;
   cursor: pointer;
+  border-radius: 0.5rem;
   transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
   text-decoration: none;
   white-space: nowrap;
@@ -348,6 +352,7 @@
   overflow: hidden;
   background: var(--eds-white);
   border: 1px solid var(--border);
+  border-radius: 1rem;
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -360,6 +365,7 @@
 .eds-service-card-dark {
   background: var(--eds-navy-mid);
   border: 1px solid oklch(1 0 0 / 0.08);
+  border-radius: 1rem;
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -379,7 +385,7 @@
 }
 
 .eds-stat-number {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-weight: 700;
   font-size: clamp(2.5rem, 4vw, 4rem);
   line-height: 1;
@@ -497,7 +503,7 @@
 
 /* Chiffre géant en arrière-plan décoratif */
 .eds-bg-numeral {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-weight: 700;
   font-size: clamp(8rem, 18vw, 18rem);
   line-height: 0.85;
@@ -516,7 +522,7 @@
 
 /* Chiffre éditorial en premier plan — ancre de composition */
 .eds-monumental-number {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-weight: 700;
   font-size: clamp(5rem, 12vw, 11rem);
   line-height: 0.9;
@@ -558,7 +564,7 @@
 }
 
 .eds-monogram-letters {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-weight: 700;
   font-size: 1.1rem;
   letter-spacing: 0.12em;
@@ -606,7 +612,7 @@
 
 /* Pull-quote éditorial */
 .eds-pull-quote {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-weight: 300;
   font-style: italic;
   font-size: clamp(1.6rem, 3vw, 2.8rem);

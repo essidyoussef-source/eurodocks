@@ -11,10 +11,15 @@ import { ArrowRight, Anchor, Ship, Package, FileText, MapPin, BarChart3, Chevron
 
 // ── Images générées ──────────────────────────────────────────
 const HERO_VIDEO = "/manus-storage/eds_hero_vraquier_final_a8b3c2d1.mp4";
-const IMG_PORT   = "/manus-storage/sonar_s3_quay_e4f5a6b7.jpg";
-const IMG_GRAIN  = "/manus-storage/sonar_s2_grain_c8d9e0f1.jpg";
-const IMG_SHIP   = "/manus-storage/eds2_tramping_sea_a2b3c4d5.jpg";
-const IMG_ROUEN  = "/manus-storage/sonar_s3_crane_f6a7b8c9.jpg";
+const IMG_PORT   = "/manus-storage/sonar_s3_quay_f39fa26f.jpg";
+const IMG_GRAIN  = "/manus-storage/sonar_s2_grain_40b3b181.jpg";
+const IMG_SHIP   = "/manus-storage/eds2_tramping_sea_31d23fff.jpg";
+const IMG_ROUEN  = "/manus-storage/sonar_s3_crane_6f1240bf.jpg";
+const IMG_HERO_FALLBACK  = "/manus-storage/eds2_hero_bulker_c6f31f54.jpg";
+const IMG_DUNKERQUE      = "/manus-storage/eds2_port_dunkerque_3288e90d.jpg";
+const IMG_BOULOGNE       = "/manus-storage/eds2_boulogne_terminal_a931710d.jpg";
+const IMG_CHARTERING     = "/manus-storage/eds2_chartering_bridge_74fb5fb7.jpg";
+const IMG_STEVEDORING    = "/manus-storage/eds2_stevedoring_night_6e625a18.jpg";
 
 // ── Données ──────────────────────────────────────────────────
 const STATS = [
@@ -170,7 +175,7 @@ export default function Home() {
         {/* Fallback image */}
         {!videoLoaded && (
           <img
-            src={IMG_SHIP}
+            src={IMG_HERO_FALLBACK}
             alt="Vraquier en mer"
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
           />
@@ -199,23 +204,24 @@ export default function Home() {
 
             {/* Titre */}
             <h1 style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontWeight: 700,
-              fontSize: "clamp(3.2rem, 7vw, 6.5rem)",
-              letterSpacing: "-0.03em",
-              lineHeight: 1.0,
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontWeight: 800,
+              fontSize: "clamp(3.5rem, 8vw, 7.5rem)",
+              letterSpacing: "-0.02em",
+              lineHeight: 0.95,
               color: "var(--eds-white)",
+              textTransform: "uppercase",
               marginBottom: "1.75rem",
             }}>
               L'expertise maritime<br />
-              <span style={{ color: "var(--eds-gold)", fontStyle: "italic", fontWeight: 300 }}>
+              <span style={{ color: "var(--eds-gold)", fontStyle: "italic", fontWeight: 300, textTransform: "none" }}>
                 au service de votre cargo.
               </span>
             </h1>
 
             {/* Sous-titre */}
             <p style={{
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "'Barlow', sans-serif",
               fontSize: "1.05rem",
               lineHeight: 1.7,
               color: "oklch(1 0 0 / 0.7)",
@@ -318,6 +324,7 @@ export default function Home() {
                     height: "480px",
                     objectFit: "cover",
                     display: "block",
+                    borderRadius: "1rem",
                   }}
                 />
                 {/* Badge flottant */}
@@ -328,14 +335,15 @@ export default function Home() {
                   background: "var(--eds-navy)",
                   padding: "1.5rem 2rem",
                   borderLeft: "3px solid var(--eds-gold)",
+                  borderRadius: "0.5rem",
                 }}>
                   <div style={{
-                    fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    fontWeight: 700, fontSize: "2.5rem",
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontWeight: 800, fontSize: "2.8rem",
                     color: "var(--eds-white)", lineHeight: 1,
                   }}>50</div>
                   <div style={{
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "'Barlow', sans-serif",
                     fontSize: "0.68rem", letterSpacing: "0.12em",
                     textTransform: "uppercase",
                     color: "var(--eds-gold)", marginTop: "0.25rem",
@@ -417,21 +425,22 @@ export default function Home() {
                           <Icon size={18} color="var(--eds-navy)" />
                         </div>
                         <h3 style={{
-                          fontFamily: "'Cormorant Garamond', Georgia, serif",
-                          fontWeight: 600, fontSize: "1.6rem",
-                          color: "var(--eds-white)", lineHeight: 1.1,
+                          fontFamily: "'Barlow Condensed', sans-serif",
+                          fontWeight: 700, fontSize: "1.7rem",
+                          color: "var(--eds-white)", lineHeight: 1.0,
                           marginBottom: "0.75rem",
-                          letterSpacing: "-0.01em",
+                          letterSpacing: "0em",
+                          textTransform: "uppercase",
                         }}>{s.title}</h3>
                         <p style={{
-                          fontFamily: "'Inter', sans-serif",
-                          fontSize: "0.85rem", lineHeight: 1.65,
+                          fontFamily: "'Barlow', sans-serif",
+                          fontSize: "0.88rem", lineHeight: 1.65,
                           color: "oklch(1 0 0 / 0.7)",
                         }}>{s.desc}</p>
                         <div style={{
                           display: "flex", alignItems: "center", gap: "0.4rem",
                           marginTop: "1.25rem",
-                          fontFamily: "'Inter', sans-serif",
+                          fontFamily: "'Barlow', sans-serif",
                           fontSize: "0.72rem", letterSpacing: "0.08em",
                           textTransform: "uppercase",
                           color: "var(--eds-gold)",
@@ -469,14 +478,15 @@ export default function Home() {
               <span className="eds-label">Présence portuaire</span>
             </div>
             <h2 style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontWeight: 600, fontSize: "clamp(2rem, 4vw, 3.5rem)",
-              letterSpacing: "-0.02em", lineHeight: 1.1,
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontWeight: 800, fontSize: "clamp(2.5rem, 5vw, 5rem)",
+              letterSpacing: "-0.01em", lineHeight: 0.95,
               color: "var(--eds-white)",
+              textTransform: "uppercase",
               marginBottom: "3.5rem",
             }}>
               5 ports,<br />
-              <span style={{ fontStyle: "italic", fontWeight: 300, color: "var(--eds-gold)" }}>
+              <span style={{ fontStyle: "italic", fontWeight: 300, color: "var(--eds-gold)", textTransform: "none" }}>
                 une couverture nationale.
               </span>
             </h2>
@@ -498,18 +508,19 @@ export default function Home() {
                 >
                   <MapPin size={16} color="var(--eds-gold)" style={{ marginBottom: "1rem" }} />
                   <div style={{
-                    fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    fontWeight: 600, fontSize: "1.1rem",
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontWeight: 700, fontSize: "1.2rem",
                     color: "var(--eds-white)", marginBottom: "0.4rem",
+                    textTransform: "uppercase",
                   }}>{p.name}</div>
                   <div style={{
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "'Barlow', sans-serif",
                     fontSize: "0.72rem", letterSpacing: "0.05em",
                     color: "var(--eds-gold)", marginBottom: "0.5rem",
                     textTransform: "uppercase",
                   }}>{p.role}</div>
                   <div style={{
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "'Barlow', sans-serif",
                     fontSize: "0.75rem",
                     color: "oklch(1 0 0 / 0.45)",
                   }}>{p.detail}</div>
@@ -541,22 +552,22 @@ export default function Home() {
                   borderLeft: i === 0 ? "3px solid var(--eds-gold)" : "none",
                 }}>
                   <div style={{
-                    fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    fontWeight: 700,
-                    fontSize: "clamp(3.5rem, 6vw, 6rem)",
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontWeight: 800,
+                    fontSize: "clamp(3.5rem, 6vw, 6.5rem)",
                     lineHeight: 0.9,
-                    letterSpacing: "-0.04em",
+                    letterSpacing: "-0.02em",
                     color: i === 0 ? "var(--eds-gold)" : "var(--eds-white)",
                     marginBottom: "0.75rem",
                   }}>{s.n}</div>
                   <div style={{
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "'Barlow', sans-serif",
                     fontSize: "0.7rem", letterSpacing: "0.14em",
                     textTransform: "uppercase",
                     color: "var(--eds-gold)", marginBottom: "0.2rem",
                   }}>{s.u}</div>
                   <div style={{
-                    fontFamily: "'Inter', sans-serif",
+                    fontFamily: "'Barlow', sans-serif",
                     fontSize: "0.72rem",
                     color: "oklch(1 0 0 / 0.4)",
                   }}>{s.d}</div>
@@ -610,11 +621,12 @@ export default function Home() {
                   onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "transparent"}
                 >
                   <span style={{
-                    fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    fontWeight: 600, fontSize: "0.95rem",
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontWeight: 600, fontSize: "1rem",
                     color: "var(--eds-steel)",
-                    letterSpacing: "0.02em",
+                    letterSpacing: "0.04em",
                     textAlign: "center",
+                    textTransform: "uppercase",
                   }}>{client}</span>
                 </div>
               ))}
@@ -642,10 +654,11 @@ export default function Home() {
               <span className="eds-label">Travaillons ensemble</span>
             </div>
             <h2 style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontWeight: 700, fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
-              letterSpacing: "-0.03em", lineHeight: 1.05,
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontWeight: 800, fontSize: "clamp(2.8rem, 5.5vw, 5.5rem)",
+              letterSpacing: "-0.01em", lineHeight: 0.95,
               color: "var(--eds-white)", maxWidth: "600px",
+              textTransform: "uppercase",
               marginBottom: "1.5rem",
             }}>
               Un projet d'affrètement ?<br />
@@ -654,7 +667,7 @@ export default function Home() {
               </span>
             </h2>
             <p style={{
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "'Barlow', sans-serif",
               fontSize: "1rem", lineHeight: 1.7,
               color: "oklch(1 0 0 / 0.65)",
               maxWidth: "440px", marginBottom: "2.5rem",
