@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Euro Docks Service</title>
+<meta name="description" content="Contactez Euro Docks Service : affrètement, agence maritime, transit multimodal ou terminal portuaire. Réponse sous 24 heures.">
+<link rel="icon" type="image/png" href="assets/eds-emblem.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#0d1a28;overflow-x:clip;scroll-behavior:smooth}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:var(--brass)}
+  ::selection{background:var(--brass);color:#0d1a28}
+  .nav-link:hover{color:var(--brass)}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.22,.61,.36,1),transform .8s cubic-bezier(.22,.61,.36,1)}
+  .reveal.in{opacity:1;transform:none}
+  .card-hover{transition:border-top-color .25s ease,transform .25s ease}
+  .card-hover:hover{border-top-color:var(--brass) !important;transform:translateY(-4px)}
+  .fld{width:100%;background:var(--ink-d);border:1px solid var(--line);border-bottom:1px solid oklch(0.70 0.12 245 / 0.3);padding:.875rem 1rem;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:.78rem;outline:none;border-radius:10px;transition:border-color .2s ease}
+  .fld:focus{border-color:var(--brass)}
+  .fld::placeholder{color:var(--mid)}
+  select.fld{cursor:pointer}
+</style>
+</head>
+<body>
+<div data-eds-root style="--ink:oklch(0.19 0.035 245);--ink-d:oklch(0.15 0.03 246);--deep:oklch(0.13 0.028 247);--ocean:oklch(0.24 0.04 244);--line:oklch(1 0 0 / 0.10);--mid:oklch(0.62 0.03 240);--light:oklch(0.80 0.02 240);--white:oklch(0.97 0.005 240);--brass:#2f93d1;--brass-d:oklch(0.58 0.11 245);background:var(--ink);color:var(--white);font-family:'Archivo',sans-serif;position:relative;width:100%;overflow-x:clip">
+
+  <div style="background:var(--deep);border-bottom:1px solid var(--line);position:relative;z-index:60">
+    <div style="max-width:1440px;margin:0 auto;padding:.4rem clamp(1.25rem,4vw,2.5rem);display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap">
+      <div style="display:flex;gap:clamp(.75rem,2vw,1.75rem);font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mid);flex-wrap:wrap">
+        <a class="nav-link" href="contact.html" style="transition:color .2s">Mentions légales</a>
+        <a class="nav-link" href="contact.html" style="transition:color .2s">Nous rejoindre</a>
+        <a class="nav-link" href="contact.html" style="transition:color .2s">Annuaire</a>
+      </div>
+      <div style="display:flex;gap:1.25rem;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase">
+        <a href="https://www.linkedin.com" style="color:var(--mid);transition:color .2s" class="nav-link">LinkedIn ↗</a>
+        <a href="tel:+33328000000" style="color:var(--brass);font-weight:600">+33 (0)3 28 00 00 00</a>
+        <span style="color:var(--line)">|</span>
+        <span style="color:var(--mid)">FR</span>
+      </div>
+    </div>
+  </div>
+
+  <nav data-nav style="position:sticky;top:0;z-index:50;background:oklch(0.13 0.028 247);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);transition:background .3s ease">
+    <div style="max-width:1440px;margin:0 auto;padding:0 clamp(1.25rem,4vw,2.5rem);height:72px;display:flex;align-items:center;justify-content:space-between;gap:1rem">
+      <a href="index.html" style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+        <img src="assets/eds-emblem.png" alt="Euro Docks Service" style="height:46px;width:auto;display:block">
+        <span style="font-weight:900;font-size:1.3rem;letter-spacing:-0.02em;text-transform:uppercase">Euro Docks</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.34em;color:var(--brass);text-transform:uppercase;padding-bottom:3px">Service</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:clamp(1rem,2.4vw,2.25rem);font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase">
+        <a class="nav-link" href="services.html" style="color:var(--light);transition:color .2s">Services</a>
+        <a class="nav-link" href="terminal.html" style="color:var(--light);transition:color .2s">Terminal</a>
+        <a class="nav-link" href="fret.html" style="color:var(--light);transition:color .2s">Transit</a>
+        <a class="nav-link" href="a-propos.html" style="color:var(--light);transition:color .2s">À propos</a>
+        <a href="contact.html" style="display:flex;align-items:center;gap:8px;padding:10px 18px;background:var(--brass);color:#0d1a28;font-weight:600;letter-spacing:.12em;border-radius:999px">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <header style="position:relative;overflow:hidden;min-height:clamp(380px,52vh,480px);display:flex;align-items:center">
+    <img src="assets/eds2_port_dunkerque_9fea8573.jpg" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,oklch(0.13 0.028 247 / 0.6) 0%,var(--ink) 100%)"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,oklch(0.13 0.028 247 / 0.8) 0%,transparent 62%)"></div>
+    <div style="position:relative;max-width:1440px;width:100%;margin:0 auto;padding:4rem clamp(1.25rem,4vw,2.5rem)">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);margin-bottom:1.5rem;display:flex;align-items:center;gap:.85rem"><span style="display:inline-block;width:32px;height:1px;background:var(--brass)"></span>Contact</div>
+      <h1 style="font-weight:900;font-size:clamp(2.6rem,7vw,5.5rem);line-height:.92;letter-spacing:-0.03em;text-transform:uppercase">Parlons<br><span style="color:var(--brass)">de votre projet.</span></h1>
+      <p style="margin-top:1.5rem;font-size:clamp(1rem,1.4vw,1.15rem);line-height:1.6;color:var(--light);max-width:52ch">Affrètement, agence maritime, transit multimodal ou terminal portuaire · notre équipe répond sous 24 heures.</p>
+    </div>
+  </header>
+
+  <!-- ══ FORMULAIRE + INFOS ══ -->
+  <section style="background:var(--ink-d);padding:clamp(4rem,8vh,6rem) clamp(1.25rem,4vw,2.5rem);border-top:1px solid var(--line)">
+    <div style="max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(2.5rem,5vw,4rem);align-items:start">
+      <!-- FORM -->
+      <div class="reveal">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="width:20px;height:1px;background:var(--brass)"></span>Envoyer un message</div>
+        <h2 style="font-weight:900;font-size:clamp(1.8rem,3vw,2.5rem);letter-spacing:-0.025em;text-transform:uppercase;line-height:.95;margin-bottom:2rem">Demande<br><span style="color:var(--brass)">de devis.</span></h2>
+
+        
+        
+          <form id="quote-form" style="display:flex;flex-direction:column;gap:1.25rem">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+              <div><label style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);display:block;margin-bottom:.4rem">Nom *</label><input class="fld" type="text" placeholder="Jean Dupont" required></div>
+              <div><label style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);display:block;margin-bottom:.4rem">Société *</label><input class="fld" type="text" placeholder="Armateur SA" required></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+              <div><label style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);display:block;margin-bottom:.4rem">Email *</label><input class="fld" type="email" placeholder="contact@armateur.com" required></div>
+              <div><label style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);display:block;margin-bottom:.4rem">Téléphone</label><input class="fld" type="tel" placeholder="+33 6 00 00 00 00"></div>
+            </div>
+            <div><label style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);display:block;margin-bottom:.4rem">Service *</label>
+              <select class="fld" required>
+                <option value="">Sélectionner un service</option>
+                <option value="agency">Agence Maritime</option>
+                <option value="charter">Affrètement Tramping</option>
+                <option value="customs">Courtage en Douane</option>
+                <option value="survey">Expertise Maritime</option>
+                <option value="freight">Freight Forwarding</option>
+                <option value="terminal">Port Terminal</option>
+              </select>
+            </div>
+            <div><label style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);display:block;margin-bottom:.4rem">Message *</label><textarea class="fld" rows="5" required placeholder="Décrivez votre projet : type de cargaison, port de chargement/déchargement, tonnage, période..." style="resize:vertical"></textarea></div>
+            <button type="submit" style="align-self:flex-start;display:inline-flex;align-items:center;gap:.6rem;padding:1rem 2rem;background:var(--brass);color:#0d1a28;font-weight:700;letter-spacing:.03em;border:none;border-radius:999px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:.72rem;text-transform:uppercase">Envoyer la demande →</button>
+          </form>
+        
+      </div>
+
+      <!-- INFOS -->
+      <div class="reveal">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="width:20px;height:1px;background:var(--brass)"></span>Réponse rapide</div>
+        <h2 style="font-weight:900;font-size:clamp(1.5rem,2.5vw,2rem);letter-spacing:-0.02em;text-transform:uppercase;line-height:.95;margin-bottom:.75rem">Disponibles<br>24h/24.</h2>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--mid);line-height:1.7;margin-bottom:1.75rem">Notre équipe opérationnelle est disponible 24h/24 pour les urgences portuaires. Les demandes commerciales sont traitées sous 24 heures ouvrées.</p>
+        <div style="display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem">
+          
+            <div style="display:flex;align-items:flex-start;gap:.75rem;padding:.875rem 1rem;background:oklch(1 0 0 / 0.03);border:1px solid var(--line);border-left:2px solid oklch(0.70 0.12 245 / 0.4);border-radius:12px">
+              <span style="color:var(--brass);margin-top:1px;flex-shrink:0" data-om-raster><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></g></svg></span>
+              <div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.2rem">Réponse sous 24 heures</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.74rem;font-weight:500;color:var(--white)">Jours ouvrés · urgences immédiates</div>
+              </div>
+            </div>
+          
+            <div style="display:flex;align-items:flex-start;gap:.75rem;padding:.875rem 1rem;background:oklch(1 0 0 / 0.03);border:1px solid var(--line);border-left:2px solid oklch(0.70 0.12 245 / 0.4);border-radius:12px">
+              <span style="color:var(--brass);margin-top:1px;flex-shrink:0" data-om-raster><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.98.36 1.94.7 2.86a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.22-1.27a2 2 0 0 1 2.11-.45c.92.34 1.88.57 2.86.7A2 2 0 0 1 22 16.92z"></path></svg></span>
+              <div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.2rem">Téléphone</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.74rem;font-weight:500;color:var(--white)">+33 (0)3 28 63 00 00</div>
+              </div>
+            </div>
+          
+            <div style="display:flex;align-items:flex-start;gap:.75rem;padding:.875rem 1rem;background:oklch(1 0 0 / 0.03);border:1px solid var(--line);border-left:2px solid oklch(0.70 0.12 245 / 0.4);border-radius:12px">
+              <span style="color:var(--brass);margin-top:1px;flex-shrink:0" data-om-raster><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 6-10 7L2 6"></path></g></svg></span>
+              <div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.2rem">Email commercial</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.74rem;font-weight:500;color:var(--white)">commercial@eurodocks.com</div>
+              </div>
+            </div>
+          
+        </div>
+        <div style="position:relative;height:220px;border-radius:18px;overflow:hidden;border:1px solid var(--line)">
+          <img src="assets/eds2_stevedoring_night_f14f419a.jpg" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,oklch(0.13 0.028 247 / 0.85) 0%,transparent 60%)"></div>
+          <div style="position:absolute;bottom:1rem;left:1rem;right:1rem;font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--light);font-style:italic">Opérations 24h/24 · Dunkerque, Boulogne, Rouen, Bayonne, Calais</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ AGENCES ══ -->
+  <section style="position:relative;overflow:hidden;border-top:1px solid var(--line)">
+    <img src="assets/eds2_hatch_inspection_5a8b030b.jpg" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    <div style="position:absolute;inset:0;background:oklch(0.13 0.028 247 / 0.93)"></div>
+    <div style="position:relative;max-width:1440px;margin:0 auto;padding:clamp(4rem,8vh,6rem) clamp(1.25rem,4vw,2.5rem)">
+      <div class="reveal" style="margin-bottom:2.5rem">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="width:20px;height:1px;background:var(--brass)"></span>Nos agences</div>
+        <h2 style="font-weight:900;font-size:clamp(1.8rem,3vw,2.5rem);letter-spacing:-0.025em;text-transform:uppercase;line-height:.95">Présents dans<br><span style="color:var(--brass)">5 ports français.</span></h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem">
+        
+          <div class="reveal card-hover" style="background:oklch(0 0 0 / 0.5);backdrop-filter:blur(16px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.4);padding:2rem;border-radius:16px;height:100%">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);margin-bottom:.5rem">Siège social</div>
+            <h3 style="font-weight:800;font-size:1.4rem;text-transform:uppercase;letter-spacing:-0.01em;margin-bottom:1.25rem">Dunkerque</h3>
+            <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.25rem">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--mid)">Port de Dunkerque, France</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--mid)">+33 (0)3 28 63 00 00</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--brass)">commercial@eurodocks.com</div>
+            </div>
+            <div style="border-top:1px solid var(--line);padding-top:1rem">
+              
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--mid);padding:.2rem 0;display:flex;align-items:center;gap:.4rem"><span style="width:10px;height:1px;background:oklch(0.70 0.12 245 / 0.5);flex-shrink:0"></span>Shipping Agency</div>
+              
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--mid);padding:.2rem 0;display:flex;align-items:center;gap:.4rem"><span style="width:10px;height:1px;background:oklch(0.70 0.12 245 / 0.5);flex-shrink:0"></span>Chartering & Tramping</div>
+              
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--mid);padding:.2rem 0;display:flex;align-items:center;gap:.4rem"><span style="width:10px;height:1px;background:oklch(0.70 0.12 245 / 0.5);flex-shrink:0"></span>Customs Brokerage</div>
+              
+            </div>
+          </div>
+        
+          <div class="reveal card-hover" style="background:oklch(0 0 0 / 0.5);backdrop-filter:blur(16px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.4);padding:2rem;border-radius:16px;height:100%">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);margin-bottom:.5rem">Terminal dédié</div>
+            <h3 style="font-weight:800;font-size:1.4rem;text-transform:uppercase;letter-spacing:-0.01em;margin-bottom:1.25rem">Boulogne-sur-Mer</h3>
+            <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.25rem">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--mid)">Port de Boulogne-sur-Mer, France</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--mid)">+33 (0)3 21 99 00 00</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--brass)">boulogne@eurodocks.com</div>
+            </div>
+            <div style="border-top:1px solid var(--line);padding-top:1rem">
+              
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--mid);padding:.2rem 0;display:flex;align-items:center;gap:.4rem"><span style="width:10px;height:1px;background:oklch(0.70 0.12 245 / 0.5);flex-shrink:0"></span>Port Terminal</div>
+              
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--mid);padding:.2rem 0;display:flex;align-items:center;gap:.4rem"><span style="width:10px;height:1px;background:oklch(0.70 0.12 245 / 0.5);flex-shrink:0"></span>Stevedoring</div>
+              
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--mid);padding:.2rem 0;display:flex;align-items:center;gap:.4rem"><span style="width:10px;height:1px;background:oklch(0.70 0.12 245 / 0.5);flex-shrink:0"></span>Maritime Survey</div>
+              
+            </div>
+          </div>
+        
+          <div class="reveal card-hover" style="background:oklch(0 0 0 / 0.5);backdrop-filter:blur(16px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.4);padding:2rem;border-radius:16px;height:100%">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);margin-bottom:.5rem">Terminaux grain</div>
+            <h3 style="font-weight:800;font-size:1.4rem;text-transform:uppercase;letter-spacing:-0.01em;margin-bottom:1.25rem">Rouen</h3>
+            <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.25rem">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--mid)">Port de Rouen, France</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--mid)">+33 (0)2 35 52 00 00</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--brass)">rouen@eurodocks.com</div>
+            </div>
+            <div style="border-top:1px solid var(--line);padding-top:1rem">
+              
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--mid);padding:.2rem 0;display:flex;align-items:center;gap:.4rem"><span style="width:10px;height:1px;background:oklch(0.70 0.12 245 / 0.5);flex-shrink:0"></span>Grain Terminal</div>
+              
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--mid);padding:.2rem 0;display:flex;align-items:center;gap:.4rem"><span style="width:10px;height:1px;background:oklch(0.70 0.12 245 / 0.5);flex-shrink:0"></span>Freight Forwarding</div>
+              
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--mid);padding:.2rem 0;display:flex;align-items:center;gap:.4rem"><span style="width:10px;height:1px;background:oklch(0.70 0.12 245 / 0.5);flex-shrink:0"></span>Shipping Agency</div>
+              
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer style="background:var(--deep);border-top:1px solid var(--line)">
+    <div style="max-width:1440px;margin:0 auto;padding:clamp(3rem,6vh,4rem) clamp(1.25rem,4vw,2.5rem)">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2.5rem">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem"><img src="assets/eds-emblem.png" alt="Euro Docks Service" style="height:52px;width:auto;display:block"><span style="font-weight:900;font-size:1.2rem;letter-spacing:-0.02em;text-transform:uppercase">Euro Docks</span><span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.34em;color:var(--brass);text-transform:uppercase">Service</span></div>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.08em;color:var(--mid);line-height:1.9;text-transform:uppercase">Agence maritime · Tramping<br>Terminaux · Depuis 1975</p>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);margin-bottom:1rem">Nos services</div>
+          <div style="display:flex;flex-direction:column;gap:.6rem;font-size:.88rem;color:var(--mid)">
+            <a class="nav-link" href="services.html" style="transition:color .2s">Agence maritime</a>
+            <a class="nav-link" href="services.html" style="transition:color .2s">Affrètement tramping</a>
+            <a class="nav-link" href="services.html" style="transition:color .2s">Expertise & survey</a>
+            <a class="nav-link" href="fret.html" style="transition:color .2s">Transit & douane</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);margin-bottom:1rem">Nos ports</div>
+          <div style="display:flex;flex-direction:column;gap:.6rem;font-size:.88rem;color:var(--mid)">
+            <a class="nav-link" href="terminal.html" style="transition:color .2s">Dunkerque</a>
+            <a class="nav-link" href="terminal.html" style="transition:color .2s">Boulogne-sur-Mer</a>
+            <a class="nav-link" href="terminal.html" style="transition:color .2s">Rouen</a>
+            <a class="nav-link" href="terminal.html" style="transition:color .2s">Bayonne · Calais</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);margin-bottom:1rem">Suivez-nous</div>
+          <div style="display:flex;flex-direction:column;gap:.6rem;font-size:.88rem;color:var(--mid)">
+            <a href="https://www.linkedin.com" class="nav-link" style="transition:color .2s">LinkedIn ↗</a>
+            <a href="contact.html" class="nav-link" style="transition:color .2s">Nous rejoindre</a>
+            <a href="contact.html" class="nav-link" style="transition:color .2s">Annuaire</a>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mid)">
+        <span>© 2026 Euro Docks Service · Tous droits réservés</span>
+        <span>Mentions légales · Politique de confidentialité</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var els=[].slice.call(document.querySelectorAll('.reveal'));
+  var obs=new IntersectionObserver(function(ents){ents.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');obs.unobserve(en.target);}});},{threshold:0.12});
+  els.forEach(function(el,i){el.style.transitionDelay=(Math.min(i%3,2)*0.07)+'s';obs.observe(el);});
+  var nav=document.querySelector('[data-nav]');
+  if(nav){window.addEventListener('scroll',function(){nav.style.background=(window.scrollY||0)>80?'oklch(0.10 0.025 247)':'oklch(0.13 0.028 247)';},{passive:true});}
+})();
+</script>
+<script>
+(function(){
+  var f=document.getElementById('quote-form');
+  if(!f) return;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var g=f.querySelectorAll('.fld');
+    var nom=g[0].value,soc=g[1].value,email=g[2].value,tel=g[3].value,serv=g[4].value,msg=g[5].value;
+    var subject='Demande de devis \u2014 '+soc;
+    var body='Nom: '+nom+'\nSociete: '+soc+'\nEmail: '+email+'\nTelephone: '+tel+'\nService: '+serv+'\n\n'+msg;
+    window.location.href='mailto:commercial@eurodocks.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    f.innerHTML='<div style="border:1px solid oklch(0.70 0.12 245 / 0.3);border-top:1.5px solid var(--brass);padding:2rem;background:oklch(0.70 0.12 245 / 0.06);border-radius:16px"><div style="font-weight:800;font-size:1.2rem;text-transform:uppercase;color:var(--brass);margin-bottom:.5rem">Votre messagerie va s\'ouvrir</div><p style="font-family:\'IBM Plex Mono\',monospace;font-size:.74rem;color:var(--light);line-height:1.7">Finalisez l\'envoi depuis votre client mail. Sinon, ecrivez-nous a commercial@eurodocks.com.</p></div>';
+  });
+})();
+</script>
+</body>
+</html>

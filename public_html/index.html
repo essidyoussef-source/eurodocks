@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Euro Docks Service — Agence maritime & tramping dry bulk</title>
+<meta name="description" content="Agence maritime indépendante spécialisée dans le tramping dry bulk. Consignation, affrètement, manutention et transit sur Rouen, Dunkerque et Boulogne-sur-Mer.">
+<link rel="icon" type="image/png" href="assets/eds-emblem.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Roboto:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#f3f1ec;overflow-x:clip;scroll-behavior:smooth}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:var(--acc)}
+  ::selection{background:var(--acc);color:#fff}
+  .navlink{position:relative;transition:color .2s}
+  .navlink:hover{color:var(--acc)}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
+  .reveal.in{opacity:1;transform:none}
+  .svcrow{transition:background .2s ease}
+  .svcrow:hover{background:oklch(0.55 0.13 245 / 0.06)}
+  .svcrow:hover [data-chev]{transform:translateX(5px);color:var(--acc)}
+  .bento figure{overflow:hidden}
+  .bento img{transition:transform .6s cubic-bezier(.22,.61,.36,1)}
+  .bento figure:hover img{transform:scale(1.06)}
+  .spec-card{transition:transform .25s ease,box-shadow .25s ease}
+  .spec-card:hover{transform:translateY(-5px);box-shadow:0 22px 50px rgba(11,26,40,.18)}
+  .spec-card:hover img{transform:scale(1.06)}
+  .spec-card img{transition:transform .5s ease}
+  .btn-primary{background:var(--acc);color:#fff;transition:filter .2s ease,transform .2s ease}
+  .btn-primary:hover{filter:brightness(1.08);transform:translateY(-2px);color:#fff}
+  .btn-outline{transition:background .2s ease,color .2s ease}
+  .btn-outline:hover{background:var(--navy);color:#fff}
+  .plink [data-a]{transition:transform .2s ease}
+  .plink:hover [data-a]{transform:translateX(5px)}
+</style>
+</head>
+<body>
+<div data-eds-root style="--navy:#0e2439;--navy-d:#0a1a2b;--paper:#f3f1ec;--paper2:#ffffff;--ink:#132638;--mid:#5d6b78;--soft:#8a97a3;--acc:#2f93d1;--acc-d:#1f6ea3;--line:rgba(14,36,57,.10);--linex:rgba(255,255,255,.12);background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;position:relative;width:100%;overflow-x:clip">
+
+  <!-- ══ NAV ══ -->
+  <nav data-nav style="position:sticky;top:0;z-index:60;background:#0e2439;border-bottom:1px solid var(--linex);transition:background .3s ease">
+    <div style="max-width:1320px;margin:0 auto;padding:0 clamp(1.25rem,4vw,2.5rem);height:74px;display:flex;align-items:center;justify-content:space-between;gap:1rem">
+      <a href="index.html" style="display:flex;align-items:center;gap:11px;flex-shrink:0">
+        <img src="assets/eds-emblem.png" alt="Euro Docks Service" style="height:44px;width:auto;display:block">
+        <span style="font-family:'Roboto',sans-serif;font-weight:900;font-size:1.2rem;letter-spacing:.01em;text-transform:uppercase;color:#fff">Euro Docks Service</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:clamp(1rem,2.4vw,2.1rem);font-size:.8rem;font-weight:500;letter-spacing:.02em;color:oklch(0.9 0.01 240)">
+        <a class="navlink" href="services.html">Services</a>
+        <a class="navlink" href="terminal.html">Terminaux</a>
+        <a class="navlink" href="fret.html">Freight</a>
+        <a class="navlink" href="a-propos.html">À propos</a>
+        <a class="btn-primary" href="contact.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;font-weight:600;border-radius:999px;font-size:.78rem">Demander un devis</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <header style="position:relative;background:var(--navy);overflow:hidden">
+    <div style="position:absolute;inset:0"><video autoplay muted loop playsinline poster="assets/eds2_hero_bulker_fe8bd601.jpg" style="width:100%;height:100%;object-fit:cover;opacity:.82"><source src="assets/eds_clip_B_orbit_v2.mp4" type="video/mp4"></video></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(105deg,rgba(14,36,57,.8) 6%,rgba(14,36,57,.42) 52%,rgba(14,36,57,.12) 100%)"></div>
+    <div style="position:relative;max-width:1320px;margin:0 auto;padding:clamp(4.5rem,11vh,8rem) clamp(1.25rem,4vw,2.5rem) clamp(6rem,10vh,7rem)">
+      <div style="max-width:760px">
+        <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.6rem;font-size:.72rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--acc)"><span style="width:38px;height:2px;background:var(--acc)"></span>Agence maritime · Tramping dry bulk</div>
+        <h1 style="font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(2.6rem,6.4vw,5.4rem);line-height:1.0;letter-spacing:-0.02em;text-transform:uppercase;color:#fff">L'expertise du <span style="color:var(--acc)">tramping</span><br>au service de votre cargo</h1>
+        <p style="margin-top:1.6rem;font-size:clamp(1.02rem,1.4vw,1.2rem);line-height:1.6;color:oklch(0.86 0.015 240);max-width:56ch">Agence maritime indépendante spécialisée dans le tramping dry bulk. De la charte-partie à la manutention des cales, nous accompagnons armateurs, affréteurs et négociants en céréales sur Rouen, Dunkerque et Boulogne-sur-Mer.</p>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-top:2.4rem">
+          <a class="btn-primary" href="contact.html" style="display:inline-flex;align-items:center;gap:.6rem;padding:1rem 2rem;font-weight:600;border-radius:999px;font-size:.92rem">Demander un devis →</a>
+          <a class="btn-outline" href="services.html" style="display:inline-flex;align-items:center;padding:1rem 2rem;border:1.5px solid oklch(1 0 0 / 0.4);color:#fff;font-weight:600;border-radius:999px;font-size:.92rem">Nos services</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ KPI STRIP ══ -->
+  <section style="background:var(--paper2);border-bottom:1px solid var(--line)">
+    <div style="max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+      
+        <div style="padding:2.2rem 1.5rem;text-align:center;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:.6rem">
+          <div style="width:46px;height:46px;color:var(--acc)" data-om-raster><svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14l1.5 5h15L21 14"></path><path d="M5 14V8h9l4 6"></path><path d="M9 8V5"></path><path d="M3 14h18"></path></svg></div>
+          <div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(1.9rem,3vw,2.5rem);line-height:1;letter-spacing:-0.02em;color:var(--ink)">+1750</div>
+          <div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);font-weight:500">Escales / an</div>
+        </div>
+      
+        <div style="padding:2.2rem 1.5rem;text-align:center;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:.6rem">
+          <div style="width:46px;height:46px;color:var(--acc)" data-om-raster><svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"></circle><path d="M12 22V8M5 12H2a10 10 0 0 0 20 0h-3"></path></svg></div>
+          <div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(1.9rem,3vw,2.5rem);line-height:1;letter-spacing:-0.02em;color:var(--ink)">+200</div>
+          <div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);font-weight:500">Navires affrétés</div>
+        </div>
+      
+        <div style="padding:2.2rem 1.5rem;text-align:center;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:.6rem">
+          <div style="width:46px;height:46px;color:var(--acc)" data-om-raster><svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8"></path></svg></div>
+          <div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(1.9rem,3vw,2.5rem);line-height:1;letter-spacing:-0.02em;color:var(--ink)">4 500 000</div>
+          <div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);font-weight:500">Tonnes de vrac / an</div>
+        </div>
+      
+        <div style="padding:2.2rem 1.5rem;text-align:center;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:.6rem">
+          <div style="width:46px;height:46px;color:var(--acc)" data-om-raster><svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"></path></svg></div>
+          <div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(1.9rem,3vw,2.5rem);line-height:1;letter-spacing:-0.02em;color:var(--ink)">50</div>
+          <div style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);font-weight:500">Années d'expérience</div>
+        </div>
+      
+    </div>
+  </section>
+
+  <!-- ══ EXPERTISE + SERVICES LIST ══ -->
+  <section style="position:relative;overflow:hidden;padding:clamp(4rem,8vh,6.5rem) clamp(1.25rem,4vw,2.5rem)">
+    <img src="assets/eds2_port_dunkerque_9fea8573.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    <div style="position:absolute;inset:0;background:linear-gradient(105deg,rgba(10,26,43,.82) 26%,rgba(10,26,43,.5) 70%,rgba(10,26,43,.32) 100%)"></div>
+    <div style="position:relative;max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(2.5rem,5vw,5rem)">
+      <div class="reveal">
+        <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem;font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--acc)"><span style="width:30px;height:2px;background:var(--acc)"></span>Notre expertise</div>
+        <h2 style="font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(1.9rem,3.6vw,3rem);line-height:1.05;letter-spacing:-0.02em;text-transform:uppercase;color:#fff;margin-bottom:1.6rem">Une expertise complète du tramping</h2>
+        <p style="font-size:1.02rem;line-height:1.75;color:oklch(0.86 0.015 240);margin-bottom:1.25rem">Euro Docks Service vous accompagne dans la gestion complète de vos escales et l'acheminement de vos cargaisons en vrac. Forte de ses <strong style="color:#fff">50 années d'expérience</strong>, notre équipe vous offre réactivité, précision et conseil sur chaque opération.</p>
+        <p style="font-size:1.02rem;line-height:1.75;color:oklch(0.86 0.015 240);margin-bottom:2rem">Nos équipes planifient, organisent et suivent vos navires et marchandises · céréales, engrais, acier, project cargo · avec une rigueur et un professionnalisme à la hauteur de vos attentes.</p>
+        <a class="btn-outline" href="a-propos.html" style="display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 1.75rem;border:1.5px solid oklch(1 0 0 / 0.45);color:#fff;font-weight:600;border-radius:999px;font-size:.85rem">Le groupe →</a>
+      </div>
+      <div class="reveal">
+        <div style="font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);margin-bottom:1.25rem">Nos services</div>
+        <div style="background:var(--paper2);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 14px 40px rgba(11,26,40,.06)">
+          
+            <a href="services.html" class="svcrow" style="display:flex;align-items:center;gap:1rem;padding:1.15rem 1.4rem;border-bottom:1px solid var(--line)">
+              <div style="width:44px;height:44px;flex-shrink:0;color:var(--acc);display:flex;align-items:center;justify-content:center;background:color-mix(in srgb, var(--acc) 12%, transparent);border-radius:11px;padding:10px" data-om-raster><svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"></circle><path d="M12 22V8M5 12H2a10 10 0 0 0 20 0h-3"></path></svg></div>
+              <div style="flex:1;min-width:0">
+                <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:1rem;color:var(--ink);margin-bottom:.15rem">Consignation / Agent Navire</div>
+                <div style="font-size:.82rem;line-height:1.45;color:var(--mid)">Agent consignataire des armateurs : de l'appointment au départ, nous pilotons chaque escale · NOR, statement of facts, capitainerie et douane.</div>
+              </div>
+              <span data-chev style="color:var(--soft);flex-shrink:0;transition:transform .2s ease,color .2s ease">›</span>
+            </a>
+          
+            <a href="services.html" class="svcrow" style="display:flex;align-items:center;gap:1rem;padding:1.15rem 1.4rem;border-bottom:1px solid var(--line)">
+              <div style="width:44px;height:44px;flex-shrink:0;color:var(--acc);display:flex;align-items:center;justify-content:center;background:color-mix(in srgb, var(--acc) 12%, transparent);border-radius:11px;padding:10px" data-om-raster><svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><polygon points="15.5 8.5 13.5 13.5 8.5 15.5 10.5 10.5"></polygon></svg></div>
+              <div style="flex:1;min-width:0">
+                <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:1rem;color:var(--ink);margin-bottom:.15rem">Affrètement Tramping</div>
+                <div style="font-size:.82rem;line-height:1.45;color:var(--mid)">Nous trouvons le navire adapté à votre cargaison et négocions la charte-partie · voyage ou time charter · au meilleur coût.</div>
+              </div>
+              <span data-chev style="color:var(--soft);flex-shrink:0;transition:transform .2s ease,color .2s ease">›</span>
+            </a>
+          
+            <a href="terminal.html" class="svcrow" style="display:flex;align-items:center;gap:1rem;padding:1.15rem 1.4rem;border-bottom:1px solid var(--line)">
+              <div style="width:44px;height:44px;flex-shrink:0;color:var(--acc);display:flex;align-items:center;justify-content:center;background:color-mix(in srgb, var(--acc) 12%, transparent);border-radius:11px;padding:10px" data-om-raster><svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V4l9 3M4 8h6M13 7l7 2M18 9v3M18 12l-2 3h4l-2-3M4 21h16"></path></svg></div>
+              <div style="flex:1;min-width:0">
+                <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:1rem;color:var(--ink);margin-bottom:.15rem">Manutention & Stevedoring</div>
+                <div style="font-size:.82rem;line-height:1.45;color:var(--mid)">Dockers, pesage et échantillonnage : chargement et déchargement des cales en toute sécurité sur nos terminaux.</div>
+              </div>
+              <span data-chev style="color:var(--soft);flex-shrink:0;transition:transform .2s ease,color .2s ease">›</span>
+            </a>
+          
+            <a href="fret.html" class="svcrow" style="display:flex;align-items:center;gap:1rem;padding:1.15rem 1.4rem;border-bottom:1px solid var(--line)">
+              <div style="width:44px;height:44px;flex-shrink:0;color:var(--acc);display:flex;align-items:center;justify-content:center;background:color-mix(in srgb, var(--acc) 12%, transparent);border-radius:11px;padding:10px" data-om-raster><svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></svg></div>
+              <div style="flex:1;min-width:0">
+                <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:1rem;color:var(--ink);margin-bottom:.15rem">Transit & Douane</div>
+                <div style="font-size:.82rem;line-height:1.45;color:var(--mid)">Dédouanement import/export et transit de vos vracs · céréales, engrais, acier · sans rupture de responsabilité.</div>
+              </div>
+              <span data-chev style="color:var(--soft);flex-shrink:0;transition:transform .2s ease,color .2s ease">›</span>
+            </a>
+          
+            <a href="fret.html" class="svcrow" style="display:flex;align-items:center;gap:1rem;padding:1.15rem 1.4rem;border-bottom:1px solid var(--line)">
+              <div style="width:44px;height:44px;flex-shrink:0;color:var(--acc);display:flex;align-items:center;justify-content:center;background:color-mix(in srgb, var(--acc) 12%, transparent);border-radius:11px;padding:10px" data-om-raster><svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8"></path></svg></div>
+              <div style="flex:1;min-width:0">
+                <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:1rem;color:var(--ink);margin-bottom:.15rem">Freight Forwarding</div>
+                <div style="font-size:.82rem;line-height:1.45;color:var(--mid)">Acheminement porte-à-porte du vrac sec par voie maritime, fluviale, routière et ferroviaire, en France et à l’international.</div>
+              </div>
+              <span data-chev style="color:var(--soft);flex-shrink:0;transition:transform .2s ease,color .2s ease">›</span>
+            </a>
+          
+            <a href="services.html" class="svcrow" style="display:flex;align-items:center;gap:1rem;padding:1.15rem 1.4rem;border-bottom:1px solid var(--line)">
+              <div style="width:44px;height:44px;flex-shrink:0;color:var(--acc);display:flex;align-items:center;justify-content:center;background:color-mix(in srgb, var(--acc) 12%, transparent);border-radius:11px;padding:10px" data-om-raster><svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg></div>
+              <div style="flex:1;min-width:0">
+                <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:1rem;color:var(--ink);margin-bottom:.15rem">Survey & Inspection</div>
+                <div style="font-size:.82rem;line-height:1.45;color:var(--mid)">Draught survey, inspection de cales et échantillonnage : votre cargaison conforme et certifiée à chaque escale.</div>
+              </div>
+              <span data-chev style="color:var(--soft);flex-shrink:0;transition:transform .2s ease,color .2s ease">›</span>
+            </a>
+          
+          <a class="btn-primary" href="services.html" style="display:flex;align-items:center;justify-content:center;gap:.5rem;padding:1.1rem;font-weight:600;font-size:.82rem;letter-spacing:.04em">Tous nos services →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ OPÉRATIONS · BENTO ══ -->
+  <section class="bento" style="background:var(--paper);padding:0 clamp(1.25rem,4vw,2.5rem) clamp(4rem,8vh,6.5rem)">
+    <div style="max-width:1320px;margin:0 auto">
+      <div class="reveal" style="margin-bottom:3.25rem">
+        <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:1.75rem;font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--acc)"><span style="width:30px;height:2px;background:var(--acc)"></span>Nos opérations</div>
+        <h2 style="font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(1.9rem,3.6vw,3rem);line-height:1.05;letter-spacing:-0.02em;text-transform:uppercase;color:var(--ink)">Du quai à la cale,<br>chaque tonne compte</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:200px;gap:1rem" class="bento-grid">
+        <figure class="reveal" style="position:relative;grid-row:span 2;border-radius:18px"><img src="assets/eds2_stevedoring_night_f14f419a.jpg" alt="" style="width:100%;height:100%;object-fit:cover"><figcaption style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,26,43,.85),transparent 55%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.3rem"><span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:1.05rem;color:#fff;text-transform:uppercase">Opérations nocturnes</span><span style="font-size:.76rem;color:oklch(0.85 0.02 240);margin-top:.2rem">Terminal de Boulogne-sur-Mer</span></figcaption></figure>
+        <figure class="reveal" style="position:relative;border-radius:18px"><img src="assets/eds2_grain_loading_6553e85f.jpg" alt="" style="width:100%;height:100%;object-fit:cover"><figcaption style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,26,43,.85),transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem"><span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:.98rem;color:#fff;text-transform:uppercase">Chargement céréales</span><span style="font-size:.74rem;color:oklch(0.85 0.02 240);margin-top:.2rem">45 000 T de blé</span></figcaption></figure>
+        <figure class="reveal" style="position:relative;border-radius:18px"><img src="assets/eds2_chartering_bridge_e11c603a.jpg" alt="" style="width:100%;height:100%;object-fit:cover"><figcaption style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,26,43,.85),transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem"><span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:.98rem;color:#fff;text-transform:uppercase">Affrètement</span><span style="font-size:.74rem;color:oklch(0.85 0.02 240);margin-top:.2rem">Passerelle de commandement</span></figcaption></figure>
+        <figure class="reveal" style="position:relative;border-radius:18px"><img src="assets/eds2_port_dunkerque_9fea8573.jpg" alt="" style="width:100%;height:100%;object-fit:cover"><figcaption style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,26,43,.85),transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem"><span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:.98rem;color:#fff;text-transform:uppercase">Terminal portuaire</span><span style="font-size:.74rem;color:oklch(0.85 0.02 240);margin-top:.2rem">Boulogne-sur-Mer</span></figcaption></figure>
+        <figure class="reveal" style="position:relative;border-radius:18px"><img src="assets/eds2_survey_draught_9d86258e.jpg" alt="" style="width:100%;height:100%;object-fit:cover"><figcaption style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,26,43,.85),transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem"><span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:.98rem;color:#fff;text-transform:uppercase">Survey & inspection</span><span style="font-size:.74rem;color:oklch(0.85 0.02 240);margin-top:.2rem">Tirant d'eau certifié</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ RÉSEAU ══ -->
+  <section style="background:var(--paper2);padding:clamp(4rem,8vh,6.5rem) clamp(1.25rem,4vw,2.5rem);border-top:1px solid var(--line)">
+    <div style="max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(2.5rem,5vw,4.5rem);align-items:center">
+      <div class="reveal" style="position:relative;height:clamp(340px,46vh,460px);border-radius:20px;overflow:hidden;box-shadow:0 24px 60px rgba(11,26,40,.16)">
+        <img src="assets/eds2_port_dunkerque_9fea8573.jpg" alt="" style="width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,26,43,.78),transparent 55%)"></div>
+        <div style="position:absolute;bottom:1.4rem;left:1.4rem"><div style="font-family:'Poppins',sans-serif;font-weight:700;color:#fff;text-transform:uppercase;font-size:1.05rem">Réseau portuaire</div><div style="font-size:.78rem;color:oklch(0.85 0.02 240);margin-top:.2rem">5 ports couverts en France</div></div>
+      </div>
+      <div class="reveal">
+        <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem;font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--acc)"><span style="width:30px;height:2px;background:var(--acc)"></span>Présence nationale</div>
+        <h2 style="font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(1.9rem,3.6vw,3rem);line-height:1.05;letter-spacing:-0.02em;text-transform:uppercase;color:var(--ink);margin-bottom:1.4rem">Un réseau <span style="color:var(--acc)">portuaire</span> national</h2>
+        <p style="font-size:1rem;line-height:1.7;color:var(--mid);margin-bottom:1.75rem;max-width:52ch">Grâce à nos agences et à notre réseau de partenaires, nous couvrons les principaux ports français du tramping dry bulk. Notre savoir-faire nous permet de gérer efficacement chaque escale, de maîtriser les délais et d'optimiser les rotations.</p>
+        <div style="display:flex;flex-direction:column;gap:.1rem;margin-bottom:2rem">
+          
+            <div style="display:flex;align-items:baseline;gap:.7rem;padding:.7rem 0;border-bottom:1px solid var(--line)">
+              <span style="color:var(--acc);flex-shrink:0;font-size:.8rem">◆</span>
+              <span style="font-family:'Poppins',sans-serif;font-weight:600;color:var(--ink);font-size:.95rem">Boulogne-sur-Mer</span>
+              <span style="font-size:.85rem;color:var(--mid)">· Siège social · Terminal céréales & vrac</span>
+            </div>
+          
+            <div style="display:flex;align-items:baseline;gap:.7rem;padding:.7rem 0;border-bottom:1px solid var(--line)">
+              <span style="color:var(--acc);flex-shrink:0;font-size:.8rem">◆</span>
+              <span style="font-family:'Poppins',sans-serif;font-weight:600;color:var(--ink);font-size:.95rem">Dunkerque</span>
+              <span style="font-size:.85rem;color:var(--mid)">· Grand port maritime · Vracs industriels</span>
+            </div>
+          
+            <div style="display:flex;align-items:baseline;gap:.7rem;padding:.7rem 0;border-bottom:1px solid var(--line)">
+              <span style="color:var(--acc);flex-shrink:0;font-size:.8rem">◆</span>
+              <span style="font-family:'Poppins',sans-serif;font-weight:600;color:var(--ink);font-size:.95rem">Rouen</span>
+              <span style="font-size:.85rem;color:var(--mid)">· 1er port céréalier d'Europe de l'Ouest</span>
+            </div>
+          
+            <div style="display:flex;align-items:baseline;gap:.7rem;padding:.7rem 0;border-bottom:1px solid var(--line)">
+              <span style="color:var(--acc);flex-shrink:0;font-size:.8rem">◆</span>
+              <span style="font-family:'Poppins',sans-serif;font-weight:600;color:var(--ink);font-size:.95rem">Bayonne</span>
+              <span style="font-size:.85rem;color:var(--mid)">· Terminal agro-industriel</span>
+            </div>
+          
+            <div style="display:flex;align-items:baseline;gap:.7rem;padding:.7rem 0;border-bottom:1px solid var(--line)">
+              <span style="color:var(--acc);flex-shrink:0;font-size:.8rem">◆</span>
+              <span style="font-family:'Poppins',sans-serif;font-weight:600;color:var(--ink);font-size:.95rem">Calais</span>
+              <span style="font-size:.85rem;color:var(--mid)">· Trafic transmanche & vrac</span>
+            </div>
+          
+        </div>
+        <a class="btn-primary" href="terminal.html" style="display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 1.9rem;font-weight:600;border-radius:999px;font-size:.85rem">Nos terminaux →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ GROUPE (dark) ══ -->
+  <section style="position:relative;overflow:hidden;background:var(--navy)">
+    <div style="position:absolute;inset:0"><img src="assets/eds2_tramping_sea_fd8a56f5.jpg" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.28"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,var(--navy) 30%,oklch(0.22 0.04 245 / 0.5) 100%)"></div>
+    <div style="position:relative;max-width:1320px;margin:0 auto;padding:clamp(4rem,9vh,6.5rem) clamp(1.25rem,4vw,2.5rem)">
+      <div class="reveal" style="max-width:680px">
+        <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem;font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--acc)"><span style="width:30px;height:2px;background:var(--acc)"></span>Euro Docks Service</div>
+        <h2 style="font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(1.9rem,4vw,3.2rem);line-height:1.05;letter-spacing:-0.02em;text-transform:uppercase;color:#fff;margin-bottom:1.6rem">EDS : une idée forte</h2>
+        <p style="font-size:1.02rem;line-height:1.75;color:oklch(0.84 0.015 240);margin-bottom:1.2rem">Euro Docks Service, c'est la proximité d'une société humaine reposant sur une expérience solide. Afin de vous garantir une approche sur mesure, nos équipes sont qualifiées, stables et parlent les principales langues du commerce maritime.</p>
+        <p style="font-size:1.02rem;line-height:1.75;color:oklch(0.84 0.015 240);margin-bottom:2rem">Nous sommes convaincus que la qualité de service dans le tramping repose avant tout sur des relations durables, une disponibilité 24h/24 et une connaissance intime des contraintes opérationnelles de chaque port.</p>
+        <a class="btn-primary" href="a-propos.html" style="display:inline-flex;align-items:center;gap:.6rem;padding:.95rem 2rem;font-weight:600;border-radius:999px;font-size:.88rem">Découvrir le groupe →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SPÉCIALITÉS ══ -->
+  <section style="background:var(--paper);padding:clamp(4rem,8vh,6.5rem) clamp(1.25rem,4vw,2.5rem)">
+    <div style="max-width:1320px;margin:0 auto">
+      <div class="reveal" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem;margin-bottom:2.2rem">
+        <div>
+          <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:1rem;font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--acc)"><span style="width:30px;height:2px;background:var(--acc)"></span>Spécialités</div>
+          <h2 style="font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(1.9rem,3.6vw,3rem);line-height:1.05;letter-spacing:-0.02em;text-transform:uppercase;color:var(--ink)">Nos domaines d'excellence</h2>
+        </div>
+        <a class="btn-outline" href="fret.html" style="display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 1.75rem;border:1.5px solid var(--navy);color:var(--navy);font-weight:600;border-radius:999px;font-size:.82rem">Freight & Transit →</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem">
+        <a class="spec-card reveal" href="fret.html" style="position:relative;height:300px;border-radius:18px;overflow:hidden;display:block"><img src="assets/eds2_grain_loading_6553e85f.jpg" alt="" style="width:100%;height:100%;object-fit:cover"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,26,43,.9),transparent 60%)"></div><div style="position:absolute;bottom:1.3rem;left:1.3rem;right:1.3rem"><div style="font-family:'Poppins',sans-serif;font-weight:700;color:#fff;text-transform:uppercase;font-size:1.1rem">Céréales & agroalimentaire</div><div style="font-size:.8rem;color:oklch(0.85 0.02 240);margin-top:.25rem">Blé, orge, malt, pois, féveroles, pulpe de betterave</div></div></a>
+        <a class="spec-card reveal" href="terminal.html" style="position:relative;height:300px;border-radius:18px;overflow:hidden;display:block"><img src="assets/eds2_stevedoring_night_f14f419a.jpg" alt="" style="width:100%;height:100%;object-fit:cover"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,26,43,.9),transparent 60%)"></div><div style="position:absolute;bottom:1.3rem;left:1.3rem;right:1.3rem"><div style="font-family:'Poppins',sans-serif;font-weight:700;color:#fff;text-transform:uppercase;font-size:1.1rem">Vrac industriel</div><div style="font-size:.8rem;color:oklch(0.85 0.02 240);margin-top:.25rem">Engrais, acier, granulats</div></div></a>
+        <a class="spec-card reveal" href="fret.html" style="position:relative;height:300px;border-radius:18px;overflow:hidden;display:block"><img src="assets/eds2_hero_bulker_fe8bd601.jpg" alt="" style="width:100%;height:100%;object-fit:cover"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,26,43,.9),transparent 60%)"></div><div style="position:absolute;bottom:1.3rem;left:1.3rem;right:1.3rem"><div style="font-family:'Poppins',sans-serif;font-weight:700;color:#fff;text-transform:uppercase;font-size:1.1rem">Bois & project cargo</div><div style="font-size:.8rem;color:oklch(0.85 0.02 240);margin-top:.25rem">Grumes, éoliennes, colis hors-gabarit</div></div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PARTENAIRES (dark) ══ -->
+  <section style="position:relative;overflow:hidden;padding:clamp(4rem,8vh,6rem) clamp(1.25rem,4vw,2.5rem)">
+    <img src="assets/eds2_tramping_sea_fd8a56f5.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(14,36,57,.9),rgba(10,26,43,.86))"></div>
+    <div style="position:relative;max-width:1100px;margin:0 auto;text-align:center">
+      <div class="reveal">
+        <div style="font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);margin-bottom:1rem">Ils nous font confiance</div>
+        <h2 style="font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(1.7rem,3.4vw,2.8rem);line-height:1.05;letter-spacing:-0.02em;text-transform:uppercase;color:#fff;margin-bottom:1rem">+15 armateurs & chargeurs partenaires</h2>
+        <p style="font-size:.95rem;line-height:1.6;color:oklch(0.8 0.015 240);max-width:46ch;margin:0 auto 2.5rem">Des relations durables avec les principaux acteurs du tramping dry bulk en Europe du Nord et Atlantique.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.9rem">
+        
+          <div class="reveal" style="background:oklch(1 0 0 / 0.05);border:1px solid var(--linex);border-radius:12px;padding:1.15rem;display:flex;align-items:center;justify-content:center;min-height:64px"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase;color:oklch(0.86 0.015 240)">Cargill</span></div>
+        
+          <div class="reveal" style="background:oklch(1 0 0 / 0.05);border:1px solid var(--linex);border-radius:12px;padding:1.15rem;display:flex;align-items:center;justify-content:center;min-height:64px"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase;color:oklch(0.86 0.015 240)">Louis Dreyfus</span></div>
+        
+          <div class="reveal" style="background:oklch(1 0 0 / 0.05);border:1px solid var(--linex);border-radius:12px;padding:1.15rem;display:flex;align-items:center;justify-content:center;min-height:64px"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase;color:oklch(0.86 0.015 240)">Bunge</span></div>
+        
+          <div class="reveal" style="background:oklch(1 0 0 / 0.05);border:1px solid var(--linex);border-radius:12px;padding:1.15rem;display:flex;align-items:center;justify-content:center;min-height:64px"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase;color:oklch(0.86 0.015 240)">Soufflet</span></div>
+        
+          <div class="reveal" style="background:oklch(1 0 0 / 0.05);border:1px solid var(--linex);border-radius:12px;padding:1.15rem;display:flex;align-items:center;justify-content:center;min-height:64px"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase;color:oklch(0.86 0.015 240)">Invivo</span></div>
+        
+          <div class="reveal" style="background:oklch(1 0 0 / 0.05);border:1px solid var(--linex);border-radius:12px;padding:1.15rem;display:flex;align-items:center;justify-content:center;min-height:64px"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase;color:oklch(0.86 0.015 240)">Dreyfus</span></div>
+        
+          <div class="reveal" style="background:oklch(1 0 0 / 0.05);border:1px solid var(--linex);border-radius:12px;padding:1.15rem;display:flex;align-items:center;justify-content:center;min-height:64px"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase;color:oklch(0.86 0.015 240)">Toepfer</span></div>
+        
+          <div class="reveal" style="background:oklch(1 0 0 / 0.05);border:1px solid var(--linex);border-radius:12px;padding:1.15rem;display:flex;align-items:center;justify-content:center;min-height:64px"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase;color:oklch(0.86 0.015 240)">ADM</span></div>
+        
+          <div class="reveal" style="background:oklch(1 0 0 / 0.05);border:1px solid var(--linex);border-radius:12px;padding:1.15rem;display:flex;align-items:center;justify-content:center;min-height:64px"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase;color:oklch(0.86 0.015 240)">Glencore</span></div>
+        
+          <div class="reveal" style="background:oklch(1 0 0 / 0.05);border:1px solid var(--linex);border-radius:12px;padding:1.15rem;display:flex;align-items:center;justify-content:center;min-height:64px"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase;color:oklch(0.86 0.015 240)">Viterra</span></div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CONTACT ══ -->
+  <section style="background:var(--paper2);padding:clamp(4rem,8vh,6.5rem) clamp(1.25rem,4vw,2.5rem)">
+    <div style="max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(2.5rem,5vw,4.5rem);align-items:center">
+      <div class="reveal">
+        <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem;font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--acc)"><span style="width:30px;height:2px;background:var(--acc)"></span>Contactez-nous</div>
+        <h2 style="font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(1.9rem,3.8vw,3.1rem);line-height:1.05;letter-spacing:-0.02em;text-transform:uppercase;color:var(--ink);margin-bottom:1.4rem">Votre prochaine escale commence ici</h2>
+        <p style="font-size:1rem;line-height:1.7;color:var(--mid);margin-bottom:1.8rem;max-width:48ch">Armateurs, affréteurs, chargeurs · contactez nos équipes pour une prise en charge rapide de votre opération. Disponibles 24h/24, 7j/7.</p>
+        <div style="display:flex;flex-direction:column;gap:.9rem;margin-bottom:2rem">
+          <a href="tel:+33321317400" style="display:flex;align-items:center;gap:.8rem;font-size:.98rem;color:var(--ink)"><span style="color:var(--acc)">☏</span> +33 (0)3 21 31 74 00</a>
+          <a href="mailto:contact@eurodocks.fr" style="display:flex;align-items:center;gap:.8rem;font-size:.98rem;color:var(--ink)"><span style="color:var(--acc)">✉</span> contact@eurodocks.fr</a>
+          <div style="display:flex;align-items:center;gap:.8rem;font-size:.98rem;color:var(--ink)"><span style="color:var(--acc)">⚓</span> Boulogne-sur-Mer, France</div>
+        </div>
+        <a class="btn-primary" href="contact.html" style="display:inline-flex;align-items:center;gap:.6rem;padding:1rem 2rem;font-weight:600;border-radius:999px;font-size:.9rem">Demander un devis →</a>
+      </div>
+      <div class="reveal" style="position:relative;height:clamp(320px,44vh,440px);border-radius:20px;overflow:hidden;box-shadow:0 24px 60px rgba(11,26,40,.16)">
+        <img src="assets/eds2_boulogne_terminal_718d1e0f.jpg" alt="" style="width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,26,43,.72),transparent 55%)"></div>
+        <div style="position:absolute;bottom:1.4rem;left:1.4rem"><div style="font-family:'Poppins',sans-serif;font-weight:700;color:#fff;text-transform:uppercase;font-size:1.05rem">Boulogne-sur-Mer</div><div style="font-size:.78rem;color:oklch(0.85 0.02 240);margin-top:.2rem">Siège social · Port principal</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer style="background:var(--navy-d);color:oklch(0.82 0.015 240)">
+    <div style="max-width:1320px;margin:0 auto;padding:clamp(3rem,6vh,4.5rem) clamp(1.25rem,4vw,2.5rem)">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;padding-bottom:2.5rem;border-bottom:1px solid var(--linex)">
+        <div style="display:flex;align-items:center;gap:12px"><img src="assets/eds-emblem.png" alt="Euro Docks Service" style="height:48px;width:auto"><div><div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:1.15rem;text-transform:uppercase;color:#fff">Euro Docks Service</div><div style="font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--acc);margin-top:.2rem">Agence maritime & tramping depuis 1975</div></div></div>
+        <a class="plink" href="contact.html" style="display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--acc);border-bottom:1px solid var(--acc);padding-bottom:.3rem">Demander un devis <span data-a>→</span></a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2.5rem;padding:2.5rem 0">
+        <div>
+          <div style="font-size:.7rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--acc);margin-bottom:1rem">À propos</div>
+          <p style="font-size:.85rem;line-height:1.7;color:var(--soft);margin-bottom:1.1rem;max-width:34ch">Euro Docks Service est une agence maritime indépendante spécialisée dans le tramping dry bulk depuis 1975. Nous opérons sur les principaux ports français de la façade Atlantique et Manche.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+            
+              <span style="font-size:.62rem;font-weight:600;letter-spacing:.08em;color:var(--soft);border:1px solid var(--linex);padding:.25rem .55rem;border-radius:5px">GMP+</span>
+            
+              <span style="font-size:.62rem;font-weight:600;letter-spacing:.08em;color:var(--soft);border:1px solid var(--linex);padding:.25rem .55rem;border-radius:5px">OVAM</span>
+            
+              <span style="font-size:.62rem;font-weight:600;letter-spacing:.08em;color:var(--soft);border:1px solid var(--linex);padding:.25rem .55rem;border-radius:5px">NIWO</span>
+            
+              <span style="font-size:.62rem;font-weight:600;letter-spacing:.08em;color:var(--soft);border:1px solid var(--linex);padding:.25rem .55rem;border-radius:5px">ISO</span>
+            
+          </div>
+        </div>
+        <div>
+          <div style="font-size:.7rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--acc);margin-bottom:1rem">Services</div>
+          <div style="display:flex;flex-direction:column;gap:.65rem;font-size:.85rem">
+            <a class="navlink" href="services.html" style="color:var(--soft)">Agence Maritime</a>
+            <a class="navlink" href="services.html" style="color:var(--soft)">Affrètement Tramping</a>
+            <a class="navlink" href="fret.html" style="color:var(--soft)">Freight Forwarding</a>
+            <a class="navlink" href="fret.html" style="color:var(--soft)">Transit & Douane</a>
+            <a class="navlink" href="terminal.html" style="color:var(--soft)">Terminal Portuaire</a>
+            <a class="navlink" href="terminal.html" style="color:var(--soft)">Manutention</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:.7rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--acc);margin-bottom:1rem">Nos agences</div>
+          <div style="display:flex;flex-direction:column;gap:1rem;font-size:.82rem">
+            <div><div style="font-family:'Poppins',sans-serif;font-weight:700;color:#fff;font-size:.95rem;margin-bottom:.25rem">Boulogne-sur-Mer</div><div style="color:var(--soft);line-height:1.6">Port de Commerce, 62200<br>+33 (0)3 21 31 00 00</div></div>
+            <div><div style="font-family:'Poppins',sans-serif;font-weight:700;color:#fff;font-size:.95rem;margin-bottom:.25rem">Dunkerque</div><div style="color:var(--soft);line-height:1.6">Terminal de Grande Bretagne<br>+33 (0)3 28 63 00 00</div></div>
+            <div><div style="font-family:'Poppins',sans-serif;font-weight:700;color:#fff;font-size:.95rem;margin-bottom:.25rem">Rouen</div><div style="color:var(--soft);line-height:1.6">Port Autonome de Rouen<br>+33 (0)2 35 52 00 00</div></div>
+            <a href="mailto:commercial@eurodocks.com" style="color:var(--acc)">commercial@eurodocks.com</a>
+          </div>
+        </div>
+      </div>
+      <div style="padding-top:1.75rem;border-top:1px solid var(--linex);display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)">
+        <span>© 2026 Euro Docks Service. Tous droits réservés.</span>
+        <span>Agence maritime · Tramping · Dry bulk</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var els=[].slice.call(document.querySelectorAll('.reveal'));
+  var obs=new IntersectionObserver(function(ents){ents.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');obs.unobserve(en.target);}});},{threshold:0.12});
+  els.forEach(function(el,i){el.style.transitionDelay=(Math.min(i%3,2)*0.07)+'s';obs.observe(el);});
+  var nav=document.querySelector('[data-nav]');
+  if(nav){window.addEventListener('scroll',function(){nav.style.background=(window.scrollY||0)>60?'#0a1a2b':'#0e2439';},{passive:true});}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Freight & Transit — Euro Docks Service</title>
+<meta name="description" content="Transport multimodal fluvial, routier et ferroviaire pour vrac sec, acier et produits industriels. Certifié GMP+.">
+<link rel="icon" type="image/png" href="assets/eds-emblem.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#0d1a28;overflow-x:clip;scroll-behavior:smooth}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:var(--brass)}
+  ::selection{background:var(--brass);color:#0d1a28}
+  .nav-link:hover{color:var(--brass)}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.22,.61,.36,1),transform .8s cubic-bezier(.22,.61,.36,1)}
+  .reveal.in{opacity:1;transform:none}
+  .imgzoom [data-z]{transition:transform .6s cubic-bezier(.22,.61,.36,1)}
+  .imgzoom:hover [data-z]{transform:scale(1.05)}
+  .card-hover{transition:border-top-color .25s ease,transform .25s ease}
+  .card-hover:hover{border-top-color:var(--brass) !important;transform:translateY(-4px)}
+</style>
+</head>
+<body>
+<div data-eds-root style="--ink:oklch(0.19 0.035 245);--ink-d:oklch(0.15 0.03 246);--deep:oklch(0.13 0.028 247);--ocean:oklch(0.24 0.04 244);--line:oklch(1 0 0 / 0.10);--mid:oklch(0.62 0.03 240);--light:oklch(0.80 0.02 240);--white:oklch(0.97 0.005 240);--brass:#2f93d1;--brass-d:oklch(0.58 0.11 245);background:var(--ink);color:var(--white);font-family:'Archivo',sans-serif;position:relative;width:100%;overflow-x:clip">
+
+  <div style="background:var(--deep);border-bottom:1px solid var(--line);position:relative;z-index:60">
+    <div style="max-width:1440px;margin:0 auto;padding:.4rem clamp(1.25rem,4vw,2.5rem);display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap">
+      <div style="display:flex;gap:clamp(.75rem,2vw,1.75rem);font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mid);flex-wrap:wrap">
+        <a class="nav-link" href="contact.html" style="transition:color .2s">Mentions légales</a>
+        <a class="nav-link" href="contact.html" style="transition:color .2s">Nous rejoindre</a>
+        <a class="nav-link" href="contact.html" style="transition:color .2s">Annuaire</a>
+      </div>
+      <div style="display:flex;gap:1.25rem;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase">
+        <a href="https://www.linkedin.com" style="color:var(--mid);transition:color .2s" class="nav-link">LinkedIn ↗</a>
+        <a href="tel:+33328000000" style="color:var(--brass);font-weight:600">+33 (0)3 28 00 00 00</a>
+        <span style="color:var(--line)">|</span>
+        <span style="color:var(--mid)">FR</span>
+      </div>
+    </div>
+  </div>
+
+  <nav data-nav style="position:sticky;top:0;z-index:50;background:oklch(0.13 0.028 247);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);transition:background .3s ease">
+    <div style="max-width:1440px;margin:0 auto;padding:0 clamp(1.25rem,4vw,2.5rem);height:72px;display:flex;align-items:center;justify-content:space-between;gap:1rem">
+      <a href="index.html" style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+        <img src="assets/eds-emblem.png" alt="Euro Docks Service" style="height:46px;width:auto;display:block">
+        <span style="font-weight:900;font-size:1.3rem;letter-spacing:-0.02em;text-transform:uppercase">Euro Docks</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.34em;color:var(--brass);text-transform:uppercase;padding-bottom:3px">Service</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:clamp(1rem,2.4vw,2.25rem);font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase">
+        <a class="nav-link" href="services.html" style="color:var(--light);transition:color .2s">Services</a>
+        <a class="nav-link" href="terminal.html" style="color:var(--light);transition:color .2s">Terminal</a>
+        <a class="nav-link" href="fret.html" style="color:var(--brass);transition:color .2s">Transit</a>
+        <a class="nav-link" href="a-propos.html" style="color:var(--light);transition:color .2s">À propos</a>
+        <a href="contact.html" style="display:flex;align-items:center;gap:8px;padding:10px 18px;background:var(--brass);color:#0d1a28;font-weight:600;letter-spacing:.12em;border-radius:999px">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <header style="position:relative;overflow:hidden;min-height:clamp(460px,64vh,560px);display:flex;align-items:center">
+    <img src="assets/eds2_grain_loading_6553e85f.jpg" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,oklch(0.13 0.028 247 / 0.95) 0%,oklch(0.13 0.028 247 / 0.6) 55%,oklch(0.13 0.028 247 / 0.3) 100%)"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,var(--ink) 0%,transparent 50%)"></div>
+    <div style="position:relative;max-width:1440px;width:100%;margin:0 auto;padding:4rem clamp(1.25rem,4vw,2.5rem)">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);margin-bottom:1.5rem;display:flex;align-items:center;gap:.85rem"><span style="display:inline-block;width:32px;height:1px;background:var(--brass)"></span>Transit multimodal</div>
+      <h1 style="font-weight:900;font-size:clamp(3rem,8vw,6.5rem);line-height:.92;letter-spacing:-0.03em;text-transform:uppercase">Freight<br><span style="color:var(--brass)">Forwarding</span></h1>
+      <p style="margin-top:1.5rem;font-size:clamp(1rem,1.4vw,1.2rem);line-height:1.6;color:var(--light);max-width:52ch">Transport multimodal fluvial, routier et ferroviaire pour vrac sec, acier et produits industriels. Couverture assurance 9,5 M€ · certifié GMP+.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2.25rem">
+        
+          <div style="background:oklch(0 0 0 / 0.45);backdrop-filter:blur(12px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.6);padding:.85rem 1.35rem;border-radius:12px;min-width:120px">
+            <div style="font-weight:900;font-size:1.6rem;color:var(--brass);letter-spacing:-0.02em;line-height:1">9,5 M€</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-top:.3rem">Couverture assurance</div>
+          </div>
+        
+          <div style="background:oklch(0 0 0 / 0.45);backdrop-filter:blur(12px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.6);padding:.85rem 1.35rem;border-radius:12px;min-width:120px">
+            <div style="font-weight:900;font-size:1.6rem;color:var(--brass);letter-spacing:-0.02em;line-height:1">GMP+</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-top:.3rem">Certification</div>
+          </div>
+        
+          <div style="background:oklch(0 0 0 / 0.45);backdrop-filter:blur(12px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.6);padding:.85rem 1.35rem;border-radius:12px;min-width:120px">
+            <div style="font-weight:900;font-size:1.6rem;color:var(--brass);letter-spacing:-0.02em;line-height:1">5</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-top:.3rem">Certifications EU</div>
+          </div>
+        
+          <div style="background:oklch(0 0 0 / 0.45);backdrop-filter:blur(12px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.6);padding:.85rem 1.35rem;border-radius:12px;min-width:120px">
+            <div style="font-weight:900;font-size:1.6rem;color:var(--brass);letter-spacing:-0.02em;line-height:1">3</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-top:.3rem">Modes de transport</div>
+          </div>
+        
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ 3 MODES ══ -->
+  <section style="background:var(--ink-d);padding:clamp(4rem,8vh,6rem) clamp(1.25rem,4vw,2.5rem);border-top:1px solid var(--line)">
+    <div style="max-width:1440px;margin:0 auto">
+      <div class="reveal" style="margin-bottom:2.5rem">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="width:24px;height:1px;background:var(--brass)"></span>Modes de transport</div>
+        <h2 style="font-weight:900;font-size:clamp(2rem,4vw,3.5rem);letter-spacing:-0.025em;text-transform:uppercase;line-height:.95">Solutions multimodales<br><span style="color:var(--brass)">Fluvial · Route · Rail</span></h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem">
+        
+          <div class="reveal imgzoom" style="position:relative;overflow:hidden;height:clamp(440px,60vh,520px);border-radius:20px;border:1px solid var(--line)">
+            <div data-z style="position:absolute;inset:0"><img src="assets/eds2_port_dunkerque_9fea8573.jpg" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(to top,oklch(0.13 0.028 247 / 0.97) 0%,oklch(0.13 0.028 247 / 0.55) 50%,oklch(0.13 0.028 247 / 0.15) 100%);pointer-events:none"></div>
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);margin-bottom:.5rem">Voie Navigable</div>
+              <h3 style="font-weight:900;font-size:2rem;text-transform:uppercase;letter-spacing:-0.02em;line-height:1;margin-bottom:.75rem">Fluvial</h3>
+              <p style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--light);line-height:1.6;margin-bottom:1rem">Transport par voie navigable sur le Rhin, la Seine, la Moselle et le réseau Nord France.</p>
+              <div style="border-top:1px solid oklch(1 0 0 / 0.12);padding-top:.75rem;margin-bottom:.75rem">
+                
+                  <div style="display:flex;justify-content:space-between;gap:.75rem;padding:.25rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--light)">Rhine (Rhin)</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);text-align:right">Bâle → Rotterdam</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;gap:.75rem;padding:.25rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--light)">Seine</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);text-align:right">Paris → Le Havre</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;gap:.75rem;padding:.25rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--light)">Moselle</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);text-align:right">Metz → Coblence</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;gap:.75rem;padding:.25rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--light)">North France</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);text-align:right">Dunkerque → Paris</span>
+                  </div>
+                
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:.3rem">
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.06em;color:var(--light);background:oklch(1 0 0 / 0.08);border:1px solid var(--line);padding:.15rem .5rem;border-radius:999px">Céréales</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.06em;color:var(--light);background:oklch(1 0 0 / 0.08);border:1px solid var(--line);padding:.15rem .5rem;border-radius:999px">Engrais</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.06em;color:var(--light);background:oklch(1 0 0 / 0.08);border:1px solid var(--line);padding:.15rem .5rem;border-radius:999px">Granulats</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.06em;color:var(--light);background:oklch(1 0 0 / 0.08);border:1px solid var(--line);padding:.15rem .5rem;border-radius:999px">Produits chimiques</span>
+                
+              </div>
+            </div>
+          </div>
+        
+          <div class="reveal imgzoom" style="position:relative;overflow:hidden;height:clamp(440px,60vh,520px);border-radius:20px;border:1px solid var(--line)">
+            <div data-z style="position:absolute;inset:0"><img src="assets/eds2_chartering_bridge_e11c603a.jpg" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(to top,oklch(0.13 0.028 247 / 0.97) 0%,oklch(0.13 0.028 247 / 0.55) 50%,oklch(0.13 0.028 247 / 0.15) 100%);pointer-events:none"></div>
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);margin-bottom:.5rem">Transport Routier</div>
+              <h3 style="font-weight:900;font-size:2rem;text-transform:uppercase;letter-spacing:-0.02em;line-height:1;margin-bottom:.75rem">Route</h3>
+              <p style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--light);line-height:1.6;margin-bottom:1rem">Réseau de transporteurs agréés pour la distribution nationale et internationale.</p>
+              <div style="border-top:1px solid oklch(1 0 0 / 0.12);padding-top:.75rem;margin-bottom:.75rem">
+                
+                  <div style="display:flex;justify-content:space-between;gap:.75rem;padding:.25rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--light)">France nationale</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);text-align:right">Tous départements</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;gap:.75rem;padding:.25rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--light)">Benelux</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);text-align:right">Belgique · Pays-Bas · Lux.</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;gap:.75rem;padding:.25rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--light)">Allemagne</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);text-align:right">Rhénanie · Bavière · Hambourg</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;gap:.75rem;padding:.25rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--light)">Péninsule ibérique</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);text-align:right">Espagne · Portugal</span>
+                  </div>
+                
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:.3rem">
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.06em;color:var(--light);background:oklch(1 0 0 / 0.08);border:1px solid var(--line);padding:.15rem .5rem;border-radius:999px">Vrac alimentaire</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.06em;color:var(--light);background:oklch(1 0 0 / 0.08);border:1px solid var(--line);padding:.15rem .5rem;border-radius:999px">Acier</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.06em;color:var(--light);background:oklch(1 0 0 / 0.08);border:1px solid var(--line);padding:.15rem .5rem;border-radius:999px">Produits industriels</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.06em;color:var(--light);background:oklch(1 0 0 / 0.08);border:1px solid var(--line);padding:.15rem .5rem;border-radius:999px">Breakbulk</span>
+                
+              </div>
+            </div>
+          </div>
+        
+          <div class="reveal imgzoom" style="position:relative;overflow:hidden;height:clamp(440px,60vh,520px);border-radius:20px;border:1px solid var(--line)">
+            <div data-z style="position:absolute;inset:0"><img src="assets/eds2_rouen_grain_087bf488.jpg" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(to top,oklch(0.13 0.028 247 / 0.97) 0%,oklch(0.13 0.028 247 / 0.55) 50%,oklch(0.13 0.028 247 / 0.15) 100%);pointer-events:none"></div>
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);margin-bottom:.5rem">Transport Ferroviaire</div>
+              <h3 style="font-weight:900;font-size:2rem;text-transform:uppercase;letter-spacing:-0.02em;line-height:1;margin-bottom:.75rem">Rail</h3>
+              <p style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--light);line-height:1.6;margin-bottom:1rem">Solutions ferroviaires pour les grands volumes. Connexion directe aux terminaux portuaires.</p>
+              <div style="border-top:1px solid oklch(1 0 0 / 0.12);padding-top:.75rem;margin-bottom:.75rem">
+                
+                  <div style="display:flex;justify-content:space-between;gap:.75rem;padding:.25rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--light)">Rouen → Paris</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);text-align:right">Terminal grain</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;gap:.75rem;padding:.25rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--light)">Dunkerque → Lyon</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);text-align:right">Axe Nord-Sud</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;gap:.75rem;padding:.25rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--light)">Calais → Strasbourg</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);text-align:right">Axe Est</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;gap:.75rem;padding:.25rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--light)">International</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);text-align:right">Via Eurotunnel</span>
+                  </div>
+                
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:.3rem">
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.06em;color:var(--light);background:oklch(1 0 0 / 0.08);border:1px solid var(--line);padding:.15rem .5rem;border-radius:999px">Céréales</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.06em;color:var(--light);background:oklch(1 0 0 / 0.08);border:1px solid var(--line);padding:.15rem .5rem;border-radius:999px">Charbon</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.06em;color:var(--light);background:oklch(1 0 0 / 0.08);border:1px solid var(--line);padding:.15rem .5rem;border-radius:999px">Minerais</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.06em;color:var(--light);background:oklch(1 0 0 / 0.08);border:1px solid var(--line);padding:.15rem .5rem;border-radius:999px">Produits chimiques</span>
+                
+              </div>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CERTIFICATIONS ══ -->
+  <section style="position:relative;overflow:hidden;border-top:1px solid var(--line)">
+    <img src="assets/eds2_grain_loading_6553e85f.jpg" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    <div style="position:absolute;inset:0;background:oklch(0.13 0.028 247 / 0.94)"></div>
+    <div style="position:relative;max-width:1440px;margin:0 auto;padding:clamp(4rem,8vh,6rem) clamp(1.25rem,4vw,2.5rem)">
+      <div class="reveal" style="margin-bottom:2.5rem">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="width:24px;height:1px;background:var(--brass)"></span>Conformité & certifications</div>
+        <h2 style="font-weight:900;font-size:clamp(2rem,4vw,3.5rem);letter-spacing:-0.025em;text-transform:uppercase;line-height:.95">5 certifications<br><span style="color:var(--brass)">européennes</span></h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem">
+        
+          <div class="reveal card-hover" style="background:oklch(0 0 0 / 0.5);backdrop-filter:blur(16px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.5);padding:1.5rem;border-radius:16px;height:100%;display:flex;flex-direction:column;gap:.75rem">
+            <div style="display:flex;align-items:center;gap:.5rem">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color:var(--brass);flex-shrink:0" data-om-raster><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <div style="font-weight:900;font-size:1.1rem;text-transform:uppercase;letter-spacing:-0.01em;color:var(--brass)">GMP+</div>
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;color:var(--light)">Good Manufacturing Practice</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--mid);line-height:1.6">Certification transport et stockage de matières premières pour l'alimentation animale</div>
+          </div>
+        
+          <div class="reveal card-hover" style="background:oklch(0 0 0 / 0.5);backdrop-filter:blur(16px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.5);padding:1.5rem;border-radius:16px;height:100%;display:flex;flex-direction:column;gap:.75rem">
+            <div style="display:flex;align-items:center;gap:.5rem">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color:var(--brass);flex-shrink:0" data-om-raster><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <div style="font-weight:900;font-size:1.1rem;text-transform:uppercase;letter-spacing:-0.01em;color:var(--brass)">OVAM</div>
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;color:var(--light)">Organisme Vlaamse Afvalstoffen</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--mid);line-height:1.6">Enregistrement pour le transport de déchets en Belgique</div>
+          </div>
+        
+          <div class="reveal card-hover" style="background:oklch(0 0 0 / 0.5);backdrop-filter:blur(16px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.5);padding:1.5rem;border-radius:16px;height:100%;display:flex;flex-direction:column;gap:.75rem">
+            <div style="display:flex;align-items:center;gap:.5rem">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color:var(--brass);flex-shrink:0" data-om-raster><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <div style="font-weight:900;font-size:1.1rem;text-transform:uppercase;letter-spacing:-0.01em;color:var(--brass)">OWD</div>
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;color:var(--light)">Overheidsdienst Wegverkeer</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--mid);line-height:1.6">Accord de transport de déchets · Pays-Bas</div>
+          </div>
+        
+          <div class="reveal card-hover" style="background:oklch(0 0 0 / 0.5);backdrop-filter:blur(16px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.5);padding:1.5rem;border-radius:16px;height:100%;display:flex;flex-direction:column;gap:.75rem">
+            <div style="display:flex;align-items:center;gap:.5rem">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color:var(--brass);flex-shrink:0" data-om-raster><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <div style="font-weight:900;font-size:1.1rem;text-transform:uppercase;letter-spacing:-0.01em;color:var(--brass)">NIWO</div>
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;color:var(--light)">Nationale en Internationale Wegvervoer</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--mid);line-height:1.6">Licence de transport international routier Pays-Bas</div>
+          </div>
+        
+          <div class="reveal card-hover" style="background:oklch(0 0 0 / 0.5);backdrop-filter:blur(16px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.5);padding:1.5rem;border-radius:16px;height:100%;display:flex;flex-direction:column;gap:.75rem">
+            <div style="display:flex;align-items:center;gap:.5rem">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="color:var(--brass);flex-shrink:0" data-om-raster><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <div style="font-weight:900;font-size:1.1rem;text-transform:uppercase;letter-spacing:-0.01em;color:var(--brass)">IBG</div>
+            </div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:500;color:var(--light)">Inland Barge Group</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--mid);line-height:1.6">Certification voies navigables intérieures européennes</div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SPÉCIALITÉS ══ -->
+  <section style="background:var(--ink-d);padding:clamp(4rem,8vh,6rem) clamp(1.25rem,4vw,2.5rem);border-top:1px solid var(--line)">
+    <div style="max-width:1440px;margin:0 auto">
+      <div class="reveal" style="margin-bottom:2.5rem">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="width:24px;height:1px;background:var(--brass)"></span>Spécialités cargaison</div>
+        <h2 style="font-weight:900;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.025em;text-transform:uppercase;line-height:.95">Expertise sectorielle<br><span style="color:var(--brass)">reconnue</span></h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem">
+        
+          <div class="reveal card-hover" style="background:oklch(1 0 0 / 0.03);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.35);padding:1.5rem;border-radius:16px">
+            <h3 style="font-weight:800;font-size:.95rem;text-transform:uppercase;letter-spacing:.02em;margin-bottom:.5rem">Céréales & grains</h3>
+            <p style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--mid);line-height:1.6;margin-bottom:.75rem">Blé, maïs, colza, orge · transport GMP+ certifié</p>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);display:flex;align-items:center;gap:.4rem">› Spécialité principale</div>
+          </div>
+        
+          <div class="reveal card-hover" style="background:oklch(1 0 0 / 0.03);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.35);padding:1.5rem;border-radius:16px">
+            <h3 style="font-weight:800;font-size:.95rem;text-transform:uppercase;letter-spacing:.02em;margin-bottom:.5rem">Acier & métaux</h3>
+            <p style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--mid);line-height:1.6;margin-bottom:.75rem">Bobines, tôles, profilés, acier en vrac</p>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);display:flex;align-items:center;gap:.4rem">› ArcelorMittal · Liberty Alu</div>
+          </div>
+        
+          <div class="reveal card-hover" style="background:oklch(1 0 0 / 0.03);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.35);padding:1.5rem;border-radius:16px">
+            <h3 style="font-weight:800;font-size:.95rem;text-transform:uppercase;letter-spacing:.02em;margin-bottom:.5rem">Engrais</h3>
+            <p style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--mid);line-height:1.6;margin-bottom:.75rem">Urée, DAP, potasse · stockage sécurisé</p>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);display:flex;align-items:center;gap:.4rem">› Couverture 9,5 M€</div>
+          </div>
+        
+          <div class="reveal card-hover" style="background:oklch(1 0 0 / 0.03);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.35);padding:1.5rem;border-radius:16px">
+            <h3 style="font-weight:800;font-size:.95rem;text-transform:uppercase;letter-spacing:.02em;margin-bottom:.5rem">Produits industriels</h3>
+            <p style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--mid);line-height:1.6;margin-bottom:.75rem">Breakbulk, project cargo, matériaux de construction</p>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:var(--brass);display:flex;align-items:center;gap:.4rem">› Lafarge · Eqiom · Lhoist</div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA ══ -->
+  <section style="position:relative;overflow:hidden;border-top:1px solid var(--line)">
+    <img src="assets/eds2_tramping_sea_fd8a56f5.jpg" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    <div style="position:absolute;inset:0;background:oklch(0.10 0.025 247)"></div>
+    <div style="position:relative;max-width:1440px;margin:0 auto;padding:clamp(4rem,8vh,5.5rem) clamp(1.25rem,4vw,2.5rem);display:flex;align-items:center;justify-content:space-between;gap:3rem;flex-wrap:wrap">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="width:20px;height:1px;background:var(--brass)"></span>Prise de contact</div>
+        <h2 style="font-weight:900;font-size:clamp(1.8rem,3.5vw,3rem);letter-spacing:-0.025em;text-transform:uppercase;line-height:.95">Un projet de transit ?<br><span style="color:var(--brass)">Obtenez un devis.</span></h2>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.75rem">
+        <a href="contact.html" style="display:inline-flex;align-items:center;gap:.6rem;padding:1rem 2rem;background:var(--brass);color:#0d1a28;font-weight:700;letter-spacing:.03em;border-radius:999px">Demander un devis →</a>
+        <a href="mailto:commercial@eurodocks.com" style="display:inline-flex;align-items:center;justify-content:center;padding:1rem 2rem;border:1px solid oklch(1 0 0 / 0.16);color:var(--white);font-weight:600;border-radius:999px;background:oklch(1 0 0 / 0.06);backdrop-filter:blur(14px);font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.06em">commercial@eurodocks.com</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer style="background:var(--deep);border-top:1px solid var(--line)">
+    <div style="max-width:1440px;margin:0 auto;padding:clamp(3rem,6vh,4rem) clamp(1.25rem,4vw,2.5rem)">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2.5rem">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem"><img src="assets/eds-emblem.png" alt="Euro Docks Service" style="height:52px;width:auto;display:block"><span style="font-weight:900;font-size:1.2rem;letter-spacing:-0.02em;text-transform:uppercase">Euro Docks</span><span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.34em;color:var(--brass);text-transform:uppercase">Service</span></div>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.08em;color:var(--mid);line-height:1.9;text-transform:uppercase">Agence maritime · Tramping<br>Terminaux · Depuis 1975</p>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);margin-bottom:1rem">Nos services</div>
+          <div style="display:flex;flex-direction:column;gap:.6rem;font-size:.88rem;color:var(--mid)">
+            <a class="nav-link" href="services.html" style="transition:color .2s">Agence maritime</a>
+            <a class="nav-link" href="services.html" style="transition:color .2s">Affrètement tramping</a>
+            <a class="nav-link" href="services.html" style="transition:color .2s">Expertise & survey</a>
+            <a class="nav-link" href="fret.html" style="transition:color .2s">Transit & douane</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);margin-bottom:1rem">Nos ports</div>
+          <div style="display:flex;flex-direction:column;gap:.6rem;font-size:.88rem;color:var(--mid)">
+            <a class="nav-link" href="terminal.html" style="transition:color .2s">Dunkerque</a>
+            <a class="nav-link" href="terminal.html" style="transition:color .2s">Boulogne-sur-Mer</a>
+            <a class="nav-link" href="terminal.html" style="transition:color .2s">Rouen</a>
+            <a class="nav-link" href="terminal.html" style="transition:color .2s">Bayonne · Calais</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);margin-bottom:1rem">Suivez-nous</div>
+          <div style="display:flex;flex-direction:column;gap:.6rem;font-size:.88rem;color:var(--mid)">
+            <a href="https://www.linkedin.com" class="nav-link" style="transition:color .2s">LinkedIn ↗</a>
+            <a href="contact.html" class="nav-link" style="transition:color .2s">Nous rejoindre</a>
+            <a href="contact.html" class="nav-link" style="transition:color .2s">Annuaire</a>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mid)">
+        <span>© 2026 Euro Docks Service · Tous droits réservés</span>
+        <span>Mentions légales · Politique de confidentialité</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var els=[].slice.call(document.querySelectorAll('.reveal'));
+  var obs=new IntersectionObserver(function(ents){ents.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');obs.unobserve(en.target);}});},{threshold:0.12});
+  els.forEach(function(el,i){el.style.transitionDelay=(Math.min(i%3,2)*0.07)+'s';obs.observe(el);});
+  var nav=document.querySelector('[data-nav]');
+  if(nav){window.addEventListener('scroll',function(){nav.style.background=(window.scrollY||0)>80?'oklch(0.10 0.025 247)':'oklch(0.13 0.028 247)';},{passive:true});}
+})();
+</script>
+</body>
+</html>

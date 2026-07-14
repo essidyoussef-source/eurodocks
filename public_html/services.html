@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Services — Euro Docks Service</title>
+<meta name="description" content="Agence maritime, affrètement tramping, courtage en douane et expertise maritime dans les ports français.">
+<link rel="icon" type="image/png" href="assets/eds-emblem.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#0d1a28;overflow-x:clip;scroll-behavior:smooth}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:var(--brass)}
+  ::selection{background:var(--brass);color:#0d1a28}
+  .nav-link:hover{color:var(--brass)}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.22,.61,.36,1),transform .8s cubic-bezier(.22,.61,.36,1)}
+  .reveal.in{opacity:1;transform:none}
+  .imgzoom [data-z]{transition:transform .6s cubic-bezier(.22,.61,.36,1)}
+  .imgzoom:hover [data-z]{transform:scale(1.05)}
+  .svc-sec{background:var(--ink)}
+  .svc-sec:nth-of-type(even){background:var(--ink-d)}
+  .svc-grid{display:flex;gap:clamp(2rem,5vw,4rem);align-items:center;flex-wrap:wrap}
+  .svc-grid>*{flex:1 1 340px;min-width:0}
+  .svc-sec:nth-of-type(even) .svc-grid{flex-direction:row-reverse}
+  .quote-link:hover [data-arrow]{transform:translateX(6px)}
+</style>
+</head>
+<body>
+<div data-eds-root style="--ink:oklch(0.19 0.035 245);--ink-d:oklch(0.15 0.03 246);--deep:oklch(0.13 0.028 247);--ocean:oklch(0.24 0.04 244);--line:oklch(1 0 0 / 0.10);--mid:oklch(0.62 0.03 240);--light:oklch(0.80 0.02 240);--white:oklch(0.97 0.005 240);--brass:#2f93d1;--brass-d:oklch(0.58 0.11 245);background:var(--ink);color:var(--white);font-family:'Archivo',sans-serif;position:relative;width:100%;overflow-x:clip">
+
+  <!-- ══ UTILITY BAR ══ -->
+  <div style="background:var(--deep);border-bottom:1px solid var(--line);position:relative;z-index:60">
+    <div style="max-width:1440px;margin:0 auto;padding:.4rem clamp(1.25rem,4vw,2.5rem);display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap">
+      <div style="display:flex;gap:clamp(.75rem,2vw,1.75rem);font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mid);flex-wrap:wrap">
+        <a class="nav-link" href="contact.html" style="transition:color .2s">Mentions légales</a>
+        <a class="nav-link" href="contact.html" style="transition:color .2s">Nous rejoindre</a>
+        <a class="nav-link" href="contact.html" style="transition:color .2s">Annuaire</a>
+      </div>
+      <div style="display:flex;gap:1.25rem;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase">
+        <a href="https://www.linkedin.com" style="color:var(--mid);transition:color .2s" class="nav-link">LinkedIn ↗</a>
+        <a href="tel:+33328000000" style="color:var(--brass);font-weight:600">+33 (0)3 28 00 00 00</a>
+        <span style="color:var(--line)">|</span>
+        <span style="color:var(--mid)">FR</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MAIN NAV ══ -->
+  <nav data-nav style="position:sticky;top:0;z-index:50;background:oklch(0.13 0.028 247);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);transition:background .3s ease">
+    <div style="max-width:1440px;margin:0 auto;padding:0 clamp(1.25rem,4vw,2.5rem);height:72px;display:flex;align-items:center;justify-content:space-between;gap:1rem">
+      <a href="index.html" style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+        <img src="assets/eds-emblem.png" alt="Euro Docks Service" style="height:46px;width:auto;display:block">
+        <span style="font-weight:900;font-size:1.3rem;letter-spacing:-0.02em;text-transform:uppercase">Euro Docks</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.34em;color:var(--brass);text-transform:uppercase;padding-bottom:3px">Service</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:clamp(1rem,2.4vw,2.25rem);font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase">
+        <a class="nav-link" href="services.html" style="color:var(--brass);transition:color .2s">Services</a>
+        <a class="nav-link" href="terminal.html" style="color:var(--light);transition:color .2s">Terminal</a>
+        <a class="nav-link" href="fret.html" style="color:var(--light);transition:color .2s">Transit</a>
+        <a class="nav-link" href="a-propos.html" style="color:var(--light);transition:color .2s">À propos</a>
+        <a href="contact.html" style="display:flex;align-items:center;gap:8px;padding:10px 18px;background:var(--brass);color:#0d1a28;font-weight:600;letter-spacing:.12em;border-radius:999px">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <header style="position:relative;overflow:hidden;min-height:clamp(460px,64vh,560px);display:flex;align-items:center">
+    <img src="assets/eds2_hero_bulker_fe8bd601.jpg" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,oklch(0.13 0.028 247 / 0.65) 0%,var(--ink) 100%)"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(to right,oklch(0.13 0.028 247 / 0.82) 0%,transparent 65%)"></div>
+    <div style="position:relative;max-width:1440px;width:100%;margin:0 auto;padding:4rem clamp(1.25rem,4vw,2.5rem)">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);margin-bottom:1.5rem;display:flex;align-items:center;gap:.85rem"><span style="display:inline-block;width:32px;height:1px;background:var(--brass)"></span>Nos expertises</div>
+      <h1 style="font-weight:900;font-size:clamp(3rem,8vw,6.5rem);line-height:.92;letter-spacing:-0.03em;text-transform:uppercase">Shipping<br><span style="color:var(--brass)">Services</span></h1>
+      <p style="margin-top:1.5rem;font-size:clamp(1rem,1.4vw,1.2rem);line-height:1.6;color:var(--light);max-width:56ch">Agence maritime, affrètement tramping, courtage en douane et expertise maritime · une gamme complète de services opérés par des experts reconnus dans les ports français.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2.25rem">
+        
+          <div style="background:oklch(0 0 0 / 0.45);backdrop-filter:blur(12px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.6);padding:.85rem 1.35rem;border-radius:12px;min-width:120px">
+            <div style="font-weight:900;font-size:1.6rem;color:var(--brass);letter-spacing:-0.02em;line-height:1">800+</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-top:.3rem">Escales / an</div>
+          </div>
+        
+          <div style="background:oklch(0 0 0 / 0.45);backdrop-filter:blur(12px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.6);padding:.85rem 1.35rem;border-radius:12px;min-width:120px">
+            <div style="font-weight:900;font-size:1.6rem;color:var(--brass);letter-spacing:-0.02em;line-height:1">200+</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-top:.3rem">Navires affrétés</div>
+          </div>
+        
+          <div style="background:oklch(0 0 0 / 0.45);backdrop-filter:blur(12px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.6);padding:.85rem 1.35rem;border-radius:12px;min-width:120px">
+            <div style="font-weight:900;font-size:1.6rem;color:var(--brass);letter-spacing:-0.02em;line-height:1">7 M€</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-top:.3rem">Chiffre d'affaires</div>
+          </div>
+        
+          <div style="background:oklch(0 0 0 / 0.45);backdrop-filter:blur(12px);border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.6);padding:.85rem 1.35rem;border-radius:12px;min-width:120px">
+            <div style="font-weight:900;font-size:1.6rem;color:var(--brass);letter-spacing:-0.02em;line-height:1">1975</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-top:.3rem">Année de création</div>
+          </div>
+        
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ SERVICES ALTERNÉS ══ -->
+  <div data-svclist>
+    
+      <section class="svc-sec">
+        <div style="max-width:1440px;margin:0 auto;padding:clamp(4rem,8vh,6rem) clamp(1.25rem,4vw,2.5rem)">
+          <div class="svc-grid">
+            <div class="reveal imgzoom" style="position:relative;height:clamp(360px,52vh,520px);border-radius:22px;overflow:hidden;border:1px solid var(--line)">
+              <div data-z style="position:absolute;inset:0"><img src="assets/eds_hero_ship_5b197371.jpg" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,oklch(0.13 0.028 247 / 0.75) 0%,transparent 55%);pointer-events:none"></div>
+              <div style="position:absolute;top:1.25rem;right:1.25rem;background:oklch(0 0 0 / 0.6);backdrop-filter:blur(12px);border:1px solid var(--line);border-top:1.5px solid var(--brass);padding:.75rem 1rem;text-align:center;border-radius:12px">
+                <div style="font-weight:900;font-size:1.8rem;color:var(--brass);letter-spacing:-0.02em;line-height:1">800+</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;color:var(--light);margin-top:.2rem">Escales / an</div>
+              </div>
+              <div style="position:absolute;bottom:1.25rem;left:1.25rem;display:flex;flex-wrap:wrap;gap:.4rem">
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Dunkerque</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Boulogne-sur-Mer</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Calais</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Rouen</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Bayonne</span>
+                
+              </div>
+            </div>
+            <div class="reveal">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="width:20px;height:1px;background:var(--brass)"></span>Shipping Agency</div>
+              <h2 style="font-weight:900;font-size:clamp(2rem,3.5vw,3rem);letter-spacing:-0.025em;text-transform:uppercase;line-height:.95;margin-bottom:1.25rem">Agence Maritime</h2>
+              <p style="font-size:1rem;line-height:1.7;color:var(--light);margin-bottom:1.75rem">Représentation et assistance complète pour les navires en escale dans les ports français. Notre équipe assure la coordination entre le navire, les autorités portuaires, les chargeurs et les prestataires locaux 24h/24.</p>
+              <div style="border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.4);border-radius:14px;padding:1rem 1.25rem;margin-bottom:1.5rem;background:oklch(1 0 0 / 0.02)">
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Escales traitées / an</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">800+</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Ports couverts</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">5 ports français</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Types de navires</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">Bulk · Liner · Breakbulk · Tanker</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Disponibilité</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">24h/24 · 7j/7</span>
+                  </div>
+                
+              </div>
+              <div style="margin-bottom:1.75rem">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">Prestations incluses</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Husbandry & Protective services</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Dry and liquid bulk</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Liner & Container ship</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Breakbulk & Heavy lift</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Project cargo</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Coordination douanière</div>
+                  
+                </div>
+              </div>
+              <a href="contact.html" class="quote-link" style="display:inline-flex;align-items:center;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--brass)">Demander un devis <span data-arrow style="transition:transform .25s ease">→</span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+    
+      <section class="svc-sec">
+        <div style="max-width:1440px;margin:0 auto;padding:clamp(4rem,8vh,6rem) clamp(1.25rem,4vw,2.5rem)">
+          <div class="svc-grid">
+            <div class="reveal imgzoom" style="position:relative;height:clamp(360px,52vh,520px);border-radius:22px;overflow:hidden;border:1px solid var(--line)">
+              <div data-z style="position:absolute;inset:0"><img src="assets/eds2_tramping_sea_fd8a56f5.jpg" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,oklch(0.13 0.028 247 / 0.75) 0%,transparent 55%);pointer-events:none"></div>
+              <div style="position:absolute;top:1.25rem;right:1.25rem;background:oklch(0 0 0 / 0.6);backdrop-filter:blur(12px);border:1px solid var(--line);border-top:1.5px solid var(--brass);padding:.75rem 1rem;text-align:center;border-radius:12px">
+                <div style="font-weight:900;font-size:1.8rem;color:var(--brass);letter-spacing:-0.02em;line-height:1">200+</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;color:var(--light);margin-top:.2rem">Navires / an</div>
+              </div>
+              <div style="position:absolute;bottom:1.25rem;left:1.25rem;display:flex;flex-wrap:wrap;gap:.4rem">
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Baltic</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Continent</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Méditerranée</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Mer Noire</span>
+                
+              </div>
+            </div>
+            <div class="reveal">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="width:20px;height:1px;background:var(--brass)"></span>Chartering & Tramping</div>
+              <h2 style="font-weight:900;font-size:clamp(2rem,3.5vw,3rem);letter-spacing:-0.025em;text-transform:uppercase;line-height:.95;margin-bottom:1.25rem">Affrètement Tramping</h2>
+              <p style="font-size:1rem;line-height:1.7;color:var(--light);margin-bottom:1.75rem">Affrètement de navires sur les marchés Baltique, Continent, Méditerranée et Mer Noire. Du coaster au Panamax, nous négocions et gérons chaque opération avec la précision d'un partenaire de confiance.</p>
+              <div style="border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.4);border-radius:14px;padding:1rem 1.25rem;margin-bottom:1.5rem;background:oklch(1 0 0 / 0.02)">
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Navires affrétés / an</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">200+</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Marchés couverts</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">Baltic · Continent · Med · Black Sea</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Types de navires</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">Coaster · Handysize · Supramax · Panamax</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Cargaisons</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">Dry Bulk · Breakbulk · Heavy Lift</span>
+                  </div>
+                
+              </div>
+              <div style="margin-bottom:1.75rem">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">Prestations incluses</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Coaster à Panamax vessels</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Dry bulk, Breakbulk</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Heavy lift & Project cargo</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Négociation charter-parties</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Suivi opérationnel complet</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Propositions créatives d'affrètement</div>
+                  
+                </div>
+              </div>
+              <a href="contact.html" class="quote-link" style="display:inline-flex;align-items:center;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--brass)">Demander un devis <span data-arrow style="transition:transform .25s ease">→</span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+    
+      <section class="svc-sec">
+        <div style="max-width:1440px;margin:0 auto;padding:clamp(4rem,8vh,6rem) clamp(1.25rem,4vw,2.5rem)">
+          <div class="svc-grid">
+            <div class="reveal imgzoom" style="position:relative;height:clamp(360px,52vh,520px);border-radius:22px;overflow:hidden;border:1px solid var(--line)">
+              <div data-z style="position:absolute;inset:0"><img src="assets/eds2_grain_loading_6553e85f.jpg" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,oklch(0.13 0.028 247 / 0.75) 0%,transparent 55%);pointer-events:none"></div>
+              <div style="position:absolute;top:1.25rem;right:1.25rem;background:oklch(0 0 0 / 0.6);backdrop-filter:blur(12px);border:1px solid var(--line);border-top:1.5px solid var(--brass);padding:.75rem 1rem;text-align:center;border-radius:12px">
+                <div style="font-weight:900;font-size:1.8rem;color:var(--brass);letter-spacing:-0.02em;line-height:1">1975</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;color:var(--light);margin-top:.2rem">Année d'enregistrement</div>
+              </div>
+              <div style="position:absolute;bottom:1.25rem;left:1.25rem;display:flex;flex-wrap:wrap;gap:.4rem">
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Dunkerque</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Boulogne-sur-Mer</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Calais</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Rouen</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Le Havre</span>
+                
+              </div>
+            </div>
+            <div class="reveal">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="width:20px;height:1px;background:var(--brass)"></span>Customs Ship Brokerage</div>
+              <h2 style="font-weight:900;font-size:clamp(2rem,3.5vw,3rem);letter-spacing:-0.025em;text-transform:uppercase;line-height:.95;margin-bottom:1.25rem">Courtage en Douane</h2>
+              <p style="font-size:1rem;line-height:1.7;color:var(--light);margin-bottom:1.75rem">Courtage en douane maritime, enregistré dans les principaux ports français depuis 1975. Notre staff expérimenté gère l'ensemble des formalités douanières avec dépôt et garantie.</p>
+              <div style="border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.4);border-radius:14px;padding:1rem 1.25rem;margin-bottom:1.5rem;background:oklch(1 0 0 / 0.02)">
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Enregistrement</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">Depuis 1975</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Ports couverts</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">Dunkerque · Boulogne · Calais · Rouen · Le Havre</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Régimes</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">Import · Export · Transit · Entrepôt</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Garantie</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">Deposit & Garantee inclus</span>
+                  </div>
+                
+              </div>
+              <div style="margin-bottom:1.75rem">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">Prestations incluses</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Registered customs broker</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Deposit & Garantee</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Formalités d'entrée/sortie</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Régimes douaniers spéciaux</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Staff expérimenté depuis 1975</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Assistance en cas de litige</div>
+                  
+                </div>
+              </div>
+              <a href="contact.html" class="quote-link" style="display:inline-flex;align-items:center;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--brass)">Demander un devis <span data-arrow style="transition:transform .25s ease">→</span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+    
+      <section class="svc-sec">
+        <div style="max-width:1440px;margin:0 auto;padding:clamp(4rem,8vh,6rem) clamp(1.25rem,4vw,2.5rem)">
+          <div class="svc-grid">
+            <div class="reveal imgzoom" style="position:relative;height:clamp(360px,52vh,520px);border-radius:22px;overflow:hidden;border:1px solid var(--line)">
+              <div data-z style="position:absolute;inset:0"><img src="assets/eds2_hatch_inspection_5a8b030b.jpg" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,oklch(0.13 0.028 247 / 0.75) 0%,transparent 55%);pointer-events:none"></div>
+              <div style="position:absolute;top:1.25rem;right:1.25rem;background:oklch(0 0 0 / 0.6);backdrop-filter:blur(12px);border:1px solid var(--line);border-top:1.5px solid var(--brass);padding:.75rem 1rem;text-align:center;border-radius:12px">
+                <div style="font-weight:900;font-size:1.8rem;color:var(--brass);letter-spacing:-0.02em;line-height:1">P&I</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;color:var(--light);margin-top:.2rem">Rapports certifiés</div>
+              </div>
+              <div style="position:absolute;bottom:1.25rem;left:1.25rem;display:flex;flex-wrap:wrap;gap:.4rem">
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Dunkerque</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Boulogne-sur-Mer</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Calais</span>
+                
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--light);background:oklch(0 0 0 / 0.55);backdrop-filter:blur(8px);padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px">Rouen</span>
+                
+              </div>
+            </div>
+            <div class="reveal">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="width:20px;height:1px;background:var(--brass)"></span>Maritime Survey</div>
+              <h2 style="font-weight:900;font-size:clamp(2rem,3.5vw,3rem);letter-spacing:-0.025em;text-transform:uppercase;line-height:.95;margin-bottom:1.25rem">Expertise Maritime</h2>
+              <p style="font-size:1rem;line-height:1.7;color:var(--light);margin-bottom:1.75rem">Expertise maritime complète couvrant le tirant d'eau, les tests d'étanchéité, les expertises de chargement/déchargement et les rapports d'assurance P&I pour armateurs et affréteurs.</p>
+              <div style="border:1px solid var(--line);border-top:1.5px solid oklch(0.70 0.12 245 / 0.4);border-radius:14px;padding:1rem 1.25rem;margin-bottom:1.5rem;background:oklch(1 0 0 / 0.02)">
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Spécialité</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">Draught · Hose test · On/Off-hire</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Ports couverts</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">Dunkerque · Boulogne · Calais · Rouen</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Assurance</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">P&I reports certifiés</span>
+                  </div>
+                
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.5rem 0;border-bottom:1px solid oklch(1 0 0 / 0.06)">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)">Délai rapport</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;color:var(--brass);text-align:right">Sous 48 heures</span>
+                  </div>
+                
+              </div>
+              <div style="margin-bottom:1.75rem">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:.75rem">Prestations incluses</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Draught surveying</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Ultrasonic leak test (Hose test)</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Loading / unloading follow-up</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Consulting breakbulk</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>On / Off-hire survey</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Bunkers & condition survey</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Holds cleaning</div>
+                  
+                    <div style="display:flex;align-items:flex-start;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--light)"><span style="color:var(--brass);flex-shrink:0">›</span>Insurance / P&I report</div>
+                  
+                </div>
+              </div>
+              <a href="contact.html" class="quote-link" style="display:inline-flex;align-items:center;gap:.5rem;font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--brass)">Demander un devis <span data-arrow style="transition:transform .25s ease">→</span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+    
+  </div>
+
+  <!-- ══ CTA ══ -->
+  <section style="position:relative;overflow:hidden;border-top:1px solid var(--line)">
+    <img src="assets/eds2_stevedoring_night_f14f419a.jpg" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg,oklch(0.13 0.028 247 / 0.95) 0%,oklch(0.13 0.028 247 / 0.82) 100%)"></div>
+    <div style="position:relative;max-width:1440px;margin:0 auto;padding:clamp(4rem,8vh,5.5rem) clamp(1.25rem,4vw,2.5rem);display:flex;align-items:center;justify-content:space-between;gap:3rem;flex-wrap:wrap">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:.75rem;margin-bottom:1rem"><span style="width:20px;height:1px;background:var(--brass)"></span>Prise de contact</div>
+        <h2 style="font-weight:900;font-size:clamp(1.8rem,3.5vw,3rem);letter-spacing:-0.025em;text-transform:uppercase;line-height:.95">Un projet d'affrètement<br><span style="color:var(--brass)">ou d'agence maritime ?</span></h2>
+        <p style="font-size:.95rem;color:var(--light);line-height:1.7;margin-top:1rem;max-width:44ch">Contactez notre équipe commerciale pour un devis personnalisé sous 24 heures.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.75rem">
+        <a href="contact.html" style="display:inline-flex;align-items:center;gap:.6rem;padding:1rem 2rem;background:var(--brass);color:#0d1a28;font-weight:700;letter-spacing:.03em;border-radius:999px">Nous contacter →</a>
+        <a href="mailto:commercial@eurodocks.com" style="display:inline-flex;align-items:center;justify-content:center;padding:1rem 2rem;border:1px solid oklch(1 0 0 / 0.16);color:var(--white);font-weight:600;border-radius:999px;background:oklch(1 0 0 / 0.06);backdrop-filter:blur(14px);font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.06em">commercial@eurodocks.com</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer style="background:var(--deep);border-top:1px solid var(--line)">
+    <div style="max-width:1440px;margin:0 auto;padding:clamp(3rem,6vh,4rem) clamp(1.25rem,4vw,2.5rem)">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2.5rem">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem"><img src="assets/eds-emblem.png" alt="Euro Docks Service" style="height:52px;width:auto;display:block"><span style="font-weight:900;font-size:1.2rem;letter-spacing:-0.02em;text-transform:uppercase">Euro Docks</span><span style="font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.34em;color:var(--brass);text-transform:uppercase">Service</span></div>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.08em;color:var(--mid);line-height:1.9;text-transform:uppercase">Agence maritime · Tramping<br>Terminaux · Depuis 1975</p>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);margin-bottom:1rem">Nos services</div>
+          <div style="display:flex;flex-direction:column;gap:.6rem;font-size:.88rem;color:var(--mid)">
+            <a class="nav-link" href="services.html" style="transition:color .2s">Agence maritime</a>
+            <a class="nav-link" href="services.html" style="transition:color .2s">Affrètement tramping</a>
+            <a class="nav-link" href="services.html" style="transition:color .2s">Expertise & survey</a>
+            <a class="nav-link" href="fret.html" style="transition:color .2s">Transit & douane</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);margin-bottom:1rem">Nos ports</div>
+          <div style="display:flex;flex-direction:column;gap:.6rem;font-size:.88rem;color:var(--mid)">
+            <a class="nav-link" href="terminal.html" style="transition:color .2s">Dunkerque</a>
+            <a class="nav-link" href="terminal.html" style="transition:color .2s">Boulogne-sur-Mer</a>
+            <a class="nav-link" href="terminal.html" style="transition:color .2s">Rouen</a>
+            <a class="nav-link" href="terminal.html" style="transition:color .2s">Bayonne · Calais</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);margin-bottom:1rem">Suivez-nous</div>
+          <div style="display:flex;flex-direction:column;gap:.6rem;font-size:.88rem;color:var(--mid)">
+            <a href="https://www.linkedin.com" class="nav-link" style="transition:color .2s">LinkedIn ↗</a>
+            <a href="contact.html" class="nav-link" style="transition:color .2s">Nous rejoindre</a>
+            <a href="contact.html" class="nav-link" style="transition:color .2s">Annuaire</a>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mid)">
+        <span>© 2026 Euro Docks Service · Tous droits réservés</span>
+        <span>Mentions légales · Politique de confidentialité</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var els=[].slice.call(document.querySelectorAll('.reveal'));
+  var obs=new IntersectionObserver(function(ents){ents.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');obs.unobserve(en.target);}});},{threshold:0.12});
+  els.forEach(function(el,i){el.style.transitionDelay=(Math.min(i%3,2)*0.07)+'s';obs.observe(el);});
+  var nav=document.querySelector('[data-nav]');
+  if(nav){window.addEventListener('scroll',function(){nav.style.background=(window.scrollY||0)>80?'oklch(0.10 0.025 247)':'oklch(0.13 0.028 247)';},{passive:true});}
+})();
+</script>
+</body>
+</html>
