@@ -1,365 +1,234 @@
-/**
- * À propos — Euro Docks Service
- * DA : Maritime Prestige — Ivoire chaud, navy profond, or ambre
- * Typographie : Cormorant Garamond (display) + Inter (corps)
- */
-
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Users, Award, Globe, Clock } from "lucide-react";
 
-const IMG_HERO  = "/manus-storage/sonar_s1_wide_4e87cc79.jpg";
-const IMG_PORT  = "/manus-storage/sonar_s3_quay_e4f5a6b7.jpg";
-const IMG_SHIP  = "/manus-storage/sonar_s1_close_a1f7b2e8.jpg";
-const IMG_GRAIN = "/manus-storage/sonar_s2_grain_6e5d0efe.jpg";
-const IMG_CRANE = "/manus-storage/sonar_s3_crane_f6a7b8c9.jpg";
+const HERO_IMG  = "/manus-storage/eds2_chartering_bridge_95efca46.jpg";
+const TEAM_IMG  = "/manus-storage/eds2_survey_draught_ed5fb877.jpg";
+const PORT_IMG  = "/manus-storage/eds2_port_dunkerque_d6951241.jpg";
+const SHIP_IMG  = "/manus-storage/eds2_tramping_sea_d4613c5f.jpg";
+const GRAIN_IMG = "/manus-storage/eds2_grain_loading_eac3a0ec.jpg";
+const CRANE_IMG = "/manus-storage/eds2_stevedoring_night_b390bed9.jpg";
 
 function useReveal() {
   const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { el.classList.add("visible"); obs.disconnect(); } },
-      { threshold: 0.08 }
-    );
-    obs.observe(el);
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.1 });
+    if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
-  return ref;
+  return { ref, visible };
 }
 
-function RevealBlock({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useReveal();
-  return <div ref={ref} className="eds-reveal" style={{ transitionDelay: `${delay}ms` }}>{children}</div>;
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const { ref, visible } = useReveal();
+  return (
+    <div ref={ref} style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: `opacity 0.6s ease ${delay}ms, transform 0.6s cubic-bezier(0.23,1,0.32,1) ${delay}ms` }}>
+      {children}
+    </div>
+  );
 }
 
 const TIMELINE = [
-  { year: "1975", event: "Fondation d'Euro Docks Service à Boulogne-sur-Mer. Premiers contrats d'agence maritime dans le secteur du tramping." },
-  { year: "1985", event: "Développement de l'activité de consignation de navires. Ouverture du bureau de Dunkerque. 50 navires traités par an." },
-  { year: "1995", event: "Obtention de la certification GMP+ pour le transport de matières premières agro-alimentaires. Expansion vers Rouen." },
-  { year: "2005", event: "Lancement du département Freight Forwarding multimodal. Partenariats avec les principaux négociants en céréales européens." },
-  { year: "2015", event: "200 navires traités par an. Couverture assurance portée à 9,5 M€. Certification AEO (Opérateur Économique Agréé)." },
-  { year: "2024", event: "800 escales gérées. 5 ports d'opération. Présence sur les marchés Baltique, Méditerranée, Mer Noire et Atlantique." },
+  { year: "1975", title: "Fondation", desc: "Creation d'Euro Docks Service a Boulogne-sur-Mer. Premiers services d'agence maritime sur le port." },
+  { year: "1985", title: "Expansion portuaire", desc: "Ouverture des operations sur le port de Dunkerque. Specialisation dans le tramping et le vrac sec." },
+  { year: "1995", title: "Certification qualite", desc: "Obtention des certifications GMP+ et ISO. Developpement des activites de transit douanier." },
+  { year: "2005", title: "Reseau Benelux", desc: "Extension du reseau vers Anvers, Gand et Rotterdam. 500 escales annuelles franchies." },
+  { year: "2015", title: "Terminal Rouen", desc: "Implantation sur le terminal cerealier de Rouen. Premier port cerealier de France." },
+  { year: "2024", title: "Aujourd'hui", desc: "+1 750 escales par an, 8 ports, 50 ans d'expertise maritime au service des armateurs et affreteurs." },
 ];
 
-const VALEURS = [
-  { titre: "Expertise technique", desc: "50 ans de présence dans le tramping et le vrac sec. Une connaissance intime des marchés céréaliers, des conventions maritimes et des opérations portuaires." },
-  { titre: "Réactivité opérationnelle", desc: "Disponibilité 24h/24, 7j/7. Les opérations maritimes ne s'arrêtent pas — nos équipes non plus. Réponse garantie en moins de 2 heures." },
-  { titre: "Intégrité commerciale", desc: "Transparence totale sur les coûts, les délais et les risques. Nos clients armateurs et affréteurs nous font confiance depuis des décennies." },
-  { titre: "Réseau mondial", desc: "Correspondants dans 40 ports. Partenariats avec les principaux P&I clubs, courtiers et négociants. Un réseau construit sur 50 ans de relations." },
+const VALUES = [
+  { icon: Clock, title: "Reactivite 24h/24", desc: "Nos agents portuaires sont disponibles a toute heure pour repondre aux besoins operationnels urgents." },
+  { icon: Award, title: "Excellence operationnelle", desc: "50 ans de savoir-faire dans la gestion des escales, la manutention et le transit douanier." },
+  { icon: Globe, title: "Reseau international", desc: "Correspondants dans tous les grands ports europeens et connexions avec les marches Baltique, Med et Mer Noire." },
+  { icon: Users, title: "Equipe specialisee", desc: "45 collaborateurs dont 12 agents portuaires certifies, experts en tramping et vrac sec." },
 ];
 
 export default function About() {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
   return (
-    <div style={{ background: "var(--eds-ivory)" }}>
+    <div style={{ background: "#fff", minHeight: "100vh" }}>
 
-      {/* ── HERO ── */}
-      <section style={{
-        position: "relative", height: "70vh", minHeight: "520px",
-        overflow: "hidden", display: "flex", alignItems: "flex-end",
-        paddingBottom: "5rem", paddingTop: "94px",
-      }}>
-        <img src={IMG_HERO} alt="Euro Docks Service" style={{
-          position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover",
-        }} />
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "linear-gradient(to top, oklch(0.10 0.03 240 / 0.95) 0%, oklch(0.10 0.03 240 / 0.5) 55%, oklch(0.10 0.03 240 / 0.15) 100%)",
-        }} />
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "linear-gradient(to right, oklch(0.10 0.03 240 / 0.75) 0%, transparent 55%)",
-        }} />
-        <div style={{ position: "relative", zIndex: 2, maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem", width: "100%" }}>
-          <div className="eds-gold-rule">
-            <span className="eds-label" style={{ color: "var(--eds-gold)" }}>Notre histoire</span>
+      {/* HERO */}
+      <section style={{ position: "relative", height: "65vh", minHeight: "460px", overflow: "hidden" }}>
+        <img src={HERO_IMG} alt="Euro Docks Service" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(11,31,58,0.9) 0%, rgba(11,31,58,0.55) 60%, rgba(11,31,58,0.2) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "flex-end", padding: "0 0 5rem 0" }}>
+          <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem", width: "100%" }}>
+            <Reveal>
+              <div style={{ fontFamily: "Inter, sans-serif", fontSize: "0.65rem", color: "var(--eds-gold)", textTransform: "uppercase", letterSpacing: "0.15em", fontWeight: 600, marginBottom: "0.75rem" }}>A propos</div>
+              <h1 style={{ fontFamily: "Outfit, sans-serif", fontWeight: 800, fontSize: "clamp(2.5rem, 5vw, 4rem)", color: "#fff", lineHeight: 1.05, margin: "0 0 1rem 0" }}>
+                50 ans au service<br />
+                <em style={{ fontStyle: "italic", color: "var(--eds-gold)" }}>des armateurs.</em>
+              </h1>
+              <p style={{ fontFamily: "Inter, sans-serif", fontSize: "1rem", color: "rgba(255,255,255,0.72)", maxWidth: "520px", lineHeight: 1.7, margin: 0 }}>
+                Depuis 1975, Euro Docks Service est l'agence maritime de reference sur la facade nord-ouest francaise. Specialistes du tramping et du vrac sec.
+              </p>
+            </Reveal>
           </div>
-          <h1 style={{
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontWeight: 700, fontSize: "clamp(2.8rem, 6vw, 5.5rem)",
-            letterSpacing: "-0.03em", lineHeight: 1.0,
-            color: "var(--eds-white)", marginBottom: "1rem",
-          }}>
-            50 ans au service<br />
-            <span style={{ fontStyle: "italic", fontWeight: 300, color: "var(--eds-gold)" }}>
-              des mers du monde.
-            </span>
-          </h1>
-          <p style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: "1rem", lineHeight: 1.7,
-            color: "oklch(1 0 0 / 0.65)", maxWidth: "480px",
-          }}>
-            Fondée en 1975 à Boulogne-sur-Mer, Euro Docks Service est l'une des agences maritimes indépendantes les plus expérimentées du littoral français.
-          </p>
         </div>
       </section>
 
-      {/* ── CHIFFRES CLÉS ── */}
-      <section style={{ padding: "0", background: "var(--eds-navy)" }}>
-        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0" }} className="grid-cols-2 lg:grid-cols-4">
+      {/* STATS BAR */}
+      <section style={{ background: "var(--eds-navy)", padding: "2.5rem 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", borderLeft: "1px solid rgba(255,255,255,0.1)" }}>
             {[
-              { v: "1975", l: "Année de fondation" },
-              { v: "800+", l: "Escales / an" },
-              { v: "50 ans", l: "D'expertise maritime" },
-              { v: "5", l: "Ports d'opération" },
-            ].map(({ v, l }, i) => (
-              <div key={i} style={{
-                padding: "3rem 2rem",
-                borderRight: i < 3 ? "1px solid oklch(1 0 0 / 0.08)" : "none",
-                borderLeft: i === 0 ? "3px solid var(--eds-gold)" : "none",
-              }}>
-                <div style={{
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
-                  fontWeight: 700, fontSize: "3rem",
-                  color: "var(--eds-gold)", lineHeight: 1, letterSpacing: "-0.03em",
-                }}>{v}</div>
-                <div style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: "0.72rem", fontWeight: 500,
-                  letterSpacing: "0.08em", textTransform: "uppercase",
-                  color: "oklch(1 0 0 / 0.5)", marginTop: "0.5rem",
-                }}>{l}</div>
+              { v: "1975", l: "Annee de fondation" },
+              { v: "+1 750", l: "Escales / an" },
+              { v: "45", l: "Collaborateurs" },
+              { v: "8 ports", l: "Reseau France-Benelux" },
+            ].map((s) => (
+              <div key={s.l} style={{ padding: "1.25rem 2rem", borderRight: "1px solid rgba(255,255,255,0.1)", textAlign: "center" }}>
+                <div style={{ fontFamily: "Outfit, sans-serif", fontWeight: 800, fontSize: "1.75rem", color: "var(--eds-gold)", lineHeight: 1 }}>{s.v}</div>
+                <div style={{ fontFamily: "Inter, sans-serif", fontSize: "0.68rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: "0.35rem" }}>{s.l}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── MISSION + PHOTOS ── */}
-      <section style={{ overflow: "hidden", background: "var(--eds-cream)" }}>
-        <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
-          <RevealBlock>
-            <div style={{
-              display: "grid", gridTemplateColumns: "1fr 1fr",
-              minHeight: "560px",
-            }} className="grid-cols-1 lg:grid-cols-2">
-              {/* Texte */}
-              <div style={{ padding: "5rem 3.5rem", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                <div className="eds-gold-rule"><span className="eds-label">Notre mission</span></div>
-                <h2 style={{
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
-                  fontWeight: 600, fontSize: "clamp(1.8rem, 3vw, 2.8rem)",
-                  letterSpacing: "-0.02em", lineHeight: 1.1,
-                  color: "var(--eds-navy)", marginBottom: "1.5rem",
-                }}>
-                  L'opérateur de confiance<br />
-                  <span style={{ fontStyle: "italic", fontWeight: 300 }}>des ports français.</span>
-                </h2>
-                <p style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: "0.95rem", lineHeight: 1.8,
-                  color: "var(--eds-steel)", marginBottom: "1.5rem",
-                }}>
-                  Euro Docks Service a été fondée avec une conviction simple : les armateurs et les affréteurs méritent un partenaire qui connaît les ports français aussi bien qu'eux connaissent leurs navires.
-                </p>
-                <p style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: "0.95rem", lineHeight: 1.8,
-                  color: "var(--eds-steel)", marginBottom: "2rem",
-                }}>
-                  Depuis 1975, nous avons construit notre réputation sur la réactivité, la précision technique et la capacité à résoudre les problèmes opérationnels les plus complexes.
-                </p>
-                <blockquote style={{
-                  borderLeft: "3px solid var(--eds-gold)",
-                  paddingLeft: "1.5rem",
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
-                  fontStyle: "italic", fontSize: "1.15rem",
-                  color: "var(--eds-navy)", lineHeight: 1.6,
-                }}>
-                  "Dans le tramping, la réactivité n'est pas un avantage concurrentiel. C'est la condition de survie."
-                </blockquote>
-              </div>
-              {/* Grille photos */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "1fr 1fr" }}>
-                <div style={{ position: "relative", overflow: "hidden" }}>
-                  <img src={IMG_SHIP} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                </div>
-                <div style={{ position: "relative", overflow: "hidden", marginTop: "2rem" }}>
-                  <img src={IMG_CRANE} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                </div>
-                <div style={{ position: "relative", overflow: "hidden" }}>
-                  <img src={IMG_GRAIN} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                </div>
-                <div style={{ position: "relative", overflow: "hidden", marginTop: "-2rem" }}>
-                  <img src={IMG_PORT} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                </div>
-              </div>
-            </div>
-          </RevealBlock>
-        </div>
-      </section>
-
-      {/* ── CITATION DIRECTEUR ── */}
-      <section style={{ position: "relative", overflow: "hidden", padding: "6rem 0" }}>
-        <img src={IMG_PORT} alt="" style={{
-          position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover",
-        }} />
-        <div style={{ position: "absolute", inset: 0, background: "oklch(0.10 0.03 240 / 0.88)" }} />
-        <div style={{ position: "relative", zIndex: 1, maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem" }}>
-          <RevealBlock>
-            <div style={{ maxWidth: "780px" }}>
-              <div style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: "5rem", lineHeight: 0.7,
-                color: "var(--eds-gold)", marginBottom: "1.5rem", fontWeight: 300,
-              }}>"</div>
-              <blockquote style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontWeight: 400, fontStyle: "italic",
-                fontSize: "clamp(1.4rem, 2.5vw, 2.2rem)",
-                lineHeight: 1.45, letterSpacing: "-0.01em",
-                color: "var(--eds-white)", marginBottom: "2rem",
-              }}>
-                Dans le tramping, il n'y a pas de place pour l'approximation. Chaque escale est une opération unique, chaque cargaison a ses contraintes propres. Notre métier, c'est de transformer cette complexité en certitude pour nos clients.
-              </blockquote>
-              <div style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: "0.8rem", letterSpacing: "0.12em",
-                textTransform: "uppercase", color: "var(--eds-gold)",
-              }}>Direction Générale — Euro Docks Service</div>
-            </div>
-          </RevealBlock>
-        </div>
-      </section>
-
-      {/* ── TIMELINE ── */}
-      <section style={{ padding: "6rem 0", background: "var(--eds-cream)" }}>
-        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem" }}>
-          <RevealBlock>
-            <div className="eds-gold-rule"><span className="eds-label">Chronologie</span></div>
-            <h2 className="eds-h2" style={{ marginBottom: "4rem" }}>
-              50 ans<br />
-              <span style={{ fontStyle: "italic", fontWeight: 300 }}>d'histoire maritime.</span>
-            </h2>
-          </RevealBlock>
-          <div style={{ position: "relative" }}>
-            <div style={{
-              position: "absolute", left: "120px", top: 0, bottom: 0,
-              width: "1px", background: "var(--border)",
-            }} />
-            {TIMELINE.map(({ year, event }, i) => (
-              <RevealBlock key={i} delay={i * 80}>
-                <div style={{
-                  display: "grid", gridTemplateColumns: "120px 1fr",
-                  gap: "3rem", paddingBottom: "2.5rem", alignItems: "start",
-                }}>
-                  <div style={{
-                    fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    fontWeight: 700, fontSize: "1.5rem",
-                    color: "var(--eds-gold)", textAlign: "right",
-                    paddingRight: "2rem", paddingTop: "0.1rem",
-                    position: "relative",
-                  }}>
-                    {year}
-                    <div style={{
-                      position: "absolute", right: "-5px", top: "8px",
-                      width: "9px", height: "9px",
-                      background: "var(--eds-gold)", borderRadius: "50%",
-                    }} />
-                  </div>
-                  <p style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: "0.92rem", lineHeight: 1.75,
-                    color: "var(--eds-steel)", paddingLeft: "1.5rem",
-                  }}>{event}</p>
-                </div>
-              </RevealBlock>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── VALEURS ── */}
-      <section style={{ padding: "6rem 0", background: "var(--eds-ivory)" }}>
-        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem" }}>
-          <RevealBlock>
-            <div className="eds-gold-rule"><span className="eds-label">Valeurs</span></div>
-            <h2 className="eds-h2" style={{ marginBottom: "3rem" }}>
-              Ce qui nous<br />
-              <span style={{ fontStyle: "italic", fontWeight: 300 }}>distingue.</span>
-            </h2>
-          </RevealBlock>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0" }} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-            {VALEURS.map(({ titre, desc }, i) => (
-              <RevealBlock key={i} delay={i * 80}>
-                <div style={{
-                  padding: "2.5rem 2rem",
-                  borderRight: i < 3 ? "1px solid var(--border)" : "none",
-                  borderLeft: i === 0 ? "3px solid var(--eds-gold)" : "none",
-                  height: "100%",
-                }}>
-                  <div style={{
-                    fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    fontWeight: 600, fontSize: "1.25rem",
-                    color: "var(--eds-navy)", marginBottom: "1rem",
-                    letterSpacing: "-0.01em",
-                  }}>{titre}</div>
-                  <p style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: "0.85rem", lineHeight: 1.75,
-                    color: "var(--eds-steel)",
-                  }}>{desc}</p>
-                </div>
-              </RevealBlock>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── IMAGE PLEIN FOND ── */}
-      <section style={{ position: "relative", height: "50vh", minHeight: "360px", overflow: "hidden" }}>
-        <img src={IMG_GRAIN} alt="" style={{
-          position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover",
-        }} />
-        <div style={{ position: "absolute", inset: 0, background: "oklch(0.10 0.03 240 / 0.5)" }} />
-        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <RevealBlock>
-            <div style={{ textAlign: "center" }}>
-              <div style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontWeight: 300, fontStyle: "italic",
-                fontSize: "clamp(1.5rem, 3vw, 2.5rem)",
-                color: "var(--eds-white)", letterSpacing: "-0.02em",
-              }}>
-                "L'excellence dans chaque escale,<br />la précision dans chaque cargaison."
-              </div>
-            </div>
-          </RevealBlock>
-        </div>
-      </section>
-
-      {/* ── CTA ── */}
-      <section style={{ padding: "6rem 0", background: "var(--eds-navy)" }}>
-        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem" }}>
-          <RevealBlock>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "4rem", alignItems: "center" }} className="grid-cols-1 lg:grid-cols-2">
+      {/* INTRO */}
+      <section style={{ padding: "6rem 0", background: "#fff" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }}>
+            <Reveal>
               <div>
-                <div className="eds-gold-rule">
-                  <span className="eds-label" style={{ color: "var(--eds-gold)" }}>Contact</span>
-                </div>
-                <h2 style={{
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
-                  fontWeight: 700, fontSize: "clamp(2rem, 4vw, 3.5rem)",
-                  letterSpacing: "-0.03em", lineHeight: 1.05,
-                  color: "var(--eds-white)",
-                }}>
-                  Travaillons<br />
-                  <span style={{ fontStyle: "italic", fontWeight: 300, color: "var(--eds-gold)" }}>ensemble.</span>
+                <div style={{ fontFamily: "Inter, sans-serif", fontSize: "0.65rem", color: "var(--eds-gold)", textTransform: "uppercase", letterSpacing: "0.15em", fontWeight: 600, marginBottom: "0.75rem" }}>Notre histoire</div>
+                <h2 style={{ fontFamily: "Outfit, sans-serif", fontWeight: 800, fontSize: "clamp(1.8rem, 3vw, 2.5rem)", color: "var(--eds-navy)", lineHeight: 1.1, margin: "0 0 1.5rem 0" }}>
+                  Une agence maritime de confiance depuis 50 ans
                 </h2>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                <Link href="/contact" className="eds-btn eds-btn-gold">
-                  Nous contacter <ArrowRight size={15} />
+                <p style={{ fontFamily: "Inter, sans-serif", fontSize: "0.9rem", color: "var(--eds-slate)", lineHeight: 1.8, marginBottom: "1.25rem" }}>
+                  Fondee en 1975 a Boulogne-sur-Mer, Euro Docks Service s'est impose comme l'agence maritime de reference sur la facade nord-ouest francaise. Notre specialisation dans le tramping et le vrac sec nous a permis de construire un reseau solide de partenaires armateurs et affreteurs en Europe et dans le monde.
+                </p>
+                <p style={{ fontFamily: "Inter, sans-serif", fontSize: "0.9rem", color: "var(--eds-slate)", lineHeight: 1.8, marginBottom: "2rem" }}>
+                  Avec plus de 1 750 escales gerees chaque annee sur 8 ports, notre equipe de 45 collaborateurs offre une expertise unique : disponibilite 24h/24, reactivite operationnelle, maitrise des procedures douanieres et phytosanitaires.
+                </p>
+                <Link href="/contact" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: "0.85rem", color: "var(--eds-navy)", textDecoration: "none", borderBottom: "2px solid var(--eds-gold)", paddingBottom: "2px" }}>
+                  Nous contacter <ArrowRight size={14} />
                 </Link>
-                <Link href="/services" className="eds-btn eds-btn-outline" style={{ color: "var(--eds-white)", borderColor: "oklch(1 0 0 / 0.3)" }}>
-                  Nos services <ArrowRight size={15} />
-                </Link>
               </div>
+            </Reveal>
+            <Reveal delay={100}>
+              <div style={{ position: "relative" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                  <div style={{ borderRadius: "1rem", overflow: "hidden", aspectRatio: "3/4" }}>
+                    <img src={TEAM_IMG} alt="Equipe EDS" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", paddingTop: "2rem" }}>
+                    <div style={{ borderRadius: "1rem", overflow: "hidden", flex: 1 }}>
+                      <img src={GRAIN_IMG} alt="Grain" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    </div>
+                    <div style={{ borderRadius: "1rem", overflow: "hidden", flex: 1 }}>
+                      <img src={CRANE_IMG} alt="Terminal" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    </div>
+                  </div>
+                </div>
+                <div style={{ position: "absolute", bottom: "-1.5rem", left: "1rem", background: "var(--eds-navy)", borderRadius: "0.75rem", padding: "1.25rem 1.75rem", boxShadow: "0 8px 32px rgba(11,31,58,0.25)" }}>
+                  <div style={{ fontFamily: "Outfit, sans-serif", fontWeight: 800, fontSize: "1.75rem", color: "var(--eds-gold)", lineHeight: 1 }}>50 ans</div>
+                  <div style={{ fontFamily: "Inter, sans-serif", fontSize: "0.65rem", color: "rgba(255,255,255,0.6)", textTransform: "uppercase", letterSpacing: "0.1em", marginTop: "0.25rem" }}>D'expertise maritime</div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* VALEURS */}
+      <section style={{ background: "#f8f6f2", padding: "5rem 0", borderTop: "1px solid #e8e4dc" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
+              <div style={{ fontFamily: "Inter, sans-serif", fontSize: "0.65rem", color: "var(--eds-gold)", textTransform: "uppercase", letterSpacing: "0.15em", fontWeight: 600, marginBottom: "0.75rem" }}>Nos engagements</div>
+              <h2 style={{ fontFamily: "Outfit, sans-serif", fontWeight: 800, fontSize: "clamp(1.8rem, 3vw, 2.5rem)", color: "var(--eds-navy)", margin: 0 }}>Ce qui nous distingue</h2>
             </div>
-          </RevealBlock>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.5rem" }}>
+            {VALUES.map((v, i) => {
+              const Icon = v.icon;
+              return (
+                <Reveal key={v.title} delay={i * 80}>
+                  <div style={{ background: "#fff", borderRadius: "1rem", padding: "2rem", border: "1px solid #e8e4dc", transition: "box-shadow 0.2s ease, transform 0.2s ease" }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 32px rgba(11,31,58,0.1)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-4px)"; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "none"; (e.currentTarget as HTMLElement).style.transform = "translateY(0)"; }}
+                  >
+                    <div style={{ width: "44px", height: "44px", background: "rgba(201,150,58,0.1)", borderRadius: "0.75rem", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1.25rem" }}>
+                      <Icon size={20} color="var(--eds-gold)" />
+                    </div>
+                    <h3 style={{ fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: "1rem", color: "var(--eds-navy)", margin: "0 0 0.75rem 0" }}>{v.title}</h3>
+                    <p style={{ fontFamily: "Inter, sans-serif", fontSize: "0.82rem", color: "var(--eds-slate)", lineHeight: 1.7, margin: 0 }}>{v.desc}</p>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* TIMELINE */}
+      <section style={{ padding: "6rem 0", background: "#fff" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
+          <Reveal>
+            <div style={{ marginBottom: "3.5rem" }}>
+              <div style={{ fontFamily: "Inter, sans-serif", fontSize: "0.65rem", color: "var(--eds-gold)", textTransform: "uppercase", letterSpacing: "0.15em", fontWeight: 600, marginBottom: "0.75rem" }}>Chronologie</div>
+              <h2 style={{ fontFamily: "Outfit, sans-serif", fontWeight: 800, fontSize: "clamp(1.8rem, 3vw, 2.5rem)", color: "var(--eds-navy)", margin: 0 }}>50 ans d'histoire maritime</h2>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0" }}>
+            {TIMELINE.map((item, i) => (
+              <Reveal key={item.year} delay={i * 60}>
+                <div style={{ padding: "2rem 2.5rem", borderLeft: i % 3 === 0 ? "3px solid var(--eds-gold)" : "1px solid #e8e4dc", borderBottom: i < 3 ? "1px solid #e8e4dc" : "none", background: i === 5 ? "var(--eds-navy)" : "#fff" }}>
+                  <div style={{ fontFamily: "Outfit, sans-serif", fontWeight: 800, fontSize: "2rem", color: "var(--eds-gold)", lineHeight: 1, marginBottom: "0.5rem" }}>{item.year}</div>
+                  <div style={{ fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: "1rem", color: i === 5 ? "#fff" : "var(--eds-navy)", marginBottom: "0.75rem" }}>{item.title}</div>
+                  <p style={{ fontFamily: "Inter, sans-serif", fontSize: "0.82rem", color: i === 5 ? "rgba(255,255,255,0.65)" : "var(--eds-slate)", lineHeight: 1.7, margin: 0 }}>{item.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* QUOTE */}
+      <section style={{ position: "relative", padding: "6rem 0", overflow: "hidden" }}>
+        <img src={PORT_IMG} alt="Port" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+        <div style={{ position: "absolute", inset: 0, background: "rgba(11,31,58,0.88)" }} />
+        <div style={{ position: "relative", maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
+          <Reveal>
+            <div style={{ maxWidth: "720px" }}>
+              <div style={{ fontFamily: "Outfit, sans-serif", fontSize: "5rem", lineHeight: 0.7, color: "var(--eds-gold)", marginBottom: "1.5rem", fontWeight: 800 }}>"</div>
+              <blockquote style={{ fontFamily: "Outfit, sans-serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(1.3rem, 2.5vw, 2rem)", lineHeight: 1.5, color: "#fff", marginBottom: "2rem" }}>
+                Dans le tramping, la reactivite n'est pas un avantage concurrentiel. C'est la condition de survie.
+              </blockquote>
+              <div style={{ fontFamily: "Inter, sans-serif", fontSize: "0.75rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--eds-gold)" }}>Direction Generale — Euro Docks Service</div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section style={{ padding: "5rem 0", background: "#fff" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem", textAlign: "center" }}>
+          <Reveal>
+            <h2 style={{ fontFamily: "Outfit, sans-serif", fontWeight: 800, fontSize: "clamp(1.8rem, 3vw, 2.5rem)", color: "var(--eds-navy)", margin: "0 0 0.5rem 0" }}>
+              Travaillons ensemble
+            </h2>
+            <p style={{ fontFamily: "Inter, sans-serif", fontSize: "1rem", color: "var(--eds-slate)", margin: "0 0 2rem 0" }}>
+              50 ans d'expertise a votre service. Contactez nos agents portuaires.
+            </p>
+            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+              <Link href="/contact" className="eds-btn-primary">
+                Nous contacter <ArrowRight size={16} />
+              </Link>
+              <Link href="/services" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: "0.9rem", color: "var(--eds-navy)", textDecoration: "none", border: "2px solid var(--eds-navy)", borderRadius: "0.5rem", padding: "0.75rem 1.5rem", transition: "all 0.2s ease" }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--eds-navy)"; (e.currentTarget as HTMLElement).style.color = "#fff"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "var(--eds-navy)"; }}
+              >
+                Nos services <ArrowRight size={14} />
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
     </div>

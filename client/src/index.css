@@ -3,25 +3,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ═══════════════════════════════════════════════════════════════
-   EURO DOCKS SERVICE — Design System "MARITIME PRESTIGE"
-   Direction artistique : Élégance industrielle, sobre et puissante
-   
-   Palette :
-   - Fond : Blanc cassé / Ivoire chaud (#F7F4EF)
-   - Navy : Bleu marine profond (#0D1B2A)
-   - Or : Ambre doré (#B8860B → #C9973A)
-   - Acier : Gris bleuté (#4A5568)
-   - Crème : (#EDE8DF)
-   
-   Typographie :
-   - Display : Barlow Condensed (condensé puissant, autorité industrielle)
-   - Corps : Barlow (lisibilité premium, dynamisme)
-   - Mono : JetBrains Mono (données techniques)
-   
-   Philosophie : Photos vivantes, arrondis généreux, typo Barlow puissante.
-   Chaque page respire. Les photos parlent. Le texte guide.
-═══════════════════════════════════════════════════════════════ */
+/* ============================================================
+   EURO DOCKS SERVICE — Design System "Maritime Authority"
+   Inspiré de Promaritime.fr mais 10x plus moderne
+   Palette : Navy #0B1F3A | Or #C9963A | Blanc #FFFFFF | Gris #F4F4F2
+   Typo : Outfit (titres) + Inter (corps)
+   ============================================================ */
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -43,6 +30,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -50,38 +38,37 @@
 
 :root {
   --radius: 0.75rem;
+  /* EDS Brand Colors */
+  --eds-navy: #0B1F3A;
+  --eds-navy-mid: #122847;
+  --eds-navy-light: #1a3a5c;
+  --eds-gold: #C9963A;
+  --eds-gold-light: #E0B05A;
+  --eds-white: #FFFFFF;
+  --eds-off-white: #F4F4F2;
+  --eds-grey: #E8E8E6;
+  --eds-text: #1A1A1A;
+  --eds-text-muted: #6B7280;
 
-  /* ── Tokens EDS Maritime Prestige ── */
-  --eds-ivory:    oklch(0.97 0.012 80);      /* Fond principal ivoire chaud */
-  --eds-cream:    oklch(0.93 0.018 78);      /* Fond secondaire crème */
-  --eds-navy:     oklch(0.16 0.04 240);      /* Navy profond */
-  --eds-navy-mid: oklch(0.25 0.05 235);      /* Navy intermédiaire */
-  --eds-gold:     oklch(0.68 0.12 72);       /* Or ambre */
-  --eds-gold-lt:  oklch(0.78 0.10 75);       /* Or clair */
-  --eds-steel:    oklch(0.45 0.025 240);     /* Gris acier bleuté */
-  --eds-steel-lt: oklch(0.65 0.018 240);     /* Gris acier clair */
-  --eds-white:    oklch(1 0 0);
-  --eds-ink:      oklch(0.20 0.025 240);     /* Texte principal */
-
-  /* ── Tailwind tokens ── */
-  --background:              var(--eds-ivory);
-  --foreground:              var(--eds-ink);
-  --card:                    var(--eds-white);
-  --card-foreground:         var(--eds-ink);
-  --popover:                 var(--eds-white);
-  --popover-foreground:      var(--eds-ink);
-  --primary:                 var(--eds-navy);
-  --primary-foreground:      var(--eds-white);
-  --secondary:               var(--eds-cream);
-  --secondary-foreground:    var(--eds-ink);
-  --muted:                   var(--eds-cream);
-  --muted-foreground:        var(--eds-steel);
-  --accent:                  var(--eds-gold);
-  --accent-foreground:       var(--eds-navy);
-  --destructive:             oklch(0.577 0.245 27.325);
-  --border:                  oklch(0.87 0.012 80);
-  --input:                   oklch(0.87 0.012 80);
-  --ring:                    var(--eds-navy);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.13 0.02 250);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.13 0.02 250);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.13 0.02 250);
+  --primary: oklch(0.25 0.07 250);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.96 0.005 60);
+  --secondary-foreground: oklch(0.25 0.07 250);
+  --muted: oklch(0.96 0.003 250);
+  --muted-foreground: oklch(0.55 0.02 250);
+  --accent: oklch(0.65 0.12 60);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.91 0.005 250);
+  --input: oklch(0.91 0.005 250);
+  --ring: oklch(0.65 0.12 60);
 }
 
 @layer base {
@@ -90,9 +77,8 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Barlow', sans-serif;
+    font-family: 'Inter', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -101,159 +87,74 @@
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   TYPOGRAPHIE MARITIME PRESTIGE
-═══════════════════════════════════════════════════════════════ */
-
-.eds-display {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.0;
-  color: var(--eds-navy);
-}
-
-.eds-display-light {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 300;
-  font-style: italic;
-  letter-spacing: 0.01em;
-  line-height: 1.1;
-  color: var(--eds-navy);
-}
+/* ============================================================
+   TYPOGRAPHY — Outfit + Inter
+   ============================================================ */
 
 .eds-h1 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 800;
-  font-size: clamp(3.2rem, 8vw, 7.5rem);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1.05;
   letter-spacing: -0.02em;
-  line-height: 0.95;
-  color: var(--eds-white);
   text-transform: uppercase;
+  color: var(--eds-white);
 }
 
 .eds-h2 {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
-  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  line-height: 1.1;
   letter-spacing: -0.01em;
-  line-height: 1.0;
-  color: var(--eds-navy);
   text-transform: uppercase;
+  color: var(--eds-navy);
+}
+
+.eds-h2-light {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--eds-white);
 }
 
 .eds-h3 {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 600;
-  font-size: clamp(1.5rem, 3vw, 2.4rem);
-  letter-spacing: 0em;
-  line-height: 1.1;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  line-height: 1.2;
   color: var(--eds-navy);
-  text-transform: uppercase;
 }
 
 .eds-label {
-  font-family: 'Barlow', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 0.7rem;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--eds-gold);
 }
 
-.eds-label-dark {
-  font-family: 'Barlow', sans-serif;
-  font-weight: 600;
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--eds-steel-lt);
-}
-
 .eds-body {
-  font-family: 'Barlow', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 1rem;
-  line-height: 1.75;
-  color: var(--eds-steel);
+  line-height: 1.7;
+  color: #374151;
 }
 
-.eds-mono {
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
+.eds-body-sm {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--eds-text-muted);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   BOUTONS MARITIME PRESTIGE
-═══════════════════════════════════════════════════════════════ */
-
-.eds-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: 'Barlow', sans-serif;
-  font-weight: 600;
-  font-size: 0.82rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.875rem 2rem;
-  border: none;
-  cursor: pointer;
-  border-radius: 0.5rem;
-  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.eds-btn:active {
-  transform: scale(0.97);
-}
-
-.eds-btn-navy {
-  background: var(--eds-navy);
-  color: var(--eds-white);
-}
-
-.eds-btn-navy:hover {
-  background: var(--eds-navy-mid);
-  transform: translateY(-1px);
-}
-
-.eds-btn-gold {
-  background: var(--eds-gold);
-  color: var(--eds-navy);
-}
-
-.eds-btn-gold:hover {
-  background: var(--eds-gold-lt);
-  transform: translateY(-1px);
-}
-
-.eds-btn-outline {
-  background: transparent;
-  color: var(--eds-white);
-  border: 1px solid oklch(1 0 0 / 0.45);
-}
-
-.eds-btn-outline:hover {
-  background: oklch(1 0 0 / 0.1);
-  border-color: oklch(1 0 0 / 0.7);
-}
-
-.eds-btn-outline-navy {
-  background: transparent;
-  color: var(--eds-navy);
-  border: 1px solid var(--eds-navy);
-}
-
-.eds-btn-outline-navy:hover {
-  background: var(--eds-navy);
-  color: var(--eds-white);
-}
-
-/* ═══════════════════════════════════════════════════════════════
+/* ============================================================
    NAVIGATION
-═══════════════════════════════════════════════════════════════ */
+   ============================================================ */
 
 .eds-nav {
   position: fixed;
@@ -261,7 +162,7 @@
   left: 0;
   right: 0;
   z-index: 100;
-  transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .eds-nav-transparent {
@@ -270,360 +171,491 @@
 
 .eds-nav-solid {
   background: var(--eds-navy);
-  box-shadow: 0 1px 0 oklch(1 0 0 / 0.08);
+  box-shadow: 0 2px 20px rgba(11, 31, 58, 0.3);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   SECTIONS PHOTO-DRIVEN
-═══════════════════════════════════════════════════════════════ */
+/* ============================================================
+   BUTTONS
+   ============================================================ */
 
-.eds-photo-section {
+.eds-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: var(--eds-gold);
+  color: var(--eds-white);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 0.5rem;
+  border: 2px solid var(--eds-gold);
+  transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  text-decoration: none;
+}
+
+.eds-btn-primary:hover {
+  background: var(--eds-gold-light);
+  border-color: var(--eds-gold-light);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(201, 150, 58, 0.35);
+}
+
+.eds-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: transparent;
+  color: var(--eds-white);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 0.5rem;
+  border: 2px solid rgba(255,255,255,0.5);
+  transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  text-decoration: none;
+}
+
+.eds-btn-outline:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: var(--eds-white);
+}
+
+.eds-btn-navy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: var(--eds-navy);
+  color: var(--eds-white);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 0.5rem;
+  border: 2px solid var(--eds-navy);
+  transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  text-decoration: none;
+}
+
+.eds-btn-navy:hover {
+  background: var(--eds-navy-light);
+  border-color: var(--eds-navy-light);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.eds-hero {
   position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   overflow: hidden;
 }
 
-.eds-photo-section img,
-.eds-photo-section video {
+.eds-hero-bg {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.eds-overlay-dark {
+.eds-hero-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to top,
-    oklch(0.10 0.03 240 / 0.92) 0%,
-    oklch(0.10 0.03 240 / 0.55) 45%,
-    oklch(0.10 0.03 240 / 0.25) 100%
+    rgba(11, 31, 58, 0.92) 0%,
+    rgba(11, 31, 58, 0.6) 40%,
+    rgba(11, 31, 58, 0.2) 100%
   );
 }
 
-.eds-overlay-left {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to right,
-    oklch(0.10 0.03 240 / 0.85) 0%,
-    oklch(0.10 0.03 240 / 0.4) 55%,
-    transparent 100%
-  );
-}
-
-.eds-overlay-vignette {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 40%,
-    oklch(0.08 0.025 240 / 0.5) 100%
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   DIVIDER OR
-═══════════════════════════════════════════════════════════════ */
-
-.eds-gold-rule {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-}
-
-.eds-gold-rule::before {
-  content: '';
-  display: block;
-  width: 2rem;
-  height: 1px;
-  background: var(--eds-gold);
-  flex-shrink: 0;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   CARDS SERVICES
-═══════════════════════════════════════════════════════════════ */
-
-.eds-service-card {
+.eds-hero-content {
   position: relative;
-  overflow: hidden;
+  z-index: 2;
+  padding: 0 2rem 5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ============================================================
+   STATS BAR — Style Promaritime modernisé
+   ============================================================ */
+
+.eds-stats-bar {
   background: var(--eds-white);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  border-bottom: 1px solid var(--eds-grey);
+  box-shadow: 0 4px 24px rgba(11, 31, 58, 0.08);
 }
 
-.eds-service-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 60px oklch(0.10 0.03 240 / 0.12);
-  border-color: var(--eds-gold);
+.eds-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1.5rem;
+  border-right: 1px solid var(--eds-grey);
+  text-align: center;
 }
 
-.eds-service-card-dark {
-  background: var(--eds-navy-mid);
-  border: 1px solid oklch(1 0 0 / 0.08);
-  border-radius: 1rem;
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+.eds-stat-item:last-child {
+  border-right: none;
 }
 
-.eds-service-card-dark:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 60px oklch(0 0 0 / 0.3);
-  border-color: var(--eds-gold);
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   STAT BLOCKS
-═══════════════════════════════════════════════════════════════ */
-
-.eds-stat-block {
-  padding: 2rem 2.5rem;
-  border-left: 3px solid var(--eds-gold);
+.eds-stat-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--eds-gold);
 }
 
 .eds-stat-number {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 2.25rem;
   line-height: 1;
+  color: var(--eds-gold);
+  margin-bottom: 0.25rem;
+}
+
+.eds-stat-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: var(--eds-text-muted);
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+
+.eds-section-white {
+  background: var(--eds-white);
+  padding: 5rem 0;
+}
+
+.eds-section-offwhite {
+  background: var(--eds-off-white);
+  padding: 5rem 0;
+}
+
+.eds-section-navy {
+  background: var(--eds-navy);
+  padding: 5rem 0;
+}
+
+.eds-section-image {
+  position: relative;
+  padding: 6rem 0;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.eds-section-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 31, 58, 0.78);
+}
+
+.eds-section-image > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   SERVICES LIST — Style Promaritime modernisé
+   ============================================================ */
+
+.eds-service-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--eds-grey);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.eds-service-item:hover {
+  padding-left: 0.5rem;
+}
+
+.eds-service-item:hover .eds-service-arrow {
+  transform: translateX(4px);
+  color: var(--eds-gold);
+}
+
+.eds-service-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--eds-gold);
+  margin-top: 0.45rem;
+  flex-shrink: 0;
+}
+
+.eds-service-name {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
   color: var(--eds-navy);
-  letter-spacing: -0.03em;
+  margin-bottom: 0.2rem;
 }
 
-.eds-stat-number-light {
-  color: var(--eds-white);
+.eds-service-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: var(--eds-text-muted);
+  line-height: 1.5;
 }
 
-/* ═══════════════════════════════════════════════════════════════
+.eds-service-arrow {
+  margin-left: auto;
+  color: var(--eds-text-muted);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+
+.eds-card {
+  background: var(--eds-white);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(11, 31, 58, 0.07);
+  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.eds-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(11, 31, 58, 0.15);
+}
+
+.eds-card-img {
+  width: 100%;
+  height: 14rem;
+  object-fit: cover;
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.eds-card-body {
+  padding: 1.5rem;
+}
+
+/* ============================================================
+   GOLD ACCENT LINE
+   ============================================================ */
+
+.eds-gold-line {
+  width: 3rem;
+  height: 3px;
+  background: var(--eds-gold);
+  margin-bottom: 1rem;
+  border-radius: 2px;
+}
+
+.eds-gold-line-center {
+  width: 3rem;
+  height: 3px;
+  background: var(--eds-gold);
+  margin: 0 auto 1rem;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   CONTAINER
+   ============================================================ */
+
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  max-width: 1280px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.flex {
+  min-height: 0;
+  min-width: 0;
+}
+
+/* ============================================================
    SCROLL REVEAL ANIMATIONS
-═══════════════════════════════════════════════════════════════ */
+   ============================================================ */
 
-@keyframes eds-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes eds-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes eds-line-grow {
-  from { transform: scaleX(0); }
-  to   { transform: scaleX(1); }
-}
-
-.eds-reveal {
+.reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1),
-              transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+  transform: translateY(24px);
+  transition: opacity 0.65s cubic-bezier(0.23, 1, 0.32, 1),
+              transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.eds-reveal.visible {
+.reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   HERO SCROLL INDICATOR
-═══════════════════════════════════════════════════════════════ */
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
 
-@keyframes eds-scroll-pulse {
-  0%, 100% { opacity: 0.4; transform: translateY(0); }
-  50%       { opacity: 1;   transform: translateY(6px); }
+/* ============================================================
+   COUNT-UP ANIMATION
+   ============================================================ */
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.eds-scroll-indicator {
-  animation: eds-scroll-pulse 2s ease-in-out infinite;
+.count-up {
+  animation: countUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   CONTAINER
-═══════════════════════════════════════════════════════════════ */
+/* ============================================================
+   IMAGE OVERLAYS & PHOTO SECTIONS
+   ============================================================ */
 
-@layer components {
-  .container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-
-  .flex {
-    min-height: 0;
-    min-width: 0;
-  }
-
-  @media (min-width: 768px) {
-    .container {
-      padding-left: 2.5rem;
-      padding-right: 2.5rem;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .container {
-      padding-left: 4rem;
-      padding-right: 4rem;
-      max-width: 1400px;
-    }
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   REDUCED MOTION
-═══════════════════════════════════════════════════════════════ */
-
-@media (prefers-reduced-motion: reduce) {
-  .eds-reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-  * {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   CHIFFRES MONUMENTAUX — "Data as Design"
-═══════════════════════════════════════════════════════════════ */
-
-/* Chiffre géant en arrière-plan décoratif */
-.eds-bg-numeral {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: clamp(8rem, 18vw, 18rem);
-  line-height: 0.85;
-  letter-spacing: -0.05em;
-  color: var(--eds-navy);
-  opacity: 0.04;
-  user-select: none;
-  pointer-events: none;
-  position: absolute;
-}
-
-.eds-bg-numeral-light {
-  color: var(--eds-white);
-  opacity: 0.06;
-}
-
-/* Chiffre éditorial en premier plan — ancre de composition */
-.eds-monumental-number {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: clamp(5rem, 12vw, 11rem);
-  line-height: 0.9;
-  letter-spacing: -0.04em;
-  color: var(--eds-navy);
-}
-
-.eds-monumental-number-gold {
-  color: var(--eds-gold);
-}
-
-.eds-monumental-number-light {
-  color: var(--eds-white);
-}
-
-/* Diviseur éditorial chiffré */
-.eds-number-divider {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  padding: 3rem 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-
-.eds-number-divider-dark {
-  border-color: oklch(1 0 0 / 0.08);
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   MONOGRAMME EDS — Marque propriétaire
-═══════════════════════════════════════════════════════════════ */
-
-.eds-monogram {
-  display: inline-flex;
-  align-items: center;
-  gap: 0;
+.eds-photo-card {
   position: relative;
-}
-
-.eds-monogram-letters {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: 0.12em;
-  color: var(--eds-white);
-  line-height: 1;
-}
-
-.eds-monogram-rule {
-  width: 2px;
-  background: var(--eds-gold);
-  align-self: stretch;
-  min-height: 28px;
-  margin: 0 0.6rem;
-}
-
-.eds-monogram-tagline {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.52rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--eds-gold);
-  line-height: 1.3;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   SECTION ÉDITORIALE ASYMÉTRIQUE
-═══════════════════════════════════════════════════════════════ */
-
-.eds-editorial-break {
-  position: relative;
+  border-radius: 1rem;
   overflow: hidden;
-  padding: 5rem 0;
 }
 
-.eds-editorial-break::before {
+.eds-photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.eds-photo-card:hover img {
+  transform: scale(1.04);
+}
+
+.eds-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(11,31,58,0.85) 0%, transparent 60%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+}
+
+/* ============================================================
+   PORT MAP SECTION
+   ============================================================ */
+
+.eds-port-dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--eds-gold);
+  border-radius: 50%;
+  border: 2px solid var(--eds-white);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.eds-port-dot::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: linear-gradient(to bottom, transparent, var(--eds-gold), transparent);
+  inset: -4px;
+  border-radius: 50%;
+  background: rgba(201, 150, 58, 0.3);
+  animation: pulse 2s ease-in-out infinite;
 }
 
-/* Pull-quote éditorial */
-.eds-pull-quote {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 300;
-  font-style: italic;
-  font-size: clamp(1.6rem, 3vw, 2.8rem);
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  color: var(--eds-navy);
-  border-left: 3px solid var(--eds-gold);
-  padding-left: 2rem;
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.5); opacity: 0; }
 }
 
-.eds-pull-quote-light {
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.eds-footer {
+  background: var(--eds-navy);
   color: var(--eds-white);
-  border-color: var(--eds-gold);
+  padding: 4rem 0 2rem;
+}
+
+.eds-footer-divider {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+}
+
+/* ============================================================
+   MOBILE NAV
+   ============================================================ */
+
+.eds-mobile-menu {
+  position: fixed;
+  inset: 0;
+  background: var(--eds-navy);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  padding: 6rem 2rem 2rem;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.eds-mobile-menu.open {
+  transform: translateX(0);
+}
+
+/* ============================================================
+   TOPBAR
+   ============================================================ */
+
+.eds-topbar {
+  background: var(--eds-navy-mid);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 0.5rem 0;
+}
+
+/* ============================================================
+   RESPONSIVE UTILITIES
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .eds-h1 { font-size: clamp(2rem, 8vw, 3rem); }
+  .eds-h2 { font-size: clamp(1.5rem, 5vw, 2rem); }
+  .eds-stat-number { font-size: 1.75rem; }
+  .eds-section-white,
+  .eds-section-offwhite,
+  .eds-section-navy { padding: 3rem 0; }
 }

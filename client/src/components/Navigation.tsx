@@ -1,26 +1,27 @@
-/**
- * Navigation — Euro Docks Service
- * DA : Maritime Prestige — Navy profond, or ambre, Cormorant Garamond + Inter
- * Fond transparent sur hero → navy solide au scroll
- */
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Phone, Mail } from "lucide-react";
+import { Menu, X, Phone, Mail, ChevronDown, ArrowRight } from "lucide-react";
 
 const NAV_LINKS = [
-  { href: "/",         label: "Accueil" },
-  { href: "/about",    label: "À propos" },
-  { href: "/services", label: "Shipping" },
-  { href: "/freight",  label: "Freight" },
-  { href: "/terminal", label: "Terminal" },
-  { href: "/contact",  label: "Contact" },
+  { href: "/",         label: "Accueil", sub: null },
+  { href: "/services", label: "Services", sub: [
+    { label: "Agence Maritime", href: "/services" },
+    { label: "Affrètement Tramping", href: "/services" },
+    { label: "Manutention & Stevedoring", href: "/services" },
+    { label: "Survey & Inspection", href: "/services" },
+  ]},
+  { href: "/freight",  label: "Freight & Transit", sub: null },
+  { href: "/terminal", label: "Terminaux", sub: null },
+  { href: "/about",    label: "Le Groupe", sub: null },
+  { href: "/contact",  label: "Contact", sub: null },
 ];
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdown, setDropdown] = useState<string | null>(null);
   const [location] = useLocation();
+  const isHome = location === "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -30,199 +31,193 @@ export default function Navigation() {
   }, []);
 
   useEffect(() => { setMenuOpen(false); }, [location]);
-
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
-  const isActive = (href: string) =>
-    href === "/" ? location === "/" : location.startsWith(href);
-
-  const isHome = location === "/";
-  const navBg = scrolled || !isHome ? "var(--eds-navy)" : "transparent";
+  const isActive = (href: string) => href === "/" ? location === "/" : location.startsWith(href);
+  const navBg = scrolled || !isHome ? "rgba(11,31,58,0.97)" : "transparent";
+  const showTopbar = scrolled || !isHome;
 
   return (
     <>
-      {/* Barre info top */}
+      {/* TOPBAR */}
       <div style={{
         position: "fixed", top: 0, left: 0, right: 0,
         height: "30px",
-        background: "var(--eds-navy)",
-        borderBottom: "1px solid oklch(1 0 0 / 0.06)",
+        background: "rgba(8,22,42,0.98)",
+        borderBottom: "1px solid rgba(255,255,255,0.06)",
         display: "flex", alignItems: "center",
         justifyContent: "space-between",
-        padding: "0 2.5rem",
+        padding: "0 2rem",
         zIndex: 101,
-      }} className="hidden md:flex">
-        <span style={{
-          fontFamily: "'Inter', sans-serif",
-          fontSize: "0.62rem",
-          letterSpacing: "0.12em",
-          color: "oklch(1 0 0 / 0.35)",
-          textTransform: "uppercase",
-        }}>
-          Dunkerque · Boulogne-sur-Mer · Rouen · Bayonne · Calais
-        </span>
-        <div style={{ display: "flex", gap: "1.75rem", alignItems: "center" }}>
-          <a href="tel:+33328630000" style={{
-            display: "flex", alignItems: "center", gap: "0.4rem",
-            fontFamily: "'Inter', sans-serif",
-            fontSize: "0.62rem", letterSpacing: "0.05em",
-            color: "oklch(1 0 0 / 0.45)", textDecoration: "none",
-            transition: "color 0.2s ease",
-          }}
-            onMouseEnter={e => (e.currentTarget.style.color = "var(--eds-gold)")}
-            onMouseLeave={e => (e.currentTarget.style.color = "oklch(1 0 0 / 0.45)")}
-          >
-            <Phone size={10} /> +33 (0)3 28 63 00 00
+        opacity: showTopbar ? 1 : 0,
+        pointerEvents: showTopbar ? "auto" : "none",
+        transition: "opacity 0.3s ease",
+      }}>
+        <div style={{ display: "flex", gap: "1.5rem" }}>
+          {["DUNKERQUE", "BOULOGNE-SUR-MER", "ROUEN", "BAYONNE", "CALAIS"].map(p => (
+            <span key={p} style={{ fontFamily: "Inter, sans-serif", fontSize: "0.62rem", letterSpacing: "0.1em", color: "rgba(255,255,255,0.4)", textTransform: "uppercase" }}>{p}</span>
+          ))}
+        </div>
+        <div style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
+          <a href="tel:+33321317400" style={{ display: "flex", alignItems: "center", gap: "0.4rem", fontFamily: "Inter, sans-serif", fontSize: "0.65rem", color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>
+            <Phone size={10} /> +33 (0)3 21 31 74 00
           </a>
-          <a href="mailto:commercial@eurodocks.com" style={{
-            display: "flex", alignItems: "center", gap: "0.4rem",
-            fontFamily: "'Inter', sans-serif",
-            fontSize: "0.62rem", letterSpacing: "0.05em",
-            color: "oklch(1 0 0 / 0.45)", textDecoration: "none",
-            transition: "color 0.2s ease",
-          }}
-            onMouseEnter={e => (e.currentTarget.style.color = "var(--eds-gold)")}
-            onMouseLeave={e => (e.currentTarget.style.color = "oklch(1 0 0 / 0.45)")}
-          >
-            <Mail size={10} /> commercial@eurodocks.com
+          <a href="mailto:contact@eurodocks.fr" style={{ display: "flex", alignItems: "center", gap: "0.4rem", fontFamily: "Inter, sans-serif", fontSize: "0.65rem", color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>
+            <Mail size={10} /> contact@eurodocks.fr
           </a>
         </div>
       </div>
 
-      {/* Navigation principale */}
+      {/* MAIN NAV */}
       <header style={{
         position: "fixed",
-        top: "30px", left: 0, right: 0,
+        top: showTopbar ? "30px" : "0",
+        left: 0, right: 0,
         height: "64px",
         background: navBg,
-        backdropFilter: scrolled || !isHome ? "none" : "none",
-        borderBottom: scrolled || !isHome ? "1px solid oklch(1 0 0 / 0.08)" : "none",
-        transition: "background 0.35s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.35s ease",
+        backdropFilter: scrolled || !isHome ? "blur(16px)" : "none",
+        borderBottom: scrolled || !isHome ? "1px solid rgba(255,255,255,0.08)" : "none",
+        transition: "all 0.35s cubic-bezier(0.23, 1, 0.32, 1)",
         zIndex: 100,
         display: "flex", alignItems: "center",
-        padding: "0 2.5rem",
+        padding: "0 2rem",
         justifyContent: "space-between",
+        boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.25)" : "none",
       }}>
-        {/* Logo — Monogramme EDS */}
-        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "1rem" }}>
-          {/* Marque graphique EDS — ancre stylisée + lettres */}
-          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* Fond navy avec bordure or */}
-            <rect width="44" height="44" fill="var(--eds-navy)" />
-            <rect x="0" y="0" width="44" height="3" fill="var(--eds-gold)" />
-            <rect x="0" y="41" width="44" height="3" fill="var(--eds-gold)" />
-            {/* Ligne verticale or gauche */}
-            <rect x="0" y="0" width="3" height="44" fill="var(--eds-gold)" />
-            {/* Lettres EDS */}
-            <text x="23" y="29"
-              textAnchor="middle"
-              fill="var(--eds-white)"
-              fontFamily="'Cormorant Garamond', Georgia, serif"
-              fontWeight="700"
-              fontSize="17"
-              letterSpacing="1"
-            >EDS</text>
-          </svg>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
-            <div style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontWeight: 700, fontSize: "1.05rem",
-              letterSpacing: "0.12em",
-              color: "var(--eds-white)", lineHeight: 1.0,
-              textTransform: "uppercase",
-            }}>Euro Docks Service</div>
-            <div style={{
-              display: "flex", alignItems: "center", gap: "0.5rem",
-              marginTop: "0.25rem",
-            }}>
-              <div style={{ width: "18px", height: "1px", background: "var(--eds-gold)" }} />
-              <div style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: "0.52rem", letterSpacing: "0.22em",
-                color: "var(--eds-gold)", textTransform: "uppercase",
-              }}>Agence Maritime · Tramping</div>
+
+        {/* LOGO */}
+        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <div style={{
+            width: "36px", height: "36px",
+            background: "var(--eds-gold)",
+            borderRadius: "6px",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            flexShrink: 0,
+          }}>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M2 13 L10 3 L18 13" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M0 16 L20 16" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              <path d="M4 16 L4 19 L16 19 L16 16" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <div style={{ fontFamily: "Outfit, sans-serif", fontWeight: 800, fontSize: "0.9rem", color: "#fff", letterSpacing: "0.04em", textTransform: "uppercase", lineHeight: 1 }}>
+              Euro Docks Service
+            </div>
+            <div style={{ fontFamily: "Inter, sans-serif", fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", letterSpacing: "0.12em", textTransform: "uppercase", marginTop: "2px" }}>
+              Agence Maritime · Tramping
             </div>
           </div>
         </Link>
 
-        {/* Liens desktop */}
-        <nav style={{ display: "flex", gap: "0", alignItems: "center" }} className="hidden lg:flex">
-          {NAV_LINKS.map(({ href, label }) => (
-            <Link key={href} href={href} style={{
-              fontFamily: "'Inter', sans-serif",
-              fontSize: "0.75rem", fontWeight: 400,
-              letterSpacing: "0.05em",
-              color: isActive(href) ? "var(--eds-gold)" : "oklch(1 0 0 / 0.7)",
-              textDecoration: "none",
-              padding: "0.5rem 0.9rem",
-              borderBottom: isActive(href) ? "1px solid var(--eds-gold)" : "1px solid transparent",
-              transition: "color 0.2s ease, border-color 0.2s ease",
-            }}
-              onMouseEnter={e => {
-                if (!isActive(href)) (e.currentTarget as HTMLElement).style.color = "var(--eds-white)";
+        {/* DESKTOP LINKS */}
+        <nav style={{ display: "flex", alignItems: "center", gap: "0.1rem" }}>
+          {NAV_LINKS.map((link) => (
+            <div key={link.href} style={{ position: "relative" }}
+              onMouseEnter={() => link.sub && setDropdown(link.label)}
+              onMouseLeave={() => setDropdown(null)}
+            >
+              <Link href={link.href} style={{
+                display: "flex", alignItems: "center", gap: "0.2rem",
+                padding: "0.45rem 0.8rem",
+                fontFamily: "Outfit, sans-serif", fontWeight: 500,
+                fontSize: "0.8rem", letterSpacing: "0.03em",
+                color: isActive(link.href) ? "var(--eds-gold)" : "rgba(255,255,255,0.8)",
+                textDecoration: "none",
+                borderRadius: "0.4rem",
+                background: isActive(link.href) ? "rgba(201,150,58,0.1)" : "transparent",
+                transition: "all 0.18s ease",
               }}
-              onMouseLeave={e => {
-                if (!isActive(href)) (e.currentTarget as HTMLElement).style.color = "oklch(1 0 0 / 0.7)";
-              }}
-            >{label}</Link>
+                onMouseEnter={(e) => { if (!isActive(link.href)) { (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.07)"; } }}
+                onMouseLeave={(e) => { if (!isActive(link.href)) { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.8)"; (e.currentTarget as HTMLElement).style.background = "transparent"; } }}
+              >
+                {link.label}
+                {link.sub && <ChevronDown size={11} />}
+              </Link>
+
+              {/* Dropdown */}
+              {link.sub && dropdown === link.label && (
+                <div style={{
+                  position: "absolute", top: "calc(100% + 4px)", left: 0,
+                  background: "rgba(11,31,58,0.98)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: "0.75rem",
+                  padding: "0.5rem",
+                  minWidth: "220px",
+                  boxShadow: "0 16px 48px rgba(0,0,0,0.45)",
+                  backdropFilter: "blur(16px)",
+                  animation: "fadeIn 0.15s ease",
+                }}>
+                  {link.sub.map((s) => (
+                    <Link key={s.label} href={s.href} style={{
+                      display: "block", padding: "0.55rem 0.85rem",
+                      fontFamily: "Inter, sans-serif", fontSize: "0.8rem",
+                      color: "rgba(255,255,255,0.7)", textDecoration: "none",
+                      borderRadius: "0.5rem",
+                      transition: "all 0.15s ease",
+                    }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(201,150,58,0.1)"; (e.currentTarget as HTMLElement).style.color = "var(--eds-gold)"; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"; }}
+                    >
+                      {s.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
         </nav>
 
         {/* CTA + Burger */}
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <Link href="/contact"
-            className="hidden lg:inline-flex eds-btn eds-btn-gold"
-            style={{ padding: "0.55rem 1.4rem", fontSize: "0.72rem" }}
-          >
-            Demander un devis
+          <Link href="/contact" className="eds-btn-primary" style={{ padding: "0.5rem 1.2rem", fontSize: "0.75rem" }}>
+            Devis rapide <ArrowRight size={13} />
           </Link>
-          <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden"
-            style={{
-              background: "none", border: "1px solid oklch(1 0 0 / 0.2)",
-              color: "var(--eds-white)", padding: "0.4rem 0.5rem", cursor: "pointer",
-              display: "flex", alignItems: "center",
-            }}>
+          <button onClick={() => setMenuOpen(!menuOpen)}
+            style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.2)", color: "#fff", padding: "0.4rem 0.5rem", cursor: "pointer", borderRadius: "0.4rem", display: "flex", alignItems: "center" }}
+            aria-label="Menu"
+          >
             {menuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </header>
 
-      {/* Menu mobile */}
+      {/* MOBILE MENU */}
       <div style={{
-        position: "fixed", top: "94px", left: 0, right: 0, bottom: 0,
-        background: "var(--eds-navy)",
-        zIndex: 99,
-        display: "flex", flexDirection: "column",
-        padding: "2.5rem 2rem",
-        opacity: menuOpen ? 1 : 0,
-        pointerEvents: menuOpen ? "auto" : "none",
-        transform: menuOpen ? "translateY(0)" : "translateY(-8px)",
-        transition: "opacity 0.3s ease, transform 0.3s cubic-bezier(0.23, 1, 0.32, 1)",
+        position: "fixed", inset: 0, background: "var(--eds-navy)",
+        zIndex: 200, display: "flex", flexDirection: "column",
+        padding: "5.5rem 2rem 2rem",
+        transform: menuOpen ? "translateX(0)" : "translateX(100%)",
+        transition: "transform 0.35s cubic-bezier(0.23, 1, 0.32, 1)",
       }}>
-        {NAV_LINKS.map(({ href, label }, i) => (
-          <Link key={href} href={href} style={{
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontWeight: 600, fontSize: "clamp(2rem, 8vw, 3rem)",
-            letterSpacing: "-0.01em",
-            color: isActive(href) ? "var(--eds-gold)" : "oklch(1 0 0 / 0.85)",
-            textDecoration: "none",
-            padding: "0.6rem 0",
-            borderBottom: "1px solid oklch(1 0 0 / 0.06)",
+        <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "1.5rem", background: "transparent", border: "none", color: "#fff", cursor: "pointer" }}>
+          <X size={24} />
+        </button>
+        {NAV_LINKS.map((link, i) => (
+          <Link key={link.href} href={link.href} style={{
+            fontFamily: "Outfit, sans-serif", fontWeight: 700,
+            fontSize: "1.6rem", color: isActive(link.href) ? "var(--eds-gold)" : "#fff",
+            textDecoration: "none", padding: "0.8rem 0",
+            borderBottom: "1px solid rgba(255,255,255,0.07)",
+            textTransform: "uppercase", letterSpacing: "0.04em",
             opacity: menuOpen ? 1 : 0,
-            transform: menuOpen ? "translateX(0)" : "translateX(-16px)",
-            transition: `opacity 0.3s ease ${i * 40}ms, transform 0.3s cubic-bezier(0.23, 1, 0.32, 1) ${i * 40}ms`,
-          }}>{label}</Link>
+            transform: menuOpen ? "translateX(0)" : "translateX(-20px)",
+            transition: `opacity 0.3s ease ${i * 45}ms, transform 0.3s cubic-bezier(0.23,1,0.32,1) ${i * 45}ms`,
+          }}>
+            {link.label}
+          </Link>
         ))}
-        <Link href="/contact"
-          className="eds-btn eds-btn-gold"
-          style={{ marginTop: "2rem", width: "100%", justifyContent: "center" }}
-        >
-          Demander un devis
-        </Link>
+        <div style={{ marginTop: "2rem" }}>
+          <Link href="/contact" className="eds-btn-primary" style={{ width: "100%", justifyContent: "center" }}>
+            Demander un devis <ArrowRight size={16} />
+          </Link>
+        </div>
       </div>
+
+      <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }`}</style>
     </>
   );
 }
