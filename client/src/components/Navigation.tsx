@@ -92,13 +92,13 @@ export default function Navigation() {
         <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.65rem" }}>
           {/* Icône globe+navire */}
           <img
-            src="https://eurodocks-qgd8wezm.manus.space/manus-storage/eds_logo_icon_86bd3046.png"
+            src="/manus-storage/eds-emblem.png"
             alt="Euro Docks Services icon"
             style={{ height: "46px", width: "46px", objectFit: "contain", flexShrink: 0 }}
           />
           {/* Wordmark sur fond sombre — filtre pour blanc */}
           <img
-            src="https://eurodocks-qgd8wezm.manus.space/manus-storage/eds_logo_wordmark_3e09404a.png"
+            src="/manus-storage/eds-wordmark.png"
             alt="Euro Docks Services"
             style={{ height: "42px", objectFit: "contain", filter: "brightness(0) invert(1)", flexShrink: 0 }}
           />

@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import { ArrowRight, Anchor, MapPin, Check } from "lucide-react";
 
-const HERO_IMG    = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_boulogne_terminal_16129bed.jpg";
-const BOULOGNE_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_stevedoring_night_b390bed9.jpg";
-const ROUEN_IMG   = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_rouen_grain_7edf01b4.jpg";
-const PORT_IMG    = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_port_dunkerque_d6951241.jpg";
+const HERO_IMG    = "/manus-storage/eds2_boulogne_terminal_718d1e0f.jpg";
+const BOULOGNE_IMG = "/manus-storage/eds2_stevedoring_night_f14f419a.jpg";
+const ROUEN_IMG   = "/manus-storage/eds2_rouen_grain_087bf488.jpg";
+const PORT_IMG    = "/manus-storage/eds2_port_dunkerque_9fea8573.jpg";
 
 function useReveal() {
   const ref = useRef<HTMLDivElement>(null);

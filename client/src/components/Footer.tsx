@@ -31,13 +31,13 @@ export default function Footer() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1.5rem" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
               <img
-                src="https://eurodocks-qgd8wezm.manus.space/manus-storage/eds_logo_icon_86bd3046.png"
+                src="/manus-storage/eds-emblem.png"
                 alt="Euro Docks Services icon"
                 style={{ height: "48px", width: "48px", objectFit: "contain", flexShrink: 0 }}
               />
               <div>
                 <img
-                  src="https://eurodocks-qgd8wezm.manus.space/manus-storage/eds_logo_wordmark_3e09404a.png"
+                  src="/manus-storage/eds-wordmark.png"
                   alt="Euro Docks Services"
                   style={{ height: "32px", objectFit: "contain", filter: "brightness(0) invert(1)", display: "block", marginBottom: "0.25rem" }}
                 />

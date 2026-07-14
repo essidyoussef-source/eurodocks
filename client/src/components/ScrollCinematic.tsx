@@ -14,14 +14,14 @@ import { mapRange, easeInOutCubic, easeOutCubic } from "@/hooks/useScrollProgres
 
 // ─── Images ──────────────────────────────────────────────────
 const IMGS = {
-  wide:    "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds_scroll_wide_af720eb2.jpg",
-  close:   "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds_scroll_close_6d467547.jpg",
-  hatch:   "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds_hatch_open_fb8bf6fc.jpg",
-  grain:   "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds_grain_texture_c7797acb.jpg",
+  wide:    "/manus-storage/eds2_hero_bulker_fe8bd601.jpg",
+  close:   "/manus-storage/eds_hero_ship_5b197371.jpg",
+  hatch:   "/manus-storage/eds2_hatch_inspection_5a8b030b.jpg",
+  grain:   "/manus-storage/eds2_grain_loading_6553e85f.jpg",
   // Fallback existing images
-  port:    "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_port_dunkerque_9fea8573.jpg",
-  bridge:  "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_chartering_bridge_e11c603a.jpg",
-  tramping:"https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_tramping_sea_fd8a56f5.jpg",
+  port:    "/manus-storage/eds2_port_dunkerque_9fea8573.jpg",
+  bridge:  "/manus-storage/eds2_chartering_bridge_e11c603a.jpg",
+  tramping:"/manus-storage/eds2_tramping_sea_fd8a56f5.jpg",
 };
 
 // ─── Scroll indicator ─────────────────────────────────────────

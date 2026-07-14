@@ -8,16 +8,16 @@ import {
 // ============================================================
 // IMAGES CDN
 // ============================================================
-const HERO_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_hero_bulker_ca1f9bf5.jpg";
-const GRAIN_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_grain_loading_eac3a0ec.jpg";
-const PORT_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_boulogne_terminal_16129bed.jpg";
-const NIGHT_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_stevedoring_night_b390bed9.jpg";
-const BRIDGE_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_chartering_bridge_95efca46.jpg";
-const TRAMPING_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_tramping_sea_d4613c5f.jpg";
-const ROUEN_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_rouen_grain_7edf01b4.jpg";
-const DUNKERQUE_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_port_dunkerque_d6951241.jpg";
-const SURVEY_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_survey_draught_ed5fb877.jpg";
-const HATCH_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_hatch_inspection_7b9b3cf3.jpg";
+const HERO_IMG = "/manus-storage/eds2_hero_bulker_fe8bd601.jpg";
+const GRAIN_IMG = "/manus-storage/eds2_grain_loading_6553e85f.jpg";
+const PORT_IMG = "/manus-storage/eds2_boulogne_terminal_718d1e0f.jpg";
+const NIGHT_IMG = "/manus-storage/eds2_stevedoring_night_f14f419a.jpg";
+const BRIDGE_IMG = "/manus-storage/eds2_chartering_bridge_e11c603a.jpg";
+const TRAMPING_IMG = "/manus-storage/eds2_tramping_sea_fd8a56f5.jpg";
+const ROUEN_IMG = "/manus-storage/eds2_rouen_grain_087bf488.jpg";
+const DUNKERQUE_IMG = "/manus-storage/eds2_port_dunkerque_9fea8573.jpg";
+const SURVEY_IMG = "/manus-storage/eds2_survey_draught_9d86258e.jpg";
+const HATCH_IMG = "/manus-storage/eds2_hatch_inspection_5a8b030b.jpg";
 
 // ============================================================
 // HOOKS

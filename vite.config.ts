@@ -203,8 +203,11 @@ function vitePluginStorageProxy(): Plugin {
 }
 
 // Manus-specific plugins (runtime editor overlay, debug collector, storage proxy)
-// are intentionally excluded from this standalone deployment build.
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
+// are intentionally excluded from this standalone deployment build. Assets are now
+// bundled locally under client/public/manus-storage, served statically.
+void vitePluginManusDebugCollector;
+void vitePluginStorageProxy;
+const plugins = [react(), tailwindcss(), jsxLocPlugin()];
 
 export default defineConfig({
   plugins,

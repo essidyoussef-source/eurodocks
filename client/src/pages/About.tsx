@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import { ArrowRight, Users, Award, Globe, Clock } from "lucide-react";
 
-const HERO_IMG  = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_chartering_bridge_95efca46.jpg";
-const TEAM_IMG  = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_survey_draught_ed5fb877.jpg";
-const PORT_IMG  = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_port_dunkerque_d6951241.jpg";
-const SHIP_IMG  = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_tramping_sea_d4613c5f.jpg";
-const GRAIN_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_grain_loading_eac3a0ec.jpg";
-const CRANE_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_stevedoring_night_b390bed9.jpg";
+const HERO_IMG  = "/manus-storage/eds2_chartering_bridge_e11c603a.jpg";
+const TEAM_IMG  = "/manus-storage/eds2_survey_draught_9d86258e.jpg";
+const PORT_IMG  = "/manus-storage/eds2_port_dunkerque_9fea8573.jpg";
+const SHIP_IMG  = "/manus-storage/eds2_tramping_sea_fd8a56f5.jpg";
+const GRAIN_IMG = "/manus-storage/eds2_grain_loading_6553e85f.jpg";
+const CRANE_IMG = "/manus-storage/eds2_stevedoring_night_f14f419a.jpg";
 
 function useReveal() {
   const ref = useRef<HTMLDivElement>(null);
