@@ -31,13 +31,13 @@ export default function Footer() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1.5rem" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
               <img
-                src="/manus-storage/eds_logo_icon_86bd3046.png"
+                src="https://eurodocks-qgd8wezm.manus.space/manus-storage/eds_logo_icon_86bd3046.png"
                 alt="Euro Docks Services icon"
                 style={{ height: "48px", width: "48px", objectFit: "contain", flexShrink: 0 }}
               />
               <div>
                 <img
-                  src="/manus-storage/eds_logo_wordmark_3e09404a.png"
+                  src="https://eurodocks-qgd8wezm.manus.space/manus-storage/eds_logo_wordmark_3e09404a.png"
                   alt="Euro Docks Services"
                   style={{ height: "32px", objectFit: "contain", filter: "brightness(0) invert(1)", display: "block", marginBottom: "0.25rem" }}
                 />
@@ -189,11 +189,13 @@ export default function Footer() {
             © {new Date().getFullYear()} Euro Docks Service. Tous droits réservés.
           </span>
           <span style={{
+            display: "inline-flex", alignItems: "center", gap: "0.4rem",
             fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "0.62rem", color: "oklch(1 0 0 / 0.15)",
+            fontSize: "0.62rem", color: "oklch(1 0 0 / 0.22)",
             letterSpacing: "0.06em",
           }}>
-            AGENCE MARITIME · TRAMPING · DRY BULK
+            Site réalisé par
+            <span style={{ color: "var(--eds-gold)", letterSpacing: "0.08em" }}>VisionHer</span>
           </span>
         </div>
       </div>

@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import { ArrowRight, Anchor, Ship, FileText, Scale, Search, Package, Check } from "lucide-react";
 
-const HERO_IMG    = "/manus-storage/eds2_hero_bulker_ca1f9bf5.jpg";
-const AGENCY_IMG  = "/manus-storage/eds2_boulogne_terminal_16129bed.jpg";
-const CHARTER_IMG = "/manus-storage/eds2_chartering_bridge_95efca46.jpg";
-const SURVEY_IMG  = "/manus-storage/eds2_survey_draught_ed5fb877.jpg";
-const CUSTOMS_IMG = "/manus-storage/eds2_hatch_inspection_7b9b3cf3.jpg";
-const STEV_IMG    = "/manus-storage/eds2_stevedoring_night_b390bed9.jpg";
-const FREIGHT_IMG = "/manus-storage/eds2_grain_loading_eac3a0ec.jpg";
+const HERO_IMG    = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_hero_bulker_ca1f9bf5.jpg";
+const AGENCY_IMG  = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_boulogne_terminal_16129bed.jpg";
+const CHARTER_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_chartering_bridge_95efca46.jpg";
+const SURVEY_IMG  = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_survey_draught_ed5fb877.jpg";
+const CUSTOMS_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_hatch_inspection_7b9b3cf3.jpg";
+const STEV_IMG    = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_stevedoring_night_b390bed9.jpg";
+const FREIGHT_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_grain_loading_eac3a0ec.jpg";
 
 function useReveal() {
   const ref = useRef<HTMLDivElement>(null);

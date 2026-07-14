@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { MapPin, Phone, Mail, Clock, ArrowRight, Send } from "lucide-react";
 
-const HERO_IMG = "/manus-storage/eds2_port_dunkerque_d6951241.jpg";
-const PORT_IMG = "/manus-storage/sonar_s3_quay_08f8f2bf.jpg";
+const HERO_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds2_port_dunkerque_d6951241.jpg";
+const PORT_IMG = "https://eurodocks-qgd8wezm.manus.space/manus-storage/sonar_s3_quay_08f8f2bf.jpg";
 
 function useReveal() {
   const ref = useRef<HTMLDivElement>(null);

@@ -14,17 +14,17 @@ import { ArrowRight, Anchor, ChevronRight } from "lucide-react";
 import { useScrollScrub, mapRange, easeOutCubic, easeInOutCubic, SCENE_COUNT, SCENE_HEIGHT_VH } from "@/hooks/useScrollScrub";
 
 // ─── MEDIA ───────────────────────────────────────────────────
-const VIDEO_S1 = "/manus-storage/eds_hero_topdown_66d185b6.mp4";
+const VIDEO_S1 = "https://eurodocks-qgd8wezm.manus.space/manus-storage/eds_hero_topdown_66d185b6.mp4";
 
 const IMGS = {
-  s1_wide:  "/manus-storage/sonar_s1_wide_4e87cc79.jpg",
-  s1_close: "/manus-storage/sonar_s1_close_8d69acfc.jpg",
-  s2_hatch: "/manus-storage/sonar_s2_hatch_684a13c3.jpg",
-  s2_grain: "/manus-storage/sonar_s2_grain_6e5d0efe.jpg",
-  s3_quay:  "/manus-storage/sonar_s3_quay_1898dc53.jpg",
-  s3_crane: "/manus-storage/sonar_s3_crane_89d5c612.jpg",
-  s4_map:   "/manus-storage/sonar_s4_map_bg_0afa04dc.jpg",
-  s4_ports: "/manus-storage/sonar_s4_ports_58ea5b25.jpg",
+  s1_wide:  "https://eurodocks-qgd8wezm.manus.space/manus-storage/sonar_s1_wide_4e87cc79.jpg",
+  s1_close: "https://eurodocks-qgd8wezm.manus.space/manus-storage/sonar_s1_close_8d69acfc.jpg",
+  s2_hatch: "https://eurodocks-qgd8wezm.manus.space/manus-storage/sonar_s2_hatch_684a13c3.jpg",
+  s2_grain: "https://eurodocks-qgd8wezm.manus.space/manus-storage/sonar_s2_grain_6e5d0efe.jpg",
+  s3_quay:  "https://eurodocks-qgd8wezm.manus.space/manus-storage/sonar_s3_quay_1898dc53.jpg",
+  s3_crane: "https://eurodocks-qgd8wezm.manus.space/manus-storage/sonar_s3_crane_89d5c612.jpg",
+  s4_map:   "https://eurodocks-qgd8wezm.manus.space/manus-storage/sonar_s4_map_bg_0afa04dc.jpg",
+  s4_ports: "https://eurodocks-qgd8wezm.manus.space/manus-storage/sonar_s4_ports_58ea5b25.jpg",
 };
 
 // ─── HELPERS ─────────────────────────────────────────────────
