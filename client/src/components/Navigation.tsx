@@ -89,28 +89,19 @@ export default function Navigation() {
       }}>
 
         {/* LOGO */}
-        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <div style={{
-            width: "36px", height: "36px",
-            background: "var(--eds-gold)",
-            borderRadius: "6px",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            flexShrink: 0,
-          }}>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M2 13 L10 3 L18 13" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M0 16 L20 16" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-              <path d="M4 16 L4 19 L16 19 L16 16" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
-          <div>
-            <div style={{ fontFamily: "Outfit, sans-serif", fontWeight: 800, fontSize: "0.9rem", color: "#fff", letterSpacing: "0.04em", textTransform: "uppercase", lineHeight: 1 }}>
-              Euro Docks Service
-            </div>
-            <div style={{ fontFamily: "Inter, sans-serif", fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", letterSpacing: "0.12em", textTransform: "uppercase", marginTop: "2px" }}>
-              Agence Maritime · Tramping
-            </div>
-          </div>
+        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "0.65rem" }}>
+          {/* Icône globe+navire */}
+          <img
+            src="/manus-storage/eds_logo_icon_86bd3046.png"
+            alt="Euro Docks Services icon"
+            style={{ height: "46px", width: "46px", objectFit: "contain", flexShrink: 0 }}
+          />
+          {/* Wordmark sur fond sombre — filtre pour blanc */}
+          <img
+            src="/manus-storage/eds_logo_wordmark_3e09404a.png"
+            alt="Euro Docks Services"
+            style={{ height: "42px", objectFit: "contain", filter: "brightness(0) invert(1)", flexShrink: 0 }}
+          />
         </Link>
 
         {/* DESKTOP LINKS */}

@@ -29,18 +29,24 @@ export default function Footer() {
       <div style={{ borderBottom: "1px solid oklch(1 0 0 / 0.08)", padding: "3rem 0" }}>
         <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 2.5rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1.5rem" }}>
-            <div>
-              <div style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontWeight: 600, fontSize: "1.1rem",
-                color: "var(--eds-white)", letterSpacing: "0.04em",
-                marginBottom: "0.25rem",
-              }}>EURO DOCKS SERVICE</div>
-              <div style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: "0.62rem", letterSpacing: "0.2em",
-                textTransform: "uppercase", color: "var(--eds-gold)",
-              }}>Agence Maritime & Tramping depuis 1975</div>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+              <img
+                src="/manus-storage/eds_logo_icon_86bd3046.png"
+                alt="Euro Docks Services icon"
+                style={{ height: "48px", width: "48px", objectFit: "contain", flexShrink: 0 }}
+              />
+              <div>
+                <img
+                  src="/manus-storage/eds_logo_wordmark_3e09404a.png"
+                  alt="Euro Docks Services"
+                  style={{ height: "32px", objectFit: "contain", filter: "brightness(0) invert(1)", display: "block", marginBottom: "0.25rem" }}
+                />
+                <div style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: "0.62rem", letterSpacing: "0.2em",
+                  textTransform: "uppercase", color: "var(--eds-gold)",
+                }}>Agence Maritime &amp; Tramping depuis 1975</div>
+              </div>
             </div>
             <Link href="/contact" style={{
               display: "inline-flex", alignItems: "center", gap: "0.5rem",
