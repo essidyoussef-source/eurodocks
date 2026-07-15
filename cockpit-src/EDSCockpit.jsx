@@ -165,6 +165,94 @@ function laytimeFor(esc) {
   return { cadence, allowed, state };
 }
 
+/* ============ GÉNÉRATION DU STATEMENT OF FACTS (document légal) ============ */
+const AGENCY_ADDR = {
+  "Rouen": "Port de Rouen · 76000 Rouen · France",
+  "Dunkerque": "Terminal de Grande Bretagne · 59140 Dunkerque · France",
+  "Boulogne-sur-Mer": "Port de Commerce · 62200 Boulogne-sur-Mer · France",
+};
+function splitEv(t) { const p = (t || "").split("·").map(s => s.trim()); return { date: p[0] || "", time: p[1] || "" }; }
+function esc_(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+function sofBody(esc) {
+  const parts = (esc.client || "").split("/").map(s => s.trim());
+  const charterers = parts[0] || "—";
+  const owners = parts[1] || parts[0] || "—";
+  const addr = AGENCY_ADDR[esc.agency] || esc.agency;
+  const nor = esc.events.find(e => /nor tendered/i.test(e.e));
+  const P = [
+    ["Vessel", esc.vessel], ["IMO No.", esc.specs.IMO],
+    ["Flag", esc.specs.Flag], ["Master", "Capt. —"],
+    ["GRT / NRT", `${esc.specs.GT} / ${esc.specs.NT}`], ["LOA / Beam", `${esc.specs.LOA} / ${esc.specs.Beam}`],
+    ["DWT", esc.specs.DWT], ["Draft on arrival", esc.specs.Draft],
+    ["Port", esc.agency], ["Berth", esc.quai],
+    ["Voyage", esc.voyage], ["Operation", esc.sens === "C" ? "Loading" : "Discharging"],
+    ["Cargo", esc.cargo], ["Quantity", `${esc.tonnage.toLocaleString("fr-FR")} MT`],
+    ["Charterers", charterers], ["Owners", owners],
+    ["Agents", `Euro Docks Services · ${esc.agency}`], ["Destination / Origin", esc.dest],
+  ];
+  let prows = "";
+  for (let i = 0; i < P.length; i += 2) {
+    const a = P[i], b = P[i + 1] || ["", ""];
+    prows += `<tr>
+      <td style="border:1px solid #DCE4EB;padding:5px 9px;background:#F4F7FA;font-weight:700;width:16%;">${esc_(a[0])}</td>
+      <td style="border:1px solid #DCE4EB;padding:5px 9px;width:34%;">${esc_(a[1])}</td>
+      <td style="border:1px solid #DCE4EB;padding:5px 9px;background:#F4F7FA;font-weight:700;width:16%;">${esc_(b[0])}</td>
+      <td style="border:1px solid #DCE4EB;padding:5px 9px;width:34%;">${esc_(b[1])}</td></tr>`;
+  }
+  let erows = esc.events.map(x => {
+    const { date, time } = splitEv(x.t);
+    const rem = /rain/i.test(x.e) ? "Pluie · stoppage" : /re-tendered/i.test(x.e) ? "Re-tender" : "";
+    return `<tr>
+      <td style="border:1px solid #C2D0DB;padding:4px 8px;white-space:nowrap;">${esc_(date)}</td>
+      <td style="border:1px solid #C2D0DB;padding:4px 8px;white-space:nowrap;">${esc_(time)}</td>
+      <td style="border:1px solid #C2D0DB;padding:4px 8px;">${esc_(x.e)}</td>
+      <td style="border:1px solid #C2D0DB;padding:4px 8px;color:#5C7386;">${esc_(rem)}</td></tr>`;
+  }).join("");
+  if (!esc.events.length) erows = `<tr><td colspan="4" style="border:1px solid #C2D0DB;padding:12px;text-align:center;color:#8296A6;">Aucun événement enregistré</td></tr>`;
+  return `<div style="width:100%;padding:26px 30px;font-family:Arial,Helvetica,sans-serif;color:#14263A;font-size:12.5px;line-height:1.5;background:#fff;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #0A1B2A;padding-bottom:12px;">
+      <div style="display:flex;gap:12px;align-items:center;">
+        <img src="/assets/eds-emblem.png" alt="" style="height:50px;width:auto;" />
+        <div>
+          <div style="font-weight:800;font-size:17px;letter-spacing:.02em;color:#0A1B2A;text-transform:uppercase;">Euro Docks Services</div>
+          <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#3E7FC1;font-weight:600;">Ship Agents · Agents maritimes</div>
+          <div style="font-size:10px;color:#5C7386;margin-top:2px;">${esc_(addr)}</div>
+        </div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div style="border:2px solid #0A1B2A;padding:6px 14px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;font-size:14px;">Statement of Facts</div>
+        <div style="font-size:10px;color:#5C7386;margin-top:6px;">Réf. ${esc_(esc.id.toUpperCase())}</div>
+        <div style="font-size:10px;color:#5C7386;">Établi le 15 juillet 2026</div>
+      </div>
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-top:14px;font-size:12px;">${prows}</table>
+    <div style="font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin:16px 0 6px;font-size:12px;color:#0A1B2A;">Chronology of events · Statement of facts</div>
+    <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
+      <thead><tr style="background:#0A1B2A;color:#fff;">
+        <th style="border:1px solid #0A1B2A;padding:6px 8px;text-align:left;">Date</th>
+        <th style="border:1px solid #0A1B2A;padding:6px 8px;text-align:left;">Time (LT)</th>
+        <th style="border:1px solid #0A1B2A;padding:6px 8px;text-align:left;">Description of events</th>
+        <th style="border:1px solid #0A1B2A;padding:6px 8px;text-align:left;">Remarks</th>
+      </tr></thead><tbody>${erows}</tbody></table>
+    <div style="font-size:10px;color:#5C7386;margin-top:8px;">Notice of Readiness tendered ${nor ? esc_(nor.t) : "—"}. All times local (Europe/Paris). This Statement of Facts is issued without prejudice and subject to the Charter Party terms and conditions.</div>
+    <table style="width:100%;margin-top:30px;border-collapse:collapse;">
+      <tr>
+        <td style="width:31%;padding-top:36px;border-top:1px solid #14263A;text-align:center;font-size:11px;vertical-align:top;">For and on behalf of<br><b>the Master</b><br><span style="color:#8296A6;">Capt. ______________</span></td>
+        <td style="width:3.5%;"></td>
+        <td style="width:31%;padding-top:36px;border-top:1px solid #14263A;text-align:center;font-size:11px;vertical-align:top;">For and on behalf of<br><b>the Agents</b><br><span style="color:#8296A6;">Euro Docks Services</span></td>
+        <td style="width:3.5%;"></td>
+        <td style="width:31%;padding-top:36px;border-top:1px solid #14263A;text-align:center;font-size:11px;vertical-align:top;">For and on behalf of<br><b>Charterers / Stevedores</b><br><span style="color:#8296A6;">______________</span></td>
+      </tr>
+    </table>
+    <div style="text-align:center;font-size:9px;color:#8296A6;margin-top:24px;border-top:1px solid #DCE4EB;padding-top:8px;">Euro Docks Services · Ship Agents · ${esc_(addr)} · ops@eurodocks.com · Document généré par le Cockpit Escales</div>
+  </div>`;
+}
+function sofPage(esc) {
+  return `<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>SOF · ${esc_(esc.vessel)}</title>
+  <style>@page{size:A4;margin:12mm}*{box-sizing:border-box}html,body{margin:0;padding:0;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}</style>
+  </head><body>${sofBody(esc)}</body></html>`;
+}
+
 /* ============ STYLES ============ */
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
@@ -509,18 +597,14 @@ function EscaleDrawer({ esc, onClose, onToggleDoc, onAddEvent, onAssign, onAdvan
   const pf = proformaFor(esc), lay = laytimeFor(esc), contacts = contactsFor(esc);
   const nextStage = STAGE_ORDER[STAGE_ORDER.indexOf(esc.stage) + 1];
 
-  const sofText = useMemo(() => {
-    const lines = esc.events.map(ev => `  ${ev.t.padEnd(24, " ")} ${ev.e}`).join("\n");
-    return `EURO DOCKS SERVICES · AGENTS MARITIMES
-STATEMENT OF FACTS · ${esc.vessel} · ${esc.voyage}
-Berth: ${esc.quai} · Cargo: ${esc.cargo} · ${esc.tonnage.toLocaleString("fr-FR")} MT
-Agents: EURO DOCKS SERVICES / ${esc.agency.toUpperCase()}
-------------------------------------------------------------
-${lines || "  (journal vide)"}
-------------------------------------------------------------
-Établi automatiquement le Mer 15 juil 2026 · en attente signatures
-Master / Agents / Charterers`;
-  }, [esc]);
+  const downloadSof = () => {
+    const w = window.open("", "_blank");
+    if (!w) { notify("Autorisez les pop-ups pour télécharger le PDF"); return; }
+    w.document.write(sofPage(esc));
+    w.document.close(); w.focus();
+    w.onafterprint = () => { try { w.close(); } catch (e) { /* noop */ } };
+    setTimeout(() => { try { w.print(); } catch (e) { /* noop */ } }, 500);
+  };
 
   const Section = ({ title, children, right }) => <div style={{ marginBottom: 18 }}>
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
@@ -625,8 +709,14 @@ Master / Agents / Charterers`;
             <input value={evTime} onChange={e => setEvTime(e.target.value)} className="inp" style={{ width: 140 }} placeholder="Mer 15 juil · 14h05" />
             <button className="btn pri" style={{ padding: "8px 11px" }} onClick={() => { onAddEvent(esc.id, { t: evTime || "Mer 15 juil", e: evType }); notify("Événement ajouté"); }} aria-label="Ajouter"><Plus size={15} /></button>
           </div>
-          {sof && <div><div style={{ fontSize: 11.5, color: T.muted, marginBottom: 6, fontWeight: 600, letterSpacing: ".04em" }}>APERÇU · STATEMENT OF FACTS</div>
-            <pre style={{ background: T.navy, color: "#D7E4EF", borderRadius: 11, padding: "14px 16px", fontSize: 10.8, lineHeight: 1.55, overflowX: "auto", fontFamily: "ui-monospace,'SF Mono',Menlo,monospace", whiteSpace: "pre" }}>{sofText}</pre></div>}
+          {sof && <div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "6px 0 8px" }}>
+              <div style={{ fontSize: 11.5, color: T.muted, fontWeight: 600, letterSpacing: ".04em" }}>DOCUMENT · STATEMENT OF FACTS</div>
+              <button className="btn pri" onClick={downloadSof}><Download size={14} /> Télécharger en PDF</button>
+            </div>
+            <div style={{ border: `1px solid ${T.line}`, borderRadius: 11, overflow: "auto", background: "#fff", boxShadow: T.sh1, maxHeight: 560 }} dangerouslySetInnerHTML={{ __html: sofBody(esc) }} />
+            <div style={{ fontSize: 11, color: T.faint, marginTop: 8, display: "flex", alignItems: "center", gap: 6 }}><FileText size={13} /> « Télécharger en PDF » ouvre l'aperçu d'impression : choisissez « Enregistrer au format PDF ». Format A4, prêt à signer.</div>
+          </div>}
         </>}
 
         {/* ===== FACTURATION ===== */}
