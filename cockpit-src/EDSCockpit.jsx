@@ -56,10 +56,21 @@ const TIDES = [
   { t: "21h58", type: "basse", h: "1,05 m" },
 ];
 
+/* ============ ÉQUIPE ============ */
+const TEAM = [
+  { id: "yannick", name: "Yannick M.", role: "Consignation", initials: "YM", color: "#3E7FC1", agency: "Rouen" },
+  { id: "hugo", name: "Hugo L.", role: "Affrètement", initials: "HL", color: "#2E8B57", agency: "Rouen" },
+  { id: "camille", name: "Camille R.", role: "Consignation", initials: "CR", color: "#C98A2B", agency: "Rouen" },
+  { id: "nicolas", name: "Nicolas B.", role: "Affrètement", initials: "NB", color: "#7A5CC0", agency: "Rouen" },
+  { id: "lea", name: "Léa D.", role: "Manutention", initials: "LD", color: "#C0452F", agency: "Rouen" },
+  { id: "sophie", name: "Sophie V.", role: "Comptabilité", initials: "SV", color: "#1B7F8C", agency: "Rouen" },
+];
+const MEMBER = Object.fromEntries(TEAM.map(m => [m.id, m]));
+
 /* ============ DONNÉES DÉMO (issues du terrain) ============ */
 const INITIAL = [
   {
-    id: "eds-2607-114", vessel: "BTG MATTERHORN", voyage: "Voyage 5 · CRG-214788",
+    id: "eds-2607-114", assignee: "yannick", vessel: "BTG MATTERHORN", voyage: "Voyage 5 · CRG-214788",
     agency: "Rouen", quai: "Socomac", sens: "C", cargo: "Orge fourragère en vrac",
     tonnage: 29800, client: "Cargill / Soufflet", dest: "Nantong, Chine",
     eta: "Mar 14 juil · 16h42", stage: "ops",
@@ -77,7 +88,7 @@ const INITIAL = [
     alerts: ["Pluie annoncée 13h30 – 14h30 · arrêt chargement probable"],
   },
   {
-    id: "eds-2607-118", vessel: "GENCO VIGILANT", voyage: "Voyage 12 · GNC-88231",
+    id: "eds-2607-118", assignee: "hugo", vessel: "GENCO VIGILANT", voyage: "Voyage 12 · GNC-88231",
     agency: "Rouen", quai: "Beuzelin", sens: "C", cargo: "Blé meunier en vrac",
     tonnage: 44000, client: "Louis Dreyfus", dest: "Casablanca, Maroc",
     eta: "Jeu 16 juil · 12h00", stage: "nor",
@@ -90,7 +101,7 @@ const INITIAL = [
     alerts: ["Quai Beuzelin occupé par M/V PNOI jusqu'à jeudi 10h00"],
   },
   {
-    id: "eds-2607-111", vessel: "LORD NELSON", voyage: "Voyage 3 · NRD-55102",
+    id: "eds-2607-111", assignee: "camille", vessel: "LORD NELSON", voyage: "Voyage 3 · NRD-55102",
     agency: "Rouen", quai: "Senalia 2 & 3", sens: "C", cargo: "Blé tendre en vrac",
     tonnage: 27700, client: "Norden / MillCop", dest: "Agadir, Maroc",
     eta: "À quai", stage: "cloture",
@@ -104,7 +115,7 @@ const INITIAL = [
     alerts: [],
   },
   {
-    id: "eds-2607-121", vessel: "BALD EAGLE", voyage: "Voyage 8 · CLF-30419",
+    id: "eds-2607-121", assignee: null, vessel: "BALD EAGLE", voyage: "Voyage 8 · CLF-30419",
     agency: "Rouen", quai: "Simarres", sens: "C", cargo: "Blé meunier en vrac",
     tonnage: 30000, client: "Cliffer / Lecureur", dest: "Safi, Maroc",
     eta: "Ven 17 juil · 06h00", stage: "annonce",
@@ -114,7 +125,7 @@ const INITIAL = [
     alerts: ["ETA repoussé de 12h · marée du soir visée"],
   },
   {
-    id: "eds-2607-123", vessel: "HENDRIKA MARGARETTA", voyage: "Voyage 2 · HMG-71005",
+    id: "eds-2607-123", assignee: "lea", vessel: "HENDRIKA MARGARETTA", voyage: "Voyage 2 · HMG-71005",
     agency: "Rouen", quai: "Beuzelin", sens: "D", cargo: "Pois protéagineux",
     tonnage: 3000, client: "Roquette", dest: "Origine : Gand, Belgique",
     eta: "Sam 18 juil · 14h00", stage: "annonce",
@@ -124,7 +135,7 @@ const INITIAL = [
     alerts: [],
   },
   {
-    id: "eds-2607-125", vessel: "OSTERMARSCH", voyage: "Voyage 4 · ELF-90218",
+    id: "eds-2607-125", assignee: null, vessel: "OSTERMARSCH", voyage: "Voyage 4 · ELF-90218",
     agency: "Rouen", quai: "Radicatel", sens: "D", cargo: "Éoliennes · project cargo",
     tonnage: 1800, client: "El Ferro", dest: "Origine : Esbjerg, Danemark",
     eta: "Lun 20 juil · 08h00", stage: "appointment",
@@ -134,7 +145,7 @@ const INITIAL = [
     alerts: [],
   },
   {
-    id: "eds-2607-119", vessel: "FEDERAL BALTIC", voyage: "Voyage 9 · GLC-44872",
+    id: "eds-2607-119", assignee: "nicolas", vessel: "FEDERAL BALTIC", voyage: "Voyage 9 · GLC-44872",
     agency: "Dunkerque", quai: "Terminal de Grande Bretagne", sens: "C", cargo: "Blé fourrager en vrac",
     tonnage: 32000, client: "Glencore", dest: "Alger, Algérie",
     eta: "Mer 15 juil · 20h00", stage: "nor",
@@ -147,7 +158,7 @@ const INITIAL = [
     alerts: [],
   },
   {
-    id: "eds-2607-120", vessel: "ATLANTIC ROSE", voyage: "Voyage 6 · CBL-20991",
+    id: "eds-2607-120", assignee: "sophie", vessel: "ATLANTIC ROSE", voyage: "Voyage 6 · CBL-20991",
     agency: "Boulogne-sur-Mer", quai: "Terminal céréales & vrac", sens: "C", cargo: "Orge brassicole en vrac",
     tonnage: 8500, client: "Soufflet", dest: "Anvers, Belgique",
     eta: "Jeu 16 juil · 05h30", stage: "ops",
@@ -266,6 +277,16 @@ function DocsMini({ docs }) {
   );
 }
 
+function Avatar({ id, size = 22 }) {
+  const m = id ? MEMBER[id] : null;
+  if (!m) return (
+    <span title="Non attribué" style={{ width: size, height: size, borderRadius: size, border: "1.5px dashed #B9C7D3", color: "#9DB0BF", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: size * 0.5, flexShrink: 0 }}>?</span>
+  );
+  return (
+    <span className="eds-display" title={`${m.name} · ${m.role}`} style={{ width: size, height: size, borderRadius: size, background: m.color, color: "#fff", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: size * 0.44, fontWeight: 700, flexShrink: 0, letterSpacing: 0 }}>{m.initials}</span>
+  );
+}
+
 /* ============ CARTE ESCALE (kanban) ============ */
 function EscaleCard({ esc, onOpen, delay }) {
   const pct = docPct(esc.docs);
@@ -275,7 +296,10 @@ function EscaleCard({ esc, onOpen, delay }) {
       <div style={{ padding: "11px 13px", flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
           <div className="eds-display" style={{ fontWeight: 700, fontSize: 17, lineHeight: 1.05 }}>{esc.vessel}</div>
-          {esc.alerts.length > 0 && <AlertTriangle size={14} color={T.amber} style={{ flexShrink: 0, marginTop: 2 }} />}
+          <div style={{ display: "flex", alignItems: "center", gap: 5, flexShrink: 0 }}>
+            {esc.alerts.length > 0 && <AlertTriangle size={14} color={T.amber} style={{ marginTop: 1 }} />}
+            <Avatar id={esc.assignee} size={22} />
+          </div>
         </div>
         <div style={{ fontSize: 11, color: T.muted, marginTop: 2 }}>{esc.voyage}</div>
         <div style={{ display: "flex", alignItems: "center", gap: 5, marginTop: 8, fontSize: 12 }}>
@@ -310,6 +334,7 @@ function BoardTable({ list, onOpen, sort, setSort }) {
     { k: "tonnage", label: "Tonnage", sortable: true, rt: true },
     { k: "client", label: "Client / Armateur", sortable: true },
     { k: "eta", label: "ETA / ETB", sortable: false },
+    { k: "assignee", label: "Attribué à", sortable: true },
     { k: "stage", label: "Étape", sortable: true },
     { k: "docs", label: "Documents", sortable: false },
   ];
@@ -357,12 +382,17 @@ function BoardTable({ list, onOpen, sort, setSort }) {
                   <Clock size={12} />{esc.eta}
                 </span>
               </td>
+              <td>
+                {esc.assignee
+                  ? <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}><Avatar id={esc.assignee} size={22} /><span style={{ color: T.ink, fontWeight: 500 }}>{MEMBER[esc.assignee].name}</span></span>
+                  : <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}><Avatar id={null} size={22} /><span style={{ color: "#9DB0BF" }}>Non attribué</span></span>}
+              </td>
               <td><StagePill stage={esc.stage} /></td>
               <td><DocsMini docs={esc.docs} /></td>
             </tr>
           ))}
           {list.length === 0 && (
-            <tr><td colSpan={9} style={{ textAlign: "center", color: T.muted, padding: "26px 0" }}>Aucune escale ne correspond au filtre.</td></tr>
+            <tr><td colSpan={10} style={{ textAlign: "center", color: T.muted, padding: "26px 0" }}>Aucune escale ne correspond au filtre.</td></tr>
           )}
         </tbody>
       </table>
@@ -536,7 +566,7 @@ function NewEscaleModal({ onClose, onCreate, notify }) {
   const [f, setF] = useState({
     vessel: "", agency: "Rouen", quai: "Socomac", sens: "C", cargo: "",
     tonnage: "", client: "", dest: "", eta: "", stage: "appointment",
-    LOA: "", DWT: "", Draft: "",
+    assignee: "", LOA: "", DWT: "", Draft: "",
   });
   const up = (k, v) => setF(s => ({ ...s, [k]: v }));
   const quaiOptions = QUAIS[f.agency] || [];
@@ -548,7 +578,7 @@ function NewEscaleModal({ onClose, onCreate, notify }) {
       vessel: f.vessel.toUpperCase(), voyage: "Nouvelle escale",
       agency: f.agency, quai: f.quai, sens: f.sens, cargo: f.cargo || "À préciser",
       tonnage: Number(f.tonnage) || 0, client: f.client || "À préciser", dest: f.dest || "—",
-      eta: f.eta || "À planifier", stage: f.stage,
+      eta: f.eta || "À planifier", stage: f.stage, assignee: f.assignee || null,
       specs: { LOA: f.LOA || "—", Beam: "—", DWT: f.DWT || "—", Draft: f.Draft || "—", GT: "—", NT: "—", Flag: "—", IMO: "—" },
       docs: { "Appointment": true, "Proforma D/A": false, "Notice of readiness": false, "Inspection bill": false, "Cargo plan": false, "Statement of facts": false, "Cargo manifest": false, "Bill of lading": false },
       events: [], alerts: [],
@@ -609,10 +639,18 @@ function NewEscaleModal({ onClose, onCreate, notify }) {
               <input className="eds-input" value={f.eta} onChange={e => up("eta", e.target.value)} placeholder="Ven 18 juil · 06h00" />
             </div>
           </div>
-          <div className="eds-field"><label>Étape initiale</label>
-            <select className="eds-input" value={f.stage} onChange={e => up("stage", e.target.value)}>
-              {STAGES.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}
-            </select>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 13 }}>
+            <div className="eds-field"><label>Étape initiale</label>
+              <select className="eds-input" value={f.stage} onChange={e => up("stage", e.target.value)}>
+                {STAGES.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}
+              </select>
+            </div>
+            <div className="eds-field"><label>Attribué à</label>
+              <select className="eds-input" value={f.assignee} onChange={e => up("assignee", e.target.value)}>
+                <option value="">Non attribué</option>
+                {TEAM.map(m => <option key={m.id} value={m.id}>{m.name} — {m.role}</option>)}
+              </select>
+            </div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 13 }}>
             <div className="eds-field"><label>LOA</label><input className="eds-input" value={f.LOA} onChange={e => up("LOA", e.target.value)} placeholder="180 m" /></div>
@@ -630,7 +668,7 @@ function NewEscaleModal({ onClose, onCreate, notify }) {
 }
 
 /* ============ FICHE ESCALE (DRAWER) ============ */
-function EscaleDrawer({ esc, onClose, onToggleDoc, onAddEvent, notify }) {
+function EscaleDrawer({ esc, onClose, onToggleDoc, onAddEvent, onAssign, notify }) {
   const [evType, setEvType] = useState(EVENT_TYPES[0]);
   const [evTime, setEvTime] = useState("Mer 15 juil · ");
   const [sof, setSof] = useState(false);
@@ -683,6 +721,23 @@ Master / Agents / Charterers`;
           <div style={{ fontSize: 13, color: T.ink, background: "#F4F7FA", borderRadius: 9, padding: "11px 13px", marginBottom: 18, lineHeight: 1.5 }}>
             <b>{esc.sens === "C" ? "Chargement" : "Déchargement"}</b> · {esc.tonnage.toLocaleString("fr-FR")} t · {esc.cargo}<br />
             <span style={{ color: T.muted }}>{esc.client} · {esc.dest}</span>
+          </div>
+
+          {/* attribution */}
+          <div style={{ display: "flex", alignItems: "center", gap: 11, border: `1px solid ${T.line}`, borderRadius: 10, padding: "11px 13px", marginBottom: 18 }}>
+            <Avatar id={esc.assignee} size={34} />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 10.5, color: T.blueInk, letterSpacing: ".06em", textTransform: "uppercase", fontWeight: 600 }}>Attribué à</div>
+              <div style={{ fontSize: 13.5, color: esc.assignee ? T.ink : "#9DB0BF", fontWeight: 600 }}>
+                {esc.assignee ? `${MEMBER[esc.assignee].name} · ${MEMBER[esc.assignee].role}` : "Non attribué"}
+              </div>
+            </div>
+            <select value={esc.assignee || ""} onChange={e => { onAssign(esc.id, e.target.value || null); notify(e.target.value ? `Escale attribuée à ${MEMBER[e.target.value].name}` : "Attribution retirée"); }}
+              style={{ border: `1px solid ${T.line}`, borderRadius: 8, padding: "8px 10px", fontSize: 12.5, fontFamily: "'Inter'", color: T.ink, background: "#fff", cursor: "pointer" }}
+              aria-label="Attribuer l'escale">
+              <option value="">Non attribué</option>
+              {TEAM.map(m => <option key={m.id} value={m.id}>{m.name} — {m.role}</option>)}
+            </select>
           </div>
 
           <div className="eds-display" style={{ fontSize: 15, fontWeight: 700, color: T.navy, marginBottom: 8 }}>
@@ -779,13 +834,15 @@ export default function EDSCockpit() {
   const [toast, setToast] = useState(null);
   const [sort, setSort] = useState({ key: "stage", dir: "asc" });
   const [newOpen, setNewOpen] = useState(false);
+  const [member, setMember] = useState("all");
 
   const notify = (msg) => { setToast(msg); setTimeout(() => setToast(null), 2600); };
 
   const filtered = useMemo(() => escales.filter(e =>
     (agency === "Toutes agences" || e.agency === agency) &&
+    (member === "all" || (member === "none" ? !e.assignee : e.assignee === member)) &&
     (query.trim() === "" || (e.vessel + e.quai + e.client + e.cargo).toLowerCase().includes(query.toLowerCase()))
-  ), [escales, agency, query]);
+  ), [escales, agency, member, query]);
 
   const sorted = useMemo(() => {
     const arr = [...filtered];
@@ -811,6 +868,7 @@ export default function EDSCockpit() {
   const toggleDoc = (id, doc) => setEscales(prev => prev.map(e => e.id === id ? { ...e, docs: { ...e.docs, [doc]: !e.docs[doc] } } : e));
   const addEvent = (id, ev) => setEscales(prev => prev.map(e => e.id === id ? { ...e, events: [...e.events, ev] } : e));
   const createEscale = (esc) => { setEscales(prev => [esc, ...prev]); setView("dashboard"); };
+  const assign = (id, mid) => setEscales(prev => prev.map(e => e.id === id ? { ...e, assignee: mid } : e));
 
   const open = escales.find(e => e.id === openId);
   const meta = VIEW_META[view];
@@ -867,6 +925,13 @@ export default function EDSCockpit() {
               style={{ border: `1px solid ${T.line}`, borderRadius: 9, padding: "9px 11px", fontSize: 13, fontWeight: 600, color: T.navy, background: "#fff", fontFamily: "'Inter'" }}
               aria-label="Filtrer par agence">
               {AGENCIES.map(a => <option key={a}>{a}</option>)}
+            </select>
+            <select value={member} onChange={e => setMember(e.target.value)}
+              style={{ border: `1px solid ${T.line}`, borderRadius: 9, padding: "9px 11px", fontSize: 13, fontWeight: 600, color: T.navy, background: "#fff", fontFamily: "'Inter'" }}
+              aria-label="Filtrer par personne">
+              <option value="all">Toute l'équipe</option>
+              {TEAM.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
+              <option value="none">Non attribuées</option>
             </select>
             <div style={{ position: "relative", border: `1px solid ${T.line}`, borderRadius: 9, padding: 9, background: "#fff", cursor: "pointer" }} title={`${kpis.alerts} alerte(s) active(s)`}>
               <Bell size={16} color={T.navy} />
@@ -942,7 +1007,7 @@ export default function EDSCockpit() {
         {view === "factu" && <FactuView list={filtered} onOpen={setOpenId} />}
       </main>
 
-      {open && <EscaleDrawer esc={open} onClose={() => setOpenId(null)} onToggleDoc={toggleDoc} onAddEvent={addEvent} notify={notify} />}
+      {open && <EscaleDrawer esc={open} onClose={() => setOpenId(null)} onToggleDoc={toggleDoc} onAddEvent={addEvent} onAssign={assign} notify={notify} />}
       {newOpen && <NewEscaleModal onClose={() => setNewOpen(false)} onCreate={createEscale} notify={notify} />}
       {toast && <div className="eds-toast"><Check size={15} color="#7BE0A2" /> {toast}</div>}
     </div>
