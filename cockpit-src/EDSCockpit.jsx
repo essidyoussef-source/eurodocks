@@ -3,7 +3,7 @@ import {
   Anchor, Ship, FileText, Bell, Search, X, Check, CalendarClock, MapPin, Package,
   Plus, Download, LayoutGrid, Users, Receipt, AlertTriangle, Waves, ArrowUpDown,
   Clock, Building2, Table2, ChevronRight, ArrowRight, TrendingUp, Command,
-  Phone, Mail, Compass, ClipboardList, GanttChart, LogOut, Settings
+  Phone, Mail, Compass, ClipboardList, GanttChart, Settings, Navigation
 } from "lucide-react";
 
 /* ============ TOKENS ============ */
@@ -247,10 +247,84 @@ function sofBody(esc) {
     <div style="text-align:center;font-size:9px;color:#8296A6;margin-top:24px;border-top:1px solid #DCE4EB;padding-top:8px;">Euro Docks Services · Ship Agents · ${esc_(addr)} · ops@eurodocks.com · Document généré par le Cockpit Escales</div>
   </div>`;
 }
-function sofPage(esc) {
-  return `<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>SOF · ${esc_(esc.vessel)}</title>
+/* --- moteur générique de documents imprimables --- */
+function printPage(title, body) {
+  return `<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>${esc_(title)}</title>
   <style>@page{size:A4;margin:12mm}*{box-sizing:border-box}html,body{margin:0;padding:0;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}</style>
-  </head><body>${sofBody(esc)}</body></html>`;
+  </head><body>${body}</body></html>`;
+}
+function sofPage(esc) { return printPage(`SOF · ${esc.vessel}`, sofBody(esc)); }
+function letterhead(esc, title) {
+  const addr = AGENCY_ADDR[esc.agency] || esc.agency;
+  return `<div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #0A1B2A;padding-bottom:12px;">
+    <div style="display:flex;gap:12px;align-items:center;"><img src="/assets/eds-emblem.png" alt="" style="height:50px;width:auto;" />
+      <div><div style="font-weight:800;font-size:17px;color:#0A1B2A;text-transform:uppercase;">Euro Docks Services</div>
+        <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#3E7FC1;font-weight:600;">Ship Agents · Agents maritimes</div>
+        <div style="font-size:10px;color:#5C7386;margin-top:2px;">${esc_(addr)}</div></div></div>
+    <div style="text-align:right;flex-shrink:0;"><div style="border:2px solid #0A1B2A;padding:6px 14px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;font-size:14px;">${esc_(title)}</div>
+      <div style="font-size:10px;color:#5C7386;margin-top:6px;">Réf. ${esc_(esc.id.toUpperCase())}</div>
+      <div style="font-size:10px;color:#5C7386;">Établi le 15 juillet 2026</div></div></div>`;
+}
+function row2(l1, v1, l2, v2) {
+  return `<tr><td style="border:1px solid #DCE4EB;padding:5px 9px;background:#F4F7FA;font-weight:700;width:16%;">${esc_(l1)}</td>
+    <td style="border:1px solid #DCE4EB;padding:5px 9px;width:34%;">${esc_(v1)}</td>
+    <td style="border:1px solid #DCE4EB;padding:5px 9px;background:#F4F7FA;font-weight:700;width:16%;">${esc_(l2)}</td>
+    <td style="border:1px solid #DCE4EB;padding:5px 9px;width:34%;">${esc_(v2)}</td></tr>`;
+}
+function sig3(a, b, c) {
+  const cell = (x) => `<td style="width:31%;padding-top:36px;border-top:1px solid #14263A;text-align:center;font-size:11px;vertical-align:top;">${x}</td>`;
+  return `<table style="width:100%;margin-top:30px;border-collapse:collapse;"><tr>${cell(a)}<td style="width:3.5%;"></td>${cell(b)}<td style="width:3.5%;"></td>${cell(c)}</tr></table>`;
+}
+function docFooter(esc) {
+  const addr = AGENCY_ADDR[esc.agency] || esc.agency;
+  return `<div style="text-align:center;font-size:9px;color:#8296A6;margin-top:24px;border-top:1px solid #DCE4EB;padding-top:8px;">Euro Docks Services · Ship Agents · ${esc_(addr)} · ops@eurodocks.com · Document généré par le Cockpit Escales</div>`;
+}
+const wrap = (inner) => `<div style="width:100%;padding:26px 30px;font-family:Arial,Helvetica,sans-serif;color:#14263A;font-size:12.5px;line-height:1.6;background:#fff;">${inner}</div>`;
+
+function norBody(esc) {
+  const op = esc.sens === "C" ? "load" : "discharge";
+  const nor = esc.events.find(e => /nor tendered/i.test(e.e));
+  const arr = esc.events[0];
+  return wrap(`${letterhead(esc, "Notice of Readiness")}
+    <div style="margin-top:16px;font-size:11.5px;color:#5C7386;">To: The Master, Owners, Charterers, Shippers / Receivers and all parties concerned</div>
+    <p style="margin:14px 0 12px;">Dear Sirs,</p>
+    <p style="margin:0 0 12px;">We hereby tender you <b>NOTICE OF READINESS</b> on behalf of the vessel <b>${esc_(esc.vessel)}</b> (IMO ${esc_(esc.specs.IMO)}, ${esc_(esc.specs.Flag)} flag) that the said vessel arrived at the port of <b>${esc_(esc.agency)}</b>${arr ? ` on ${esc_(arr.t)}` : ""} and is in all respects ready to ${op} her cargo of <b>${esc_(esc.cargo)}</b> (${esc_(esc.tonnage.toLocaleString("fr-FR"))} MT) at berth <b>${esc_(esc.quai)}</b>, in accordance with the terms and conditions of the governing Charter Party.</p>
+    <p style="margin:0 0 12px;">This Notice of Readiness is tendered${nor ? ` at <b>${esc_(nor.t)}</b>` : ""}; laytime to count as per Charter Party.</p>
+    <table style="width:100%;border-collapse:collapse;margin:14px 0;font-size:12px;">
+      ${row2("Vessel", esc.vessel, "IMO", esc.specs.IMO)}${row2("Port / Berth", `${esc.agency} · ${esc.quai}`, "Operation", esc.sens === "C" ? "Loading" : "Discharging")}${row2("Cargo", esc.cargo, "Quantity", `${esc.tonnage.toLocaleString("fr-FR")} MT`)}
+    </table>
+    ${sig3("For and on behalf of<br><b>the Master</b><br><span style='color:#8296A6;'>Capt. ____________</span>", "Tendered by<br><b>the Agents</b><br><span style='color:#8296A6;'>Euro Docks Services</span>", "Accepted by<br><b>Charterers / Receivers</b><br><span style='color:#8296A6;'>Date / Time: _______</span>")}
+    ${docFooter(esc)}`);
+}
+function protestBody(esc) {
+  const reason = (esc.alerts[0] && esc.alerts[0].t) || "les retards et interruptions d'opérations indépendants de la volonté du navire et de ses agents";
+  return wrap(`${letterhead(esc, "Letter of Protest")}
+    <div style="margin-top:16px;font-size:11.5px;color:#5C7386;">To: Charterers / Shippers / Receivers / Terminal and all parties concerned</div>
+    <p style="margin:14px 0 12px;">Dear Sirs,</p>
+    <p style="margin:0 0 10px;">We, <b>Euro Docks Services</b>, acting solely as agents for and on behalf of the Master and Owners of the vessel <b>${esc_(esc.vessel)}</b> (IMO ${esc_(esc.specs.IMO)}) currently at <b>${esc_(esc.quai)}, ${esc_(esc.agency)}</b>, hereby lodge on their behalf the present <b>LETTER OF PROTEST</b> concerning:</p>
+    <div style="border:1px solid #EAD9B4;background:#FBF3E4;padding:12px 14px;margin:8px 0 12px;font-weight:600;color:#7A5A1E;">${esc_(reason)}</div>
+    <p style="margin:0 0 12px;">All resulting time losses, costs and consequences are to be for account of whom it may concern and shall be taken into account in the laytime / demurrage calculation. This protest is issued without prejudice to the Owners' and Master's rights under the Charter Party.</p>
+    <table style="width:100%;border-collapse:collapse;margin:14px 0;font-size:12px;">${row2("Vessel", esc.vessel, "Berth", esc.quai)}${row2("Cargo", esc.cargo, "Quantity", `${esc.tonnage.toLocaleString("fr-FR")} MT`)}</table>
+    ${sig3("For and on behalf of<br><b>the Master</b><br><span style='color:#8296A6;'>Capt. ____________</span>", "For and on behalf of<br><b>the Agents</b><br><span style='color:#8296A6;'>Euro Docks Services</span>", "Acknowledged by<br><b>Charterers / Terminal</b>")}
+    ${docFooter(esc)}`);
+}
+function proformaBody(esc) {
+  const pf = proformaFor(esc);
+  const rows = pf.items.map(it => `<tr><td style="border:1px solid #DCE4EB;padding:8px 12px;">${esc_(it.k)}</td><td style="border:1px solid #DCE4EB;padding:8px 12px;text-align:right;font-weight:600;">${esc_(euro(it.v))}</td></tr>`).join("");
+  return wrap(`${letterhead(esc, "Proforma D/A")}
+    <table style="width:100%;border-collapse:collapse;margin:14px 0;font-size:12px;">${row2("Vessel", esc.vessel, "IMO", esc.specs.IMO)}${row2("Port / Berth", `${esc.agency} · ${esc.quai}`, "Operation", esc.sens === "C" ? "Loading" : "Discharging")}${row2("Cargo", esc.cargo, "Quantity", `${esc.tonnage.toLocaleString("fr-FR")} MT`)}</table>
+    <div style="font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin:10px 0 6px;font-size:12px;color:#0A1B2A;">Estimated disbursements</div>
+    <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
+      <thead><tr style="background:#0A1B2A;color:#fff;"><th style="border:1px solid #0A1B2A;padding:7px 12px;text-align:left;">Description</th><th style="border:1px solid #0A1B2A;padding:7px 12px;text-align:right;">Amount (EUR)</th></tr></thead>
+      <tbody>${rows}<tr><td style="border:1px solid #0A1B2A;padding:9px 12px;background:#0A1B2A;color:#fff;font-weight:800;text-transform:uppercase;">Total estimated D/A</td><td style="border:1px solid #0A1B2A;padding:9px 12px;background:#0A1B2A;color:#8FBCE8;text-align:right;font-weight:800;font-size:15px;">${esc_(euro(pf.total))}</td></tr></tbody></table>
+    <p style="font-size:11px;color:#5C7386;margin:12px 0;">Barème estimatif établi sur le tonnage et le gabarit du navire. Fonds en avance (funds in advance) requis avant l'arrivée. Le décompte final (Final D/A) intégrera les débours réels justifiés.</p>
+    ${sig3("Prepared by<br><b>the Agents</b><br><span style='color:#8296A6;'>Euro Docks Services</span>", "For<br><b>the Owners / Charterers</b>", "Date<br><span style='color:#8296A6;'>15 / 07 / 2026</span>")}
+    ${docFooter(esc)}`);
+}
+function trackUrl(esc, provider) {
+  const imo = (esc.specs.IMO || "").replace(/\D/g, "");
+  if (provider === "vf") return imo ? `https://www.vesselfinder.com/vessels/details/${imo}` : "https://www.vesselfinder.com";
+  return imo ? `https://www.marinetraffic.com/en/ais/details/ships/imo:${imo}` : "https://www.marinetraffic.com";
 }
 
 /* ============ STYLES ============ */
@@ -597,14 +671,22 @@ function EscaleDrawer({ esc, onClose, onToggleDoc, onAddEvent, onAssign, onAdvan
   const pf = proformaFor(esc), lay = laytimeFor(esc), contacts = contactsFor(esc);
   const nextStage = STAGE_ORDER[STAGE_ORDER.indexOf(esc.stage) + 1];
 
-  const downloadSof = () => {
+  const emit = (body, title) => {
     const w = window.open("", "_blank");
-    if (!w) { notify("Autorisez les pop-ups pour télécharger le PDF"); return; }
-    w.document.write(sofPage(esc));
+    if (!w) { notify("Autorisez les pop-ups pour le PDF"); return; }
+    w.document.write(printPage(title, body));
     w.document.close(); w.focus();
     w.onafterprint = () => { try { w.close(); } catch (e) { /* noop */ } };
     setTimeout(() => { try { w.print(); } catch (e) { /* noop */ } }, 500);
+    notify(`${title} · aperçu PDF ouvert`);
   };
+  const downloadSof = () => emit(sofBody(esc), `SOF · ${esc.vessel}`);
+  const DOCS_GEN = [
+    ["Statement of Facts", () => emit(sofBody(esc), `SOF · ${esc.vessel}`)],
+    ["Notice of Readiness", () => emit(norBody(esc), `NOR · ${esc.vessel}`)],
+    ["Letter of Protest", () => emit(protestBody(esc), `LOP · ${esc.vessel}`)],
+    ["Proforma D/A", () => emit(proformaBody(esc), `Proforma DA · ${esc.vessel}`)],
+  ];
 
   const Section = ({ title, children, right }) => <div style={{ marginBottom: 18 }}>
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
@@ -658,6 +740,20 @@ function EscaleDrawer({ esc, onClose, onToggleDoc, onAddEvent, onAssign, onAdvan
             </div>
           </Section>
 
+          <Section title="Position du navire · AIS">
+            <div style={{ background: "#fff", border: `1px solid ${T.line}`, borderRadius: 11, padding: "13px 14px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 11 }}>
+                <span style={{ width: 32, height: 32, borderRadius: 9, background: T.bg2, display: "grid", placeItems: "center", flexShrink: 0 }}><Navigation size={16} color={T.blue} /></span>
+                <div style={{ fontSize: 12.5, color: T.muted, lineHeight: 1.4 }}>Suivi temps réel via source officielle AIS · IMO <b className="num" style={{ color: T.ink }}>{esc.specs.IMO}</b></div>
+              </div>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <a className="btn pri" href={trackUrl(esc, "mt")} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>MarineTraffic <ArrowRight size={14} /></a>
+                <a className="btn ghost" href={trackUrl(esc, "vf")} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>VesselFinder</a>
+              </div>
+              <div style={{ fontSize: 11, color: T.faint, marginTop: 9 }}>Position réelle sur le site officiel. La carte live intégrée s'active avec une clé API AIS (module optionnel).</div>
+            </div>
+          </Section>
+
           <Section title="Laytime & staries" right={<span className="dsp" style={{ fontWeight: 700, fontSize: 11.5, padding: "2px 9px", borderRadius: 999, color: lay.state.c, background: lay.state.bg }}>{lay.state.t}</span>}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
               {[["Cadence contractuelle", `${lay.cadence.toLocaleString("fr-FR")} t/j`], ["Temps alloué", `${lay.allowed.toFixed(1)} j`], ["Événements saisis", `${esc.events.length}`]].map(([k, v]) =>
@@ -679,8 +775,13 @@ function EscaleDrawer({ esc, onClose, onToggleDoc, onAddEvent, onAssign, onAdvan
 
         {/* ===== DOCUMENTS ===== */}
         {tab === "docs" && <>
+          <div className="dsp" style={{ fontSize: 15, fontWeight: 700, color: T.navy, marginBottom: 8 }}>Générer un document</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 20 }}>
+            {DOCS_GEN.map(([lb, fn]) => <button key={lb} className="btn ghost" style={{ justifyContent: "space-between" }} onClick={fn}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}><FileText size={15} color={T.blue} />{lb}</span><Download size={14} color={T.muted} /></button>)}
+          </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-            <div className="dsp" style={{ fontSize: 15, fontWeight: 700, color: T.navy }}>Documents d'escale · {done}/{DOC_LIST.length}</div>
+            <div className="dsp" style={{ fontSize: 15, fontWeight: 700, color: T.navy }}>Pièces reçues · {done}/{DOC_LIST.length}</div>
             <div style={{ width: 90, height: 7, borderRadius: 4, background: "#E3EAF0", overflow: "hidden" }}><div style={{ width: `${docPct(esc.docs) * 100}%`, height: "100%", background: docPct(esc.docs) === 1 ? T.green : T.blue }} /></div>
           </div>
           <div style={{ background: "#fff", border: `1px solid ${T.line}`, borderRadius: 12, padding: 6 }}>
@@ -731,7 +832,7 @@ function EscaleDrawer({ esc, onClose, onToggleDoc, onAddEvent, onAssign, onAdvan
           </div>
           <div style={{ display: "flex", gap: 9, marginTop: 14 }}>
             <button className="btn pri" style={{ flex: 1, justifyContent: "center" }} onClick={() => notify("Proforma D/A émise vers la comptabilité")}><Receipt size={15} /> Émettre la proforma</button>
-            <button className="btn ghost" onClick={() => notify("Proforma exportée (PDF)")}><Download size={15} /> PDF</button>
+            <button className="btn ghost" onClick={() => emit(proformaBody(esc), `Proforma DA · ${esc.vessel}`)}><Download size={15} /> PDF</button>
           </div>
           <div style={{ fontSize: 11.5, color: T.faint, marginTop: 10 }}>Barème indicatif calculé sur le tonnage et le gabarit du navire. Le décompte final intègre les débours réels et le SOF.</div>
         </>}
