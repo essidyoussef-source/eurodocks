@@ -5,7 +5,10 @@
 (function () {
   "use strict";
 
-  var KEY = "eds_ip_ack_v1";
+  // Mémoire distincte site / cockpit : chacun affiche l'avis une fois par session
+  var KEY = (location.pathname.indexOf("/cockpit") === 0)
+    ? "eds_ip_ack_cockpit_v1"
+    : "eds_ip_ack_site_v1";
   try {
     if (window.sessionStorage && sessionStorage.getItem(KEY)) return;
   } catch (e) {}
@@ -64,16 +67,16 @@
       +     '</div>'
       +   '</div>'
       +   '<div id="eds-ip-body">'
-      +     '<p>Ce site et l\'application qui l\'accompagne — leur <strong>conception, leur design, '
-      +       'leur code source et le concept fonctionnel</strong> — constituent une œuvre originale, '
-      +       'protégée par le droit d\'auteur.</p>'
+      +     '<p>Ce site et l\'application qui l\'accompagne, ainsi que leur <strong>conception, '
+      +       'leur design, leur code source et le concept fonctionnel</strong>, constituent une '
+      +       'œuvre originale, protégée par le droit d\'auteur.</p>'
       +     '<p>Toute <strong>reproduction, copie, extraction, adaptation ou réutilisation</strong>, '
       +       'totale ou partielle, par quelque moyen que ce soit, est interdite sans autorisation '
       +       'écrite préalable de son auteur.</p>'
       +     '<p style="margin-bottom:4px">Ces éléments vous sont présentés à titre de démonstration '
       +       'confidentielle et restent la propriété exclusive de leur créateur.</p>'
       +   '</div>'
-      +   '<div id="eds-ip-copy">© 2026 VISION’HER — Tous droits réservés.</div>'
+      +   '<div id="eds-ip-copy">© 2026 VISION’HER. Tous droits réservés.</div>'
       +   '<div id="eds-ip-foot">'
       +     '<button id="eds-ip-ok" type="button">J\'ai lu et compris</button>'
       +     '<p id="eds-ip-note">En continuant, vous acceptez ces conditions.</p>'
